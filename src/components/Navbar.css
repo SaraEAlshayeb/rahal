@@ -1,0 +1,71 @@
+/* Navbar container */
+.navbar {
+    background-color: #F4EDCD;
+    height: 60px;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Puts space between the first and last items */
+}
+
+/* Logo container styling (left) */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-container img {
+    height: 40px;
+}
+
+/* Menu container styling (centered) */
+.menu {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Link styling */
+.nav-link {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'Arial', sans-serif;
+    padding: 10px;
+    transition: color 0.3s ease, font-weight 0.3s ease, border-bottom 0.3s ease;
+}
+
+/* Active link styling */
+.nav-link.active {
+    color: #27445d; /* Active link color */
+    font-weight: bold;
+    border-bottom: 2px solid #27445d; /* Bottom border on active link */
+}
+
+/* Hover effect for links */
+.nav-link:hover {
+    color: #27445d;
+}
+
+/* Profile button styling (right) */
+.profile-button {
+    height: 35px;
+    width: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4e7596;
+    border: none;
+    border-radius: 10px;
+}
+
+.profile-button img {
+    height: 35px;
+    width: 37px;
+    display: block;
+}
