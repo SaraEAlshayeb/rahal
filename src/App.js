@@ -7,7 +7,7 @@ import PostRide from './PostRide';
 import History from './History';
 import Login from './Login';
 import Register from './Register';
-
+import Notification from './Notification';
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function MainLayout() {
         <Route path="/book-ride" element={<BookRide />} />
         <Route path="/post-ride" element={<PostRide />} />
         <Route path="/history" element={<History />} />
-        
+        <Route path="/notifications" element={<Notification />} />
 
       </Routes>
     </>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import './Navbar.css';
+import { NavLink, Link } from 'react-router-dom';
 
 function Navbar() {
     return (
@@ -16,7 +16,7 @@ function Navbar() {
                 <NavLink to="/" end className="nav-link" activeClassName="active">
                     Home
                 </NavLink>
-                    <NavLink to="/community" className="nav-link" activeClassName="active">
+                <NavLink to="/community" className="nav-link" activeClassName="active">
                     Community
                 </NavLink>
                 <NavLink to="/book-ride" className="nav-link" activeClassName="active">
@@ -28,13 +28,21 @@ function Navbar() {
                 <NavLink to="/history" className="nav-link" activeClassName="active">
                     History
                 </NavLink>
+               
             </div>
+            <div className="icon-group">
+            <Link to="/notifications">
+          <button className="notification-button">
+            <img src="/notification2.png" alt="notification" />
+          </button>
+        </Link>
 
-            {/* Profile Button */}
-            <button className="profile-button" style={{marginRight:"30px"}}>
-                <img src="/profile.png" alt="profile" />
-            </button>
+  <button className="profile-button">
+    <img src="/profile.png" alt="profile" />
+  </button>
+</div>
         </div>
+        
     );
 }
 
