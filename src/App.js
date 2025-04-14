@@ -1,4 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
+
 import Navbar from './components/Navbar';
 import Home from './Home';
 import Community from './Community';
@@ -19,13 +26,14 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/', '/register']; 
+  const hideNavbarOn = ['/login', '/register'];
 
   return (
     <>
       {!hideNavbarOn.includes(location.pathname) && <Navbar />}
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/community" element={<Community />} />
@@ -33,7 +41,6 @@ function MainLayout() {
         <Route path="/post-ride" element={<PostRide />} />
         <Route path="/history" element={<History />} />
         <Route path="/notifications" element={<Notification />} />
-
       </Routes>
     </>
   );

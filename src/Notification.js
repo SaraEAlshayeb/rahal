@@ -26,7 +26,7 @@ function Notification() {
         backgroundRepeat: 'no-repeat'
       }}
     >
-<div className="Register-title">
+<div className="notification-title">
   <h1>Notifications!</h1>
 </div>
       <div className="notification-container">

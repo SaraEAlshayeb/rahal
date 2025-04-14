@@ -13,9 +13,8 @@ function Navbar() {
 
             {/* Menu */}
             <div className="menu">
-                <NavLink to="/" end className="nav-link" activeClassName="active">
-                    Home
-                </NavLink>
+            <NavLink to="/home" className="nav-link">Home</NavLink>
+
                 <NavLink to="/community" className="nav-link" activeClassName="active">
                     Community
                 </NavLink>
