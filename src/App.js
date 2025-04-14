@@ -15,6 +15,10 @@ import History from './History';
 import Login from './Login';
 import Register from './Register';
 import Notification from './Notification';
+import AdminMenu from "./AdminMenu";
+import ManageCommunities from './ManageCommunities';
+import Complaints from './Complaints';
+import ApproveDrivers from './ApproveDrivers';
 
 function App() {
   return (
@@ -26,7 +30,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register'];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu'];
 
   return (
     <>
@@ -41,6 +45,10 @@ function MainLayout() {
         <Route path="/post-ride" element={<PostRide />} />
         <Route path="/history" element={<History />} />
         <Route path="/notifications" element={<Notification />} />
+        <Route path="/adminmenu" element={<AdminMenu />} />
+        <Route path="/manage-communities" element={<ManageCommunities />} />
+        <Route path="/complaints" element={<Complaints />} />
+        <Route path="/approve-drivers" element={<ApproveDrivers />} />
       </Routes>
     </>
   );

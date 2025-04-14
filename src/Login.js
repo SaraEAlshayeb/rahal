@@ -16,10 +16,16 @@ function Login() {
       alert('All fields are required.');
       return;
     }
-  
-    navigate('/home'); 
+
+      if (email === 'admin@hotmail.com') {
+          navigate('/adminmenu');
+      } else {
+          navigate('/home');
+      }
   };
-  
+
+
+
 
   return (
     <div

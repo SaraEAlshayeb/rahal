@@ -1,0 +1,128 @@
+.admin-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 60px 20px;
+}
+
+.admin-card {
+    display: flex;
+    align-items: center;
+    width: 900px;
+    max-width: 100%;
+    gap: 30px;
+}
+
+.admin-card.reverse {
+    flex-direction: row-reverse;
+}
+
+.admin-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 20px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.admin-box {
+    flex: 1;
+    background-color: #4f8379;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.58); /* ✅ soft shadow */
+}
+
+.admin-box h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+}
+
+.admin-box p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+#box1{
+    background-color: #27445d;
+}
+#box2{
+    background-color: #497D74;
+}
+
+#box3{
+    background-color: #71BBB2;
+}
+.admin-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.admin-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: Tahoma, sans-serif;
+    color: #27445d;
+}
+
+.admin-header p {
+    font-size: 1.1rem;
+    color: #555;
+    font-family: 'Courier New', monospace;
+}
+
+.admin-btn {
+    padding: 8px 20px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    align-self: flex-start; /* left-aligned in the box */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin-top: 15px;
+}
+
+.admin-btn:hover {
+    background-color: white;
+    color: #333;
+}
+.admin-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 48px; /* ✅ Pushes logo left, logout right */
+    height: 60px;
+    background-color: #f7f1d3;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.toolbar-logo {
+    height: 40px;
+}
+
+.logout-text {
+    font-weight: 500;
+    font-size: 1rem;
+    color: #333;
+}
+body {
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+    background: linear-gradient(to top, white 65%, #f7f1d3 100%);
+
+    min-height: 100vh;
+}
+
