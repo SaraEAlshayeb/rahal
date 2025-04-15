@@ -20,6 +20,7 @@ import ManageCommunities from './ManageCommunities';
 import Complaints from './Complaints';
 import ApproveDrivers from './ApproveDrivers';
 import ReviewComplaint from './ReviewComplaint';
+import ReviewDriverRequest from "./ReviewDriverRequest";
 
 
 function App() {
@@ -52,6 +53,7 @@ function MainLayout() {
         <Route path="/complaints" element={<Complaints />} />
         <Route path="/approve-drivers" element={<ApproveDrivers />} />
         <Route path="/review" element={<ReviewComplaint />} />
+        <Route path="/review-driver" element={<ReviewDriverRequest />} />
       </Routes>
     </>
   );
