@@ -22,6 +22,7 @@ function AdminMenu() {
                 <h1>Hey, Admin!</h1>
                 <p>Ready to shape a smoother ride-sharing experience?</p>
             </div>
+
             <div className="admin-wrapper">
                 {/* Card 1: image left, box right */}
                 <div className="admin-card">

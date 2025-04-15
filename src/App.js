@@ -19,6 +19,8 @@ import AdminMenu from "./AdminMenu";
 import ManageCommunities from './ManageCommunities';
 import Complaints from './Complaints';
 import ApproveDrivers from './ApproveDrivers';
+import ReviewComplaint from './ReviewComplaint';
+
 
 function App() {
   return (
@@ -30,7 +32,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu'];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu', '/complaints'];
 
   return (
     <>
@@ -49,6 +51,7 @@ function MainLayout() {
         <Route path="/manage-communities" element={<ManageCommunities />} />
         <Route path="/complaints" element={<Complaints />} />
         <Route path="/approve-drivers" element={<ApproveDrivers />} />
+        <Route path="/review" element={<ReviewComplaint />} />
       </Routes>
     </>
   );
