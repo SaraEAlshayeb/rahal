@@ -60,7 +60,7 @@ function ManageCommunities() {
                             <div
                                 style={{
                                     backgroundColor: "whitesmoke",
-                                    marginTop: "65px",
+                                    marginTop: "64px",
                                     width: "220px",
                                     height: "150px",
                                     display: "flex",
