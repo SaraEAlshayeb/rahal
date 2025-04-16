@@ -40,9 +40,8 @@ function Community() {
                     Join a community to connect with riders who share your background, making every trip more trusted and personalized.
                 </p>
             </div>
-
-            <div style={{
-                marginLeft: "230px", marginTop: "15px", display: "flex",
+            <div style={{display:"flex",justifyContent: "center",alignItems:"center"}}> <div style={{
+                marginTop: "15px", display: "flex",
                 flexDirection: "row", justifyContent: "center",
                 columnGap: "60px", rowGap: isAnyExpanded ? "170px" : "60px",
                 alignItems: "center", flexWrap: "wrap", width: "800px"
@@ -58,6 +57,7 @@ function Community() {
                                 height: "100px",
                                 position: "relative",
                                 top: "40px"
+
                             }}
                             src={community.img}
                             alt="community"
@@ -136,7 +136,9 @@ function Community() {
                             </div>
                         </div>
                     </div>
-                ))}
+                ))}</div>
+
+
             </div>
 
             <Modal show={showModal} onHide={handleClose} centered>
