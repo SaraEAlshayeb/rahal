@@ -13,7 +13,7 @@ function Navbar() {
 
             {/* Menu */}
             <div className="menu">
-            <NavLink to="/home" className="nav-link">Home</NavLink>
+                <NavLink to="/home" className="nav-link">Home</NavLink>
 
                 <NavLink to="/community" className="nav-link" activeClassName="active">
                     Community
@@ -27,21 +27,36 @@ function Navbar() {
                 <NavLink to="/history" className="nav-link" activeClassName="active">
                     History
                 </NavLink>
-               
+
             </div>
             <div className="icon-group">
-            <Link to="/notifications">
-          <button className="notification-button">
-            <img src="/notification2.png" alt="notification" />
-          </button>
-        </Link>
+                <Link to="/notifications">
+                    <button className="notification-button">
+                        <img src="/notification2.png" alt="notification" />
+                    </button>
+                </Link>
+                <div style={{ marginRight: "30px" }}>
+                    <Link to="/profile">
+                        <button
+                            style={{
+                                backgroundColor: '#71BBB2',
+                                border: 'none',
+                                borderRadius: '50%',
+                                padding: '8px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <img src="/profile.png" alt="Profile" style={{ height: '30px', width: '30px' }} />
+                        </button>
+                    </Link>
+                </div>
 
-  <button className="profile-button">
+                {/* <button className="profile-button">
     <img src="/profile.png" alt="profile" />
-  </button>
-</div>
+  </button> */}
+            </div>
         </div>
-        
+
     );
 }
 
