@@ -1,9 +1,18 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 function Profile() {
+    const location = useLocation();
+    const user = location.state || {
+        name: "Unknown User",
+        email: "N/A",
+        phone: "N/A",
+        memberSince: "N/A",
+        img: "/profile.png"
+    };
+
     return (
         <div style={{ backgroundColor: '#EFE9D5', minHeight: '100vh', paddingTop: '60px', fontFamily: 'Segoe UI, sans-serif' }}>
-
             {/* Top Banner */}
             <div style={{
                 background: 'linear-gradient(135deg, #497D74, #27445D)',
@@ -14,7 +23,7 @@ function Profile() {
                 borderBottomRightRadius: '60px'
             }}>
                 <img
-                    src="/profile.png"
+                    src={user.img || "/profile.png"}
                     alt="Profile"
                     style={{
                         width: '120px',
@@ -24,8 +33,8 @@ function Profile() {
                         marginBottom: '20px'
                     }}
                 />
-                <h1 style={{ fontSize: '28px', marginBottom: '5px' }}>Farah</h1>
-                <p style={{ fontSize: '16px', opacity: 0.9 }}> Rahal user</p>
+                <h1 style={{ fontSize: '28px', marginBottom: '5px' }}>{user.name}</h1>
+                <p style={{ fontSize: '16px', opacity: 0.9 }}>Rahal user</p>
             </div>
 
             {/* Info Section */}
@@ -40,10 +49,10 @@ function Profile() {
                 <h2 style={{ color: '#497D74', borderBottom: '2px solid #EFE9D5', paddingBottom: '10px' }}>Profile Details</h2>
 
                 <div style={{ marginTop: '20px', lineHeight: '2' }}>
-                    <p><strong>Name:</strong> Farah</p>
-                    <p><strong>Email:</strong> farah27oct@gmail.com</p>
-                    <p><strong>Phone:</strong> 0537845284</p>
-                    <p><strong>Member Since:</strong> March 2024</p>
+                    <p><strong>Name:</strong> {user.name|| "Farah"}</p>
+                    <p><strong>Email:</strong> {user.email || 'Farah@gmail.com'}</p>
+                    <p><strong>Phone:</strong> {user.phone || '0551111111'}</p>
+                    <p><strong>Member Since:</strong> {user.memberSince || '2025/04/02'}</p>
                 </div>
 
                 {/* Optional action buttons */}
