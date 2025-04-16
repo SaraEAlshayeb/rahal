@@ -20,8 +20,6 @@ import ManageCommunities from './ManageCommunities';
 import Complaints from './Complaints';
 import ApproveDrivers from './ApproveDrivers';
 import ReviewComplaint from './ReviewComplaint';
-import ReviewDriverRequest from "./ReviewDriverRequest";
-
 
 function App() {
   return (
@@ -33,7 +31,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu', '/complaints'];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu'];
 
   return (
     <>
@@ -51,9 +49,8 @@ function MainLayout() {
         <Route path="/adminmenu" element={<AdminMenu />} />
         <Route path="/manage-communities" element={<ManageCommunities />} />
         <Route path="/complaints" element={<Complaints />} />
-        <Route path="/approve-drivers" element={<ApproveDrivers />} />
         <Route path="/review" element={<ReviewComplaint />} />
-        <Route path="/review-driver" element={<ReviewDriverRequest />} />
+        <Route path="/approve-drivers" element={<ApproveDrivers />} />
       </Routes>
     </>
   );
