@@ -24,6 +24,7 @@ import ApproveDrivers from './ApproveDrivers';
 import ReviewComplaint from './ReviewComplaint';
 import EditCommunity from './EditCommunity';
 import Verified from './Verified';
+import ManageProfiles from "./ManageProfiles";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function MainLayout() {
         <Route path="/EditCommunity" element={<EditCommunity />} />
         <Route path="/verified" element={<Verified />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/manage-profile" element={<ManageProfiles />} />
 
       </Routes>
     </>

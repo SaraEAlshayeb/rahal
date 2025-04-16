@@ -63,6 +63,18 @@ function AdminMenu() {
 
                     </div>
                 </div>
+
+                <div className="admin-card">
+                    <div className="admin-box" id="box4">
+                        <br/>
+                        <h3>Manage Profile</h3>
+                        <br/><br/>
+                        <p>Description</p>
+                        <button className="admin-btn" onClick={() => navigate('/manage-profile')}>Start</button>
+
+                    </div>
+                    <img src="/Complaints.png" alt="Admin 2" className="admin-img" />
+                </div>
             </div>
 
         </div>

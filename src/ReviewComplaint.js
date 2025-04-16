@@ -1,6 +1,10 @@
 import React from 'react';
 import './ReviewComplaint.css';
+import { useNavigate } from 'react-router-dom';
+
 function ReviewComplaint() {
+    const navigate = useNavigate();
+
     return (
         <div className="review-page">
             <div className="box-left">
@@ -17,9 +21,11 @@ function ReviewComplaint() {
                 </div>
 
                 <div className="buttons-bottom">
-                    <button className="btn btn-filled">Suspend User</button>
-                    <button className="btn btn-filled">Contact issuer</button>
-                    <button className="btn btn-outline">Back to Complaints</button>
+                    <button className="btn btn-filled">Resolved</button>
+                    <button className="btn btn-outline" onClick={() => navigate('/complaints')}>
+                        Back to Complaints
+                    </button>
+
                 </div>
             </div>
 
