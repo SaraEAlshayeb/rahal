@@ -82,15 +82,13 @@ body {
 
 .search-filter-bar {
     display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    align-items: flex-start;
-    background-color: rgb(255, 255, 255);
+    align-items: flex-end; /* align all items by bottom */
+    gap: 20px;
+    background-color: white;
     padding: 20px 30px;
-    border-radius: 16px ;
-    border-color: rgb(126, 129, 131);
+    border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    max-width: 800px; /* same width as complaints */
+    max-width: 800px;
     margin: 30px auto;
 }
 
@@ -117,3 +115,33 @@ body {
     font-size: 1rem;
     background-color: #f9f9f9;
 }
+
+.complaint-card {
+    background-color: white;
+    transition: background-color 0.3s;
+}
+
+
+
+.item-box {
+    background-color: white; /* default color */
+    transition: background-color 0.3s ease;
+}
+
+.item-box.in-progress {
+    background-color: rgba(247, 241, 211, 0.29); /* light yellow or any color you want */
+    border: 2px solid #497d74;
+}
+
+.apply-group {
+    display: flex;
+    align-items: flex-end; /* aligns the button with the bottom of inputs */
+}
+.apply-group button {
+    height: 40px;
+    white-space: nowrap;
+}
+
+
+
+

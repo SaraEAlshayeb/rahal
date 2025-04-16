@@ -25,6 +25,7 @@ import ReviewComplaint from './ReviewComplaint';
 import EditCommunity from './EditCommunity';
 import Verified from './Verified';
 import ManageProfiles from "./ManageProfiles";
+import ReviewDriverRequest from './ReviewDriverRequest';
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu'];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu','/review-driver',"/manage-profile","/approve-drivers","/manage-communities"];
 
   return (
     <>
@@ -61,6 +62,7 @@ function MainLayout() {
         <Route path="/verified" element={<Verified />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/manage-profile" element={<ManageProfiles />} />
+        <Route path="/review-driver" element={<ReviewDriverRequest />} />
 
       </Routes>
     </>
