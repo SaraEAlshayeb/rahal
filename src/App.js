@@ -5,7 +5,9 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import Profile from './Profile';
 import Navbar from './components/Navbar';
 import Home from './Home';
 import Community from './Community';
@@ -21,6 +23,7 @@ import Complaints from './Complaints';
 import ApproveDrivers from './ApproveDrivers';
 import ReviewComplaint from './ReviewComplaint';
 import EditCommunity from './EditCommunity';
+import Verified from './Verified';
 
 function App() {
   return (
@@ -54,7 +57,8 @@ function MainLayout() {
         <Route path="/approve-drivers" element={<ApproveDrivers />} />
         <Route path="/manege" element={<ApproveDrivers />} />
         <Route path="/EditCommunity" element={<EditCommunity />} />
-
+        <Route path="/verified" element={<Verified />} />
+        <Route path="/profile" element={<Profile />} />
 
       </Routes>
     </>
