@@ -27,8 +27,20 @@ function PostRide(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/Verified');
-      };
+
+        const email = localStorage.getItem("userEmail");
+        const verifiedDriverEmail = "sara@hotmail.com";
+
+        if (email !== verifiedDriverEmail) {
+            localStorage.clear();
+            alert("You must be a verified driver to post a ride.");
+            navigate('/driver'); // redirect to Apply as Driver page
+            return;
+        }
+
+        navigate('/Verified'); // proceed to post if verified
+    };
+
     return(
         <>
         <Navbar />

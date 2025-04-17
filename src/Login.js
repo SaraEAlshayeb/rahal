@@ -16,6 +16,7 @@ function Login() {
       alert('All fields are required.');
       return;
     }
+      localStorage.setItem("userEmail", email);
 
       if (email === 'admin@hotmail.com') {
           navigate('/adminmenu');

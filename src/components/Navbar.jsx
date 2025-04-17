@@ -8,7 +8,7 @@ function Navbar() {
 
             <div className="logo-container">
                 <img src="/Rahal_Logo.png" alt="logo" height="50px" />
-                <img src="/Rahal.png" alt="text-logo" height="20px" style={{ padding: '0px' }} />
+                <img src="/Rahal.png" alt="text-logo" height="40px" style={{ padding: '0px', margin:"0px" }} />
             </div>
 
             {/* Menu */}
