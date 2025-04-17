@@ -244,4 +244,10 @@ body {
 .reject-btn:hover {
   background-color: #c9302c;
 }
+.passenger-header {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 6px 0;
+}
 

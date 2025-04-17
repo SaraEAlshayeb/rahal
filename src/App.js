@@ -36,7 +36,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu'];
+  const hideNavbarOn = ['/login', '/register', '/adminmen'];
 
   return (
     <>

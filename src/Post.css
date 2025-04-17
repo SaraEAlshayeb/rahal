@@ -2,7 +2,7 @@
 
 .page-container {
     min-height: 100vh;
-/* background-image: url('src\regBackground.png');  */
+    background-image: url('./regBackground.png');  
  background-size: cover;
     background-position: center;
     display: flex;

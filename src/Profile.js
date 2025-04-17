@@ -2,72 +2,92 @@ import React from 'react';
 
 function Profile() {
     return (
-        <div style={{ backgroundColor: '#EFE9D5', minHeight: '100vh', paddingTop: '60px', fontFamily: 'Segoe UI, sans-serif' }}>
+        <div style={{
+            backgroundColor: '#EFE9D5',
+            minHeight: '100vh',
+            paddingTop: '40px',
+            fontFamily: 'Segoe UI, sans-serif',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+        }}>
 
             {/* Top Banner */}
             <div style={{
                 background: 'linear-gradient(135deg, #497D74, #27445D)',
                 color: '#EFE9D5',
-                padding: '60px 20px',
+                padding: '40px 16px',
                 textAlign: 'center',
-                borderBottomLeftRadius: '60px',
-                borderBottomRightRadius: '60px'
+                borderBottomLeftRadius: '40px',
+                borderBottomRightRadius: '40px',
+                width: '100%'
             }}>
                 <img
                     src="/profile.png"
                     alt="Profile"
                     style={{
-                        width: '120px',
-                        height: '120px',
+                        width: '90px',
+                        height: '90px',
                         borderRadius: '50%',
-                        border: '5px solid #EFE9D5',
-                        marginBottom: '20px'
+                        border: '3px solid #EFE9D5',
+                        marginBottom: '12px'
                     }}
                 />
-                <h1 style={{ fontSize: '28px', marginBottom: '5px' }}>Farah</h1>
-                <p style={{ fontSize: '16px', opacity: 0.9 }}> Rahal user</p>
+                <h2 style={{ fontSize: '22px', marginBottom: '4px' }}>Farah</h2>
+                <p style={{ fontSize: '14px', opacity: 0.9 }}>Rahal user</p>
             </div>
 
             {/* Info Section */}
             <div style={{
-                maxWidth: '700px',
-                margin: '40px auto',
+                maxWidth: '500px',
+                margin: '30px auto 40px', 
                 backgroundColor: 'white',
-                borderRadius: '20px',
-                boxShadow: '0 6px 16px rgba(0, 0, 0, 0.1)',
-                padding: '40px'
+                borderRadius: '16px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                padding: '24px',
+                width: '90%'
             }}>
-                <h2 style={{ color: '#497D74', borderBottom: '2px solid #EFE9D5', paddingBottom: '10px' }}>Profile Details</h2>
+                <h3 style={{
+                    color: '#497D74',
+                    borderBottom: '1px solid #EFE9D5',
+                    paddingBottom: '8px',
+                    fontSize: '18px'
+                }}>Profile Details</h3>
 
-                <div style={{ marginTop: '20px', lineHeight: '2' }}>
+                <div style={{ marginTop: '16px', lineHeight: '1.8', fontSize: '14px' }}>
                     <p><strong>Name:</strong> Farah</p>
                     <p><strong>Email:</strong> farah27oct@gmail.com</p>
                     <p><strong>Phone:</strong> 0537845284</p>
                     <p><strong>Member Since:</strong> March 2024</p>
                 </div>
 
-                {/* Optional action buttons */}
-                <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'space-between' }}>
+                {/* Buttons */}
+                <div style={{
+                    marginTop: '24px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: '10px'
+                }}>
                     <button style={{
                         backgroundColor: '#71BBB2',
                         border: 'none',
-                        padding: '10px 20px',
-                        borderRadius: '8px',
+                        padding: '8px 14px',
+                        borderRadius: '6px',
                         color: '#27445D',
+                        fontSize: '13px',
                         fontWeight: 'bold',
-                        cursor: 'pointer',
-                        transition: '0.3s'
+                        cursor: 'pointer'
                     }}>Edit Profile</button>
 
                     <button style={{
                         backgroundColor: '#497D74',
                         border: 'none',
-                        padding: '10px 20px',
-                        borderRadius: '8px',
+                        padding: '8px 14px',
+                        borderRadius: '6px',
                         color: 'white',
+                        fontSize: '13px',
                         fontWeight: 'bold',
-                        cursor: 'pointer',
-                        transition: '0.3s'
+                        cursor: 'pointer'
                     }}>Change Password</button>
                 </div>
             </div>

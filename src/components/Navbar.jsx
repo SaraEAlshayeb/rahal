@@ -29,32 +29,53 @@ function Navbar() {
                 </NavLink>
 
             </div>
-            <div className="icon-group">
-                <Link to="/notifications">
-                    <button className="notification-button">
-                        <img src="/notification2.png" alt="notification" />
-                    </button>
-                </Link>
-                <div style={{ marginRight: "30px" }}>
-                    <Link to="/profile">
-                        <button
-                            style={{
-                                backgroundColor: '#71BBB2',
-                                border: 'none',
-                                borderRadius: '50%',
-                                padding: '8px',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <img src="/profile.png" alt="Profile" style={{ height: '30px', width: '30px' }} />
-                        </button>
-                    </Link>
-                </div>
+            <div className="icon-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '30px' }}>
+  {/* Notification */}
+  <Link to="/notifications">
+    <button className="notification-button">
+      <img src="/notification2.png" alt="notification" />
+    </button>
+  </Link>
 
-                {/* <button className="profile-button">
-    <img src="/profile.png" alt="profile" />
-  </button> */}
-            </div>
+  {/* Profile */}
+  <Link to="/profile">
+  <button
+    style={{
+      background: 'none',
+      border: 'none',
+      padding: '0',
+      cursor: 'pointer'
+    }}
+  >
+    <img
+      src="/profile.png" // your image path
+      alt="Profile"
+      style={{ height: '35px', width: '35px' }}
+    />
+  </button>
+</Link>
+
+
+  {/* Logout */}
+  <Link to="/login" onClick={() => localStorage.clear()}>
+    <button
+      style={{
+        background: 'none',
+        border: 'none',
+        padding: '0',
+        cursor: 'pointer'
+      }}
+    >
+      <img
+        src="/logout2.png"
+        alt="Logout"
+        style={{ height: '30px', width: '30px' }}
+      />
+    </button>
+  </Link>
+</div>
+
+
         </div>
 
     );
