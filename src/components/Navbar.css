@@ -60,7 +60,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #4e7596;
+    background-color: rgba(255, 255, 255, 0);
     border: none;
     border-radius: 10px;
 }
@@ -83,7 +83,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #4e7596;
+    background-color: rgba(255, 255, 255, 0);
     border: none;
     border-radius: 10px;
     cursor: pointer;

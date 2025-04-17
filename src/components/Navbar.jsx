@@ -25,7 +25,7 @@ function Navbar() {
                     Post Ride
                 </NavLink>
                 <NavLink to="/history" className="nav-link" activeClassName="active">
-                    Rides
+                    History
                 </NavLink>
                 <NavLink to="/Driver" className="nav-link" activeClassName="active">
                     Start Driving
@@ -36,7 +36,9 @@ function Navbar() {
   {/* Notification */}
   <Link to="/notifications">
     <button className="notification-button">
-      <img src="/notification2.png" alt="notification" />
+      <img src="/1.png" // your image path
+           alt="Profile"
+           style={{ height: '28px', width: '28px' }}src="/2.png" alt="notification" />
     </button>
   </Link>
 
@@ -51,9 +53,9 @@ function Navbar() {
     }}
   >
     <img
-      src="/profile.png" // your image path
+      src="/1.png" // your image path
       alt="Profile"
-      style={{ height: '35px', width: '35px' }}
+      style={{ height: '27px', width: '27px' }}
     />
   </button>
 </Link>
@@ -70,9 +72,9 @@ function Navbar() {
       }}
     >
       <img
-        src="/logout2.png"
+        src="/3.png"
         alt="Logout"
-        style={{ height: '30px', width: '30px' }}
+        style={{ height: '27px', width: '27px' }}
       />
     </button>
   </Link>

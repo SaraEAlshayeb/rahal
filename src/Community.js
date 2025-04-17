@@ -33,7 +33,7 @@ function Community() {
     ];
 
     return (
-        <div className="body" style={{ paddingTop: "60px", height: "150vh" }}>
+        <div className="body" style={{  paddingTop: "70px", minHeight: "100vh"  }}>
             <div style={{ display: "flex", margin:"20px",flexDirection: "column", alignItems: "center" }}>
                 <h2 style={{ marginBottom: "0px" }}>Where Community Meets the Road</h2>
                 <p>
@@ -101,14 +101,14 @@ function Community() {
                                         padding: "8px 0",
                                         fontSize: "11.5px",
                                         border: "none",
-                                        backgroundColor: "#497D74",
+                                        backgroundColor: "#27445D",
                                         color: "white",
                                         cursor: "pointer",
                                         borderBottomLeftRadius: "7px",
                                         transition: "background-color 0.2s ease"
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#3a655d"}
-                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#497D74"}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#27445D"}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#27445D"}
                                 >
                                     {expanded[index] ? 'Show Less' : 'Show More'}
                                 </button>
@@ -122,14 +122,14 @@ function Community() {
                                         padding: "8px 0",
                                         fontSize: "11.5px",
                                         border: "none",
-                                        backgroundColor: "#497D74",
+                                        backgroundColor: "#27445D",
                                         color: "white",
                                         cursor: "pointer",
                                         borderBottomRightRadius: "7px",
                                         transition: "background-color 0.2s ease"
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#3a655d"}
-                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#497D74"}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#27445D"}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#27445D"}
                                 >
                                     Join
                                 </button>
@@ -137,7 +137,6 @@ function Community() {
                         </div>
                     </div>
                 ))}</div>
-
 
             </div>
 
@@ -149,7 +148,7 @@ function Community() {
                     You are now a member of the {activeModalCommunity} community! 🎉
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} >
                         Close
                     </Button>
                 </Modal.Footer>
@@ -159,3 +158,4 @@ function Community() {
 }
 
 export default Community;
+
