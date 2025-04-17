@@ -1,42 +1,48 @@
-/* Post.css */
-
 .page-container {
     min-height: 100vh;
-    background-image: url('./regBackground.png');  
- background-size: cover;
+    background-color: linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%);
+    background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 16px;
 }
- 
 
 
 .form-wrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
+    padding: 0 20px;
 }
 
 h1 {
+    font-size: 36px;
+     color: #27445D;
+     font-weight: bold;
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
+    /* font-size: 2rem; */
     margin-bottom: 30px;
+    font-family: Arial, sans-serif;
+
 }
 
 h2 {
+    font-family: Arial, sans-serif;
+    color: #27445D;
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 10px;
 }
 
 .form-container {
-    background-color: #497D74;
-    padding: 24px;
-    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     color: #EFE9D5;
     margin-bottom: 24px;
+    padding: 32px;
+    border-radius: 16px;
+   
 }
 
 .form-grid {
@@ -54,16 +60,23 @@ h2 {
 }
 
 .form-label {
+    color: black;
     font-size: 0.9rem;
     font-weight: 500;
+    font-family: Arial, sans-serif;
 }
 
 .form-input {
-    padding: 6px;
-    border-radius: 4px;
-    border: none;
+    padding: 12px 16px;
+    height: 45px;
+    border: 1px solid #ccc;
+    border-radius: 10px; 
     font-size: 14px;
     color: black;
+    font-family: Arial, sans-serif;
+    margin-bottom: 12px;
+   
+
 }
 
 .submit-button {
@@ -79,13 +92,14 @@ h2 {
     display: block;
     margin: 1rem auto;
     padding: 0.5rem 1.5rem;
-    background-color: #3f7f73;
-    color: #EFE9D5;
+    background-color:#27445D;
+    color: #fff;
     border: none;
     border-radius: 8px;
-    font-weight: bold;
     cursor: pointer;
-    font-size: 1rem;
+    font-Size: 15px;
+    font-family: Arial, sans-serif;
+
 }
 
 .submit-button:hover {

@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar'; 
 
 const saudiCities = [
-    "Riyadh", "Jeddah", "Dammam", "Khobar", "Mecca", "Medina",
-    "Tabuk", "Abha", "Al Ahsa", "Hail", "Buraidah", "Najran", "Al Baha", "Jazan", "Sakaka"
-];
+    'Riyadh', 'Jeddah', 'Dammam', 'Makkah', 'Madinah',
+    'Abha', 'Khobar', 'Buraidah', 'Tabuk', 'Hail', 'Najran'
+  ];
 
 function PostRide(){
     const [rideData, setRideData] = useState({

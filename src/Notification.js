@@ -17,7 +17,7 @@ function Notification() {
   return (
     <div
       style={{
-        backgroundImage: `url(${regBackground})`,
+        background:"linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -65,10 +65,10 @@ function Notification() {
               </div>
 
               <div className="item-buttons" style={{ marginTop: 'auto', alignSelf: 'flex-end' }}>
-    <button className="btn btn-outline" onClick={() => handleRemove(n.id)}>
+    <button className="btn btn-outline"  onClick={() => handleRemove(n.id)}>
       Reject
     </button>
-    <button className="btn btn-filled" onClick={() => handleRemove(n.id)}>
+    <button className="btn btn-filled" background="#27445D" onClick={() => handleRemove(n.id)}>
       Accept
     </button>
               </div>

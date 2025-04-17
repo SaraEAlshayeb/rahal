@@ -1,7 +1,7 @@
 /* Driver.css */
 .body {
     margin: 0;
-    font-family: Tahoma, sans-serif;
+    font-family: Arial, sans-serif;
     background: linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%);
     min-height: 100vh;
     display: flex;
@@ -79,7 +79,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: inherit;
+    font-family: Arial, sans-serif;
     border-radius: 8px;
 }
 
@@ -91,10 +91,11 @@
     color: white;
     height: 40px; /* Adjust height as needed */
     width: 300px;
+    font-Size: 15px;
     border-radius: 8px;
     border-color: transparent;
-    background-color: #497D74;
+    background-color: #27445D;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
     margin-top: 0.1rem; /* Add some space above the button */
 }
-
