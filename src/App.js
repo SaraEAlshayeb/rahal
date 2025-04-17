@@ -26,6 +26,7 @@ import EditCommunity from './EditCommunity';
 import Verified from './Verified';
 import ManageProfiles from "./ManageProfiles";
 import ReviewDriverRequest from './ReviewDriverRequest';
+import Checkout from './Checkout';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function MainLayout() {
         <Route path="/home" element={<Home />} />
         <Route path="/community" element={<Community />} />
         <Route path="/book-ride" element={<BookRide />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/post-ride" element={<PostRide />} />
         <Route path="/history" element={<History />} />
         <Route path="/notifications" element={<Notification />} />

@@ -25,7 +25,7 @@ function Navbar() {
                     Post Ride
                 </NavLink>
                 <NavLink to="/history" className="nav-link" activeClassName="active">
-                    History
+                    Rides
                 </NavLink>
 
             </div>
