@@ -29,6 +29,7 @@ import ReviewDriverRequest from './ReviewDriverRequest';
 import Checkout from './Checkout';
 import Driver from './Driver';
 import VerifyDriver from './VerifyDriver';
+import AboutUs from "./AboutUs";
 
 function App() {
   return (
@@ -40,13 +41,13 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu','/review-driver',"/manage-profile","/approve-drivers","/manage-communities"];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu','/review-driver',"/manage-profile","/approve-drivers","/manage-communities","/about-us"];
 
   return (
     <>
       {!hideNavbarOn.includes(location.pathname) && <Navbar />}
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/about-us" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
@@ -69,6 +70,7 @@ function MainLayout() {
         <Route path="/review-driver" element={<ReviewDriverRequest />} />
         <Route path="/Driver" element={<Driver />} />
         <Route path="/VerifyDriver" element={<VerifyDriver />} />
+        <Route path="/about-us" element={<AboutUs />} />
 
 
 
