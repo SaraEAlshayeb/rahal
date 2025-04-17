@@ -5,7 +5,6 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 
 import Profile from './Profile';
 import Navbar from './components/Navbar';
@@ -30,53 +29,67 @@ import Checkout from './Checkout';
 import Driver from './Driver';
 import VerifyDriver from './VerifyDriver';
 import AboutUs from "./AboutUs";
+import AdminNavbar from "./components/AdminNavbar";
 
 function App() {
   return (
-    <Router>
-      <MainLayout />
-    </Router>
+      <Router>
+        <MainLayout />
+      </Router>
   );
 }
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmenu','/review-driver',"/manage-profile","/approve-drivers","/manage-communities","/about-us"];
+
+  const adminPaths = [
+    '/adminmenu',
+    '/approve-drivers',
+    '/manage-communities',
+    '/complaints',
+    '/review-driver',
+    '/manage-profile',
+    '/editcommunity',
+    '/verifydriver',
+  ];
+
+  const hideNavbarOn = ['/login', '/register'];
+
+  const currentPath = location.pathname.toLowerCase();
+  const showAdminNavbar = adminPaths.includes(currentPath);
+  const showDefaultNavbar = !hideNavbarOn.includes(currentPath) && !showAdminNavbar;
 
   return (
-    <>
-      {!hideNavbarOn.includes(location.pathname) && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Navigate to="/about-us" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/book-ride" element={<BookRide />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/post-ride" element={<PostRide />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/notifications" element={<Notification />} />
-        <Route path="/adminmenu" element={<AdminMenu />} />
-        <Route path="/manage-communities" element={<ManageCommunities />} />
-        <Route path="/complaints" element={<Complaints />} />
-        <Route path="/review" element={<ReviewComplaint />} />
-        <Route path="/approve-drivers" element={<ApproveDrivers />} />
-        <Route path="/manege" element={<ApproveDrivers />} />
-        <Route path="/EditCommunity" element={<EditCommunity />} />
-        <Route path="/verified" element={<Verified />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/manage-profile" element={<ManageProfiles />} />
-        <Route path="/review-driver" element={<ReviewDriverRequest />} />
-        <Route path="/Driver" element={<Driver />} />
-        <Route path="/VerifyDriver" element={<VerifyDriver />} />
-        <Route path="/about-us" element={<AboutUs />} />
+      <>
+        {showAdminNavbar && <AdminNavbar />}
+        {showDefaultNavbar && <Navbar />}
 
-
-
-
-      </Routes>
-    </>
+        <Routes>
+          <Route path="/" element={<Navigate to="/about-us" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/book-ride" element={<BookRide />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/post-ride" element={<PostRide />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route path="/adminmenu" element={<AdminMenu />} />
+          <Route path="/manage-communities" element={<ManageCommunities />} />
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/review" element={<ReviewComplaint />} />
+          <Route path="/approve-drivers" element={<ApproveDrivers />} />
+          <Route path="/editcommunity" element={<EditCommunity />} />
+          <Route path="/verified" element={<Verified />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/manage-profile" element={<ManageProfiles />} />
+          <Route path="/review-driver" element={<ReviewDriverRequest />} />
+          <Route path="/driver" element={<Driver />} />
+          <Route path="/verifydriver" element={<VerifyDriver />} />
+          <Route path="/about-us" element={<AboutUs />} />
+        </Routes>
+      </>
   );
 }
 
