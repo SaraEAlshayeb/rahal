@@ -56,7 +56,7 @@ const BookRide = () => {
 
   return (
     <div style={{
-      backgroundColor: '#F4EDCD',
+      background: 'linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)',
       minHeight: '100vh',
       paddingTop: '80px',
       fontFamily: 'Arial, sans-serif',
@@ -210,7 +210,7 @@ const rideCardStyle = {
   gap: '20px',
   padding: '20px',
   borderRadius: '14px',
-  backgroundColor: '#E6FAFA',
+  backgroundColor: '#ffff',
   border: '1px solid #D0ECEC',
   marginBottom: '20px',
   boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
@@ -219,4 +219,5 @@ const rideCardStyle = {
 };
 
 export default BookRide;
+
 

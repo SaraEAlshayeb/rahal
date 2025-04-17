@@ -3,7 +3,7 @@ import React from 'react';
 function Profile() {
     return (
         <div style={{
-            backgroundColor: '#EFE9D5',
+            backgroundColor: "linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
             minHeight: '100vh',
             paddingTop: '40px',
             fontFamily: 'Segoe UI, sans-serif',
@@ -33,7 +33,7 @@ function Profile() {
                         marginBottom: '12px'
                     }}
                 />
-                <h2 style={{ fontSize: '22px', marginBottom: '4px' }}>Farah</h2>
+                <h2 style={{ fontSize: '22px', marginBottom: '4px', color:"#fff"}}>Farah</h2>
                 <p style={{ fontSize: '14px', opacity: 0.9 }}>Rahal user</p>
             </div>
 
@@ -48,7 +48,7 @@ function Profile() {
                 width: '90%'
             }}>
                 <h3 style={{
-                    color: '#497D74',
+                    color: '#27445D',
                     borderBottom: '1px solid #EFE9D5',
                     paddingBottom: '8px',
                     fontSize: '18px'
@@ -59,36 +59,30 @@ function Profile() {
                     <p><strong>Email:</strong> farah27oct@gmail.com</p>
                     <p><strong>Phone:</strong> 0537845284</p>
                     <p><strong>Member Since:</strong> March 2024</p>
+                    <p><strong>Status:</strong> Active</p> 
+                    <p><strong>Community:</strong> KFUPM</p>
                 </div>
 
                 {/* Buttons */}
                 <div style={{
                     marginTop: '24px',
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: "flex-end",
                     gap: '10px'
                 }}>
                     <button style={{
-                        backgroundColor: '#71BBB2',
+                        backgroundColor: '#27445D',
                         border: 'none',
                         padding: '8px 14px',
                         borderRadius: '6px',
-                        color: '#27445D',
+                        color: '#fff',
                         fontSize: '13px',
-                        fontWeight: 'bold',
+                        fontFamily:"Arial, sans-serif",
                         cursor: 'pointer'
+            
                     }}>Edit Profile</button>
 
-                    <button style={{
-                        backgroundColor: '#497D74',
-                        border: 'none',
-                        padding: '8px 14px',
-                        borderRadius: '6px',
-                        color: 'white',
-                        fontSize: '13px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer'
-                    }}>Change Password</button>
+                
                 </div>
             </div>
         </div>

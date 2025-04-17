@@ -78,7 +78,8 @@ const History = () => {
   };
 
   return (
-    <div style={{ background: 'linear-gradient(to bottom, #fffbe6, #f4edcd)', minHeight: '100vh', padding: '100px 20px', fontFamily: 'Segoe UI' }}>
+    <div style={{   background: 'linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)',
+       minHeight: '100vh', padding: '100px 20px', fontFamily: 'Segoe UI' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <h2 style={{ fontSize: '36px', color: '#27445D', fontWeight: 'bold', background: 'linear-gradient(to right, #27445D, #6e8b9e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Rides History</h2>
 
@@ -113,7 +114,7 @@ const History = () => {
             <div
               key={ride.id}
               style={{
-                background: 'linear-gradient(to right, #e6fafa, #f0fcfc)',
+                background: 'linear-gradient(to right, #ffff, #ffff)',
                 padding: '20px 24px',
                 borderRadius: '20px',
                 marginBottom: '20px',
@@ -138,7 +139,7 @@ const History = () => {
               {ride.earning && mode === 'driver' && <p><strong>Earning:</strong> SAR {ride.earning}</p>}
               {ride.status === 'upcoming' && (
                 <div style={{ position: 'absolute', right: '20px', bottom: '20px' }}>
-                  <button onClick={() => setSelectedRide(ride)} style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '12px', fontWeight: 'bold', transition: '0.3s', cursor: 'pointer' }}>View</button>
+                  <button onClick={() => setSelectedRide(ride)} style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '12px', transition: '0.3s', cursor: 'pointer' }}>View</button>
                 </div>
               )}
             </div>
@@ -184,7 +185,7 @@ const History = () => {
                 })}
               </div>
               <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder='Write your text' style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #ccc', marginBottom: '16px' }} />
-              <button onClick={handleSubmit} style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold' }}>Submit</button>
+              <button onClick={handleSubmit} style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '8px' }}>Submit</button>
             </div>
           </div>
         )}
@@ -194,6 +195,7 @@ const History = () => {
 };
 
 export default History;
+
 
 
 
