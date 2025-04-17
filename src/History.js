@@ -136,6 +136,26 @@ const History = () => {
               <p><strong>From:</strong> {ride.from} | <strong>To:</strong> {ride.to}</p>
               <p>{ride.date} | {ride.time}</p>
               {ride.earning && mode === 'driver' && <p><strong>Earning:</strong> SAR {ride.earning}</p>}
+              {ride.status === 'completed' && (
+  <div style={{ marginTop: '10px', textAlign: 'right' }}>
+    <button
+      onClick={() => setSelectedRide({ ...ride, isComplaint: true })}
+      style={{
+        backgroundColor: '#27445D',
+        color: 'white',
+        border: 'none',
+        padding: '8px 16px',
+        borderRadius: '10px',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+      }}
+    >
+      Raise a Complaint
+    </button>
+  </div>
+)}
+
+
               {ride.status === 'upcoming' && (
                 <div style={{ position: 'absolute', right: '20px', bottom: '20px' }}>
                   <button onClick={() => setSelectedRide(ride)} style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '12px', fontWeight: 'bold', transition: '0.3s', cursor: 'pointer' }}>View</button>
@@ -145,7 +165,7 @@ const History = () => {
           ))}
         </div>
 
-        {selectedRide && (
+        {selectedRide?.status === 'upcoming' && !selectedRide?.isComplaint && (
           <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div style={{ backgroundColor: 'white', borderRadius: '20px', padding: '30px', width: '90%', maxWidth: '500px', position: 'relative' }}>
               <button onClick={() => setSelectedRide(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '20px' }}>×</button>
@@ -188,6 +208,36 @@ const History = () => {
             </div>
           </div>
         )}
+        {selectedRide?.isComplaint && (
+  <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ backgroundColor: 'white', borderRadius: '20px', padding: '30px', width: '90%', maxWidth: '500px', position: 'relative' }}>
+      <button onClick={() => setSelectedRide(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '20px' }}>×</button>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+       
+      </div>
+      <p style={{ fontWeight: 'bold' , textAlign: 'center' , color:'#27445D' }}>We value your experience and are here to listen to your complaint</p>
+      <textarea
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder='Write your complaint here...'
+        style={{
+          width: '100%',
+          padding: '10px',
+          borderRadius: '8px',
+          border: '1px solid #ccc',
+          marginBottom: '16px',
+          minHeight: '100px'
+        }}
+      />
+      <button
+        onClick={handleSubmit}
+        style={{ backgroundColor: '#27445D', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold' }}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
