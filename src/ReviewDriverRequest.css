@@ -4,31 +4,20 @@ body {
     background: linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%);
     min-height: 100vh;
 }
+
 .review-page {
     display: flex;
-    justify-content: center; /* Horizontally center */
-    gap: 10px;
-    padding: 110px 20px 40px; /* Push down below navbar */
-    box-sizing: border-box;
+    justify-content: center;   /* ✅ This horizontally centers */
+    padding-top: 110px;
+    padding-bottom: 40px;
 }
 
-.box-left, .box-right {
+
+.box-left {
     background-color: white;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     padding: 30px;
-}
-
-.box-left {
-    width: 900px;
-    height: 500px;
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .buttons-bottom {
@@ -64,11 +53,6 @@ body {
 }
 
 
-.box-large h2,
-.box-small h3 {
-    margin-bottom: 15px;
-}
-
 .review-btn {
     padding: 10px 16px;
     margin-right: 10px;
@@ -85,12 +69,7 @@ body {
     background-color: #3d5a6c;
 }
 
-.action-buttons {
-    margin-top: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
+
 
 #complaint-description {
     border-color: #282c34;
@@ -101,36 +80,48 @@ body {
     padding: 110px 30px;
     border-radius: 12px;
     box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
-
     margin-bottom: 20px;
 
 }
 
 .buttons-bottom {
     display: flex;
-    justify-content: left;
-    gap: 15px;
-    margin-top: 10px;
-}
-.section-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
+    justify-content: center;   /* ✅ centers the buttons horizontally */
+    gap: 16px;                 /* space between buttons */
+    margin-top: 30px;
 }
 
+
+.section-wrapper {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+
+
 .section {
-    padding: 0 0 10px;
-    border-bottom: 1px solid #ccc;
-    width: 900px;
+    width: 100%; /* ✅ Makes sure it fills the entire parent */
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
+.page-title {
+    margin-top: 0;
+    margin-bottom: 10px;   /* ✅ closer to bottom section */
+    padding-top: 10px;     /* ✅ optional: push it slightly from card top */
+    font-size: 1.8rem;
+
+}
+
+
 .info-row {
-    display: flex;
-    justify-content: space-between;
     padding: 4px 0;
-    font-size: 1rem;
 }
+
 
 .label {
     font-weight: 500;
@@ -150,5 +141,41 @@ body {
     padding-left: 40px; /* Adjust the value as needed */
     margin-bottom: 10px;
 }
+.last{
+    border-bottom: none;
+}
+
+.download-link {
+    color: #497d74;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.download-link:hover {
+    text-decoration: none;
+}
+.section-divider {
+    width: 100%;                  /* Adjust this to match your card's content width */
+    max-width: 800px;            /* Matches the content max width */
+    margin: 30px auto 20px auto; /* ✅ Centers the line */
+    border: none;
+    border-top: 1px solid #ccc;
+}
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 
 

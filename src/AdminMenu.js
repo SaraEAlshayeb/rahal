@@ -56,7 +56,7 @@ function AdminMenu() {
                     <img src="/ApproveDriver.png" alt="Admin 1" className="admin-img" />
                     <div className="admin-box" id="box3">
                         <br/>
-                        <h3>Approve Driver Requests</h3>
+                        <h3>Manage Driver Requests</h3>
                         <br/><br/>
                         <p>Review and approve driver applications by verifying licenses, vehicle registration.</p>
                         <button className="admin-btn" onClick={() => navigate('/approve-drivers')}>Start</button>
@@ -67,9 +67,9 @@ function AdminMenu() {
                 <div className="admin-card">
                     <div className="admin-box" id="box4">
                         <br/>
-                        <h3>Manage Profile</h3>
+                        <h3>Manage Users' Profiles</h3>
                         <br/><br/>
-                        <p>Description</p>
+                        <p>View,and manage user profiles including personal information, account status, and access permissions.</p>
                         <button className="admin-btn" onClick={() => navigate('/manage-profile')}>Start</button>
 
                     </div>
