@@ -4,10 +4,10 @@ import { useLocation } from 'react-router-dom';
 function Profile() {
     const location = useLocation();
     const user = location.state || {
-        name: "Unknown User",
-        email: "N/A",
-        phone: "N/A",
-        memberSince: "N/A",
+        name: "Farah",
+        email: "farah@kfupm.edu.sa",
+        phone: "0138495672",
+        memberSince: "May 2024",
         img: "/profile.png"
     };
 

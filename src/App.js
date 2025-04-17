@@ -27,6 +27,8 @@ import Verified from './Verified';
 import ManageProfiles from "./ManageProfiles";
 import ReviewDriverRequest from './ReviewDriverRequest';
 import Checkout from './Checkout';
+import Driver from './Driver';
+import VerifyDriver from './VerifyDriver';
 
 function App() {
   return (
@@ -65,6 +67,11 @@ function MainLayout() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/manage-profile" element={<ManageProfiles />} />
         <Route path="/review-driver" element={<ReviewDriverRequest />} />
+        <Route path="/Driver" element={<Driver />} />
+        <Route path="/VerifyDriver" element={<VerifyDriver />} />
+
+
+
 
       </Routes>
     </>

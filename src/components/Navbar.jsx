@@ -27,6 +27,9 @@ function Navbar() {
                 <NavLink to="/history" className="nav-link" activeClassName="active">
                     Rides
                 </NavLink>
+                <NavLink to="/Driver" className="nav-link" activeClassName="active">
+                    Start Driving
+                </NavLink>
 
             </div>
             <div className="icon-group">
