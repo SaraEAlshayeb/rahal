@@ -25,6 +25,10 @@ import ReviewComplaint from './ReviewComplaint';
 import EditCommunity from './EditCommunity';
 import Verified from './Verified';
 import ManageProfiles from "./ManageProfiles";
+import ReviewDriverRequest from './ReviewDriverRequest';
+import Checkout from './Checkout';
+import Driver from './Driver';
+import VerifyDriver from './VerifyDriver';
 
 function App() {
   return (
@@ -36,7 +40,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
-  const hideNavbarOn = ['/login', '/register', '/adminmen'];
+  const hideNavbarOn = ['/login', '/register', '/adminmenu','/review-driver',"/manage-profile","/approve-drivers","/manage-communities"];
 
   return (
     <>
@@ -48,6 +52,7 @@ function MainLayout() {
         <Route path="/home" element={<Home />} />
         <Route path="/community" element={<Community />} />
         <Route path="/book-ride" element={<BookRide />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/post-ride" element={<PostRide />} />
         <Route path="/history" element={<History />} />
         <Route path="/notifications" element={<Notification />} />
@@ -61,6 +66,12 @@ function MainLayout() {
         <Route path="/verified" element={<Verified />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/manage-profile" element={<ManageProfiles />} />
+        <Route path="/review-driver" element={<ReviewDriverRequest />} />
+        <Route path="/Driver" element={<Driver />} />
+        <Route path="/VerifyDriver" element={<VerifyDriver />} />
+
+
+
 
       </Routes>
     </>

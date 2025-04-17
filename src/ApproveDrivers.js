@@ -78,6 +78,9 @@ function ApproveDrivers() {
                         <option value="oldest">Oldest</option>
                     </select>
                 </div>
+                <div className="apply-group">
+                    <button className="btn btn-filled">Apply</button>
+                </div>
             </div>
 
 
@@ -96,12 +99,7 @@ function ApproveDrivers() {
                         </div>
 
                         <div className="item-buttons">
-                            <button className="btn btn-outline" onClick={() => handleDismiss(complaint.id)}>
-                                Dismiss
-                            </button>
-                            <button className="btn btn-filled" onClick={() => handleDismiss(complaint.id)}>
-                                Approve
-                            </button>
+
                             <button className="btn btn-filled" onClick={() => navigate('/review-driver')}>
                                 Review
                             </button>

@@ -1,9 +1,23 @@
 import React from 'react';
 import './ReviewComplaint.css';
-import { useNavigate } from 'react-router-dom';
+import {  useLocation,useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function ReviewComplaint() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const complaintId = location.state?.id;
+
+    const handleResolved = () => {
+        const stored = JSON.parse(localStorage.getItem('complaints')) || [];
+
+        const updated = stored.filter(c => c.id !== complaintId);
+
+        localStorage.setItem('complaints', JSON.stringify(updated));
+
+        navigate('/complaints'); // Go back to main list
+    };
+
 
     return (
         <div className="review-page">
@@ -21,7 +35,8 @@ function ReviewComplaint() {
                 </div>
 
                 <div className="buttons-bottom">
-                    <button className="btn btn-filled">Resolved</button>
+                    <button className="btn btn-filled" onClick={handleResolved}>Resolved</button>
+
                     <button className="btn btn-outline" onClick={() => navigate('/complaints')}>
                         Back to Complaints
                     </button>

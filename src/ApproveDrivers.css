@@ -117,3 +117,11 @@ body {
     font-size: 1rem;
     background-color: #f9f9f9;
 }
+.apply-group {
+    display: flex;
+    align-items: flex-end; /* aligns the button with the bottom of inputs */
+}
+.apply-group button {
+    height: 40px;
+    white-space: nowrap;
+}

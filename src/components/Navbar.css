@@ -4,6 +4,7 @@
     height: 60px;
     position: fixed;
     width: 100%;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between; /* Puts space between the first and last items */
@@ -13,14 +14,14 @@
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
 }
 
 .logo-container img {
     height: 40px;
+    margin: 0px;
 }
 
-/* Menu container styling (centered) */
 .menu {
     position: absolute;
     left: 50%;

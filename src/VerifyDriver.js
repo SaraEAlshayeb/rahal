@@ -8,9 +8,7 @@ function VerifyDriver() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundImage: "url('/PageBackground.png')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                background: "linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
                 height: "100vh",
                 padding: "2rem"
             }}
