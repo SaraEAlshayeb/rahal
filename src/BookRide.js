@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BookRide = () => {
@@ -7,8 +7,16 @@ const BookRide = () => {
   const [date, setDate] = useState('');
   const [filtered, setFiltered] = useState(null);
   const [error, setError] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const navigate = useNavigate();
+
+  // لتحديث حالة الجوال تلقائيًا عند تغيير حجم الشاشة
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const rides = [
     {
@@ -109,38 +117,60 @@ const BookRide = () => {
           <div key={ride.id}
             style={{
               ...rideCardStyle,
+              flexDirection: isMobile ? 'column' : 'row',
+              alignItems: isMobile ? 'flex-start' : 'center',
               transition: 'all 0.3s ease',
               cursor: 'pointer'
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            <img src={ride.image} alt="car" style={{
-              width: '225px',
-              height: 'auto',
-              borderRadius: '10px',
-              objectFit: 'cover'
-            }} />
-
-            <div style={{ flex: 1 }}>
-              <h3 style={{ color: '#27445D', margin: '0 0 10px 0', letterSpacing: '0.5px' }}>{ride.vehicle}</h3>
-              <p style={cardInfo}>From: {ride.from} &nbsp; | &nbsp; To: {ride.to}</p>
-              <p style={cardInfo}>{ride.date} &nbsp; | &nbsp; {ride.time}</p>
-              <p style={cardInfo}>{ride.transmission} &nbsp; | &nbsp; {ride.seats} seats</p>
+            {/* Row 1: Image + Vehicle Name */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              width: isMobile ? '100%' : 'auto'
+            }}>
+              <img src={ride.image} alt="car" style={{
+                width: '100px',
+                height: 'auto',
+                borderRadius: '10px',
+                objectFit: 'cover',
+                flexShrink: 0
+              }} />
+              <h3 style={{
+                color: '#27445D',
+                margin: 0,
+                fontSize: '18px',
+                letterSpacing: '0.5px'
+              }}>{ride.vehicle}</h3>
             </div>
 
+            {/* Row 2: Ride Info */}
             <div style={{
-              position: 'absolute',
-              bottom: '20px',
-              right: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-              textAlign: 'right'
+              marginTop: isMobile ? '10px' : '0',
+              fontSize: '14px'
             }}>
-              <span style={{ color: 'green', fontSize: '14px', fontWeight: '600' }}>40% off</span>
-              <span style={{ fontSize: '18px', fontWeight: 'bold' }}>SAR 54.72</span>
-              <span style={{ fontSize: '14px', color: '#444', textDecoration: 'line-through' }}>SAR 74.72</span>
+              <p style={cardInfo}>From: {ride.from} | To: {ride.to}</p>
+              <p style={cardInfo}>{ride.date} | {ride.time}</p>
+              <p style={cardInfo}>{ride.transmission} | {ride.seats} seats</p>
+            </div>
+
+            {/* Row 3: Price + Button */}
+            <div style={{
+              marginTop: isMobile ? '12px' : '0',
+              width: isMobile ? '100%' : 'auto',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginLeft: isMobile ? '0' : 'auto'
+            }}>
+              <div>
+                <span style={{ color: 'green', fontSize: '14px', fontWeight: '600' }}>40% off</span><br />
+                <span style={{ fontSize: '18px', fontWeight: 'bold' }}>SAR 54.72</span><br />
+                <span style={{ fontSize: '14px', color: '#444', textDecoration: 'line-through' }}>SAR 74.72</span>
+              </div>
               <button
                 style={bookButtonStyle}
                 onClick={() => navigate('/checkout')}
@@ -194,8 +224,10 @@ const bookButtonStyle = {
   cursor: 'pointer',
   fontFamily: 'Arial, sans-serif',
   marginTop: '6px',
+  marginLeft: '12px',  // ✅ جديد: يفصل الزر عن السعر بالديسكتوب
   transition: 'background 0.3s ease'
 };
+
 
 const cardInfo = {
   color: '#000000',
@@ -207,17 +239,15 @@ const cardInfo = {
 
 const rideCardStyle = {
   display: 'flex',
-  gap: '20px',
+  gap: '16px',
   padding: '20px',
   borderRadius: '14px',
-  backgroundColor: '#ffff',
+  backgroundColor: '#fff',
   border: '1px solid #D0ECEC',
   marginBottom: '20px',
   boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-  alignItems: 'flex-start',
-  position: 'relative'
+  position: 'relative',
+  flexWrap: 'wrap'
 };
 
 export default BookRide;
-
-

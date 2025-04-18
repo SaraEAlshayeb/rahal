@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Rahal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Rahal** is a smart, all-in-one ride-sharing web app built for anyone who needs flexible and affordable intercity travel. With one account, users can instantly switch between being a driver or a passenger — no separate signups, no hassle.
 
-## Available Scripts
+Plan your next trip in seconds: post a ride, book a seat, join local communities, and stay connected. Rahal makes traveling not only cheaper but smarter, safer, and more social.
 
-In the project directory, you can run:
+Admins get powerful tools to manage users, verify drivers, and keep the platform running smooth and secure.
 
-### `npm start`
+Whether you're heading home for the weekend or offering an empty seat, Rahal turns every ride into an opportunity.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Project Motivation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Many university students struggle with limited transportation options between cities. **Rahal** solves this by allowing ride-sharing within a safe, verified platform, helping reduce costs and increase flexibility. It primarily serves:
 
-### `npm test`
+- 🎓 Students
+- 👩‍💼 Professionals
+- 🚗 Individuals looking to reduce commute expenses
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 👥 Users
 
-### `npm run build`
+- **Users (Drivers & Passengers)**: Each user account supports posting rides (as a driver) and booking rides (as a passenger). Users can approve ride requests, chat, rate others,and view ride history.
+- **Admins**: Manage users, complaints, and approve driver applications.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ⚙️ Setup and Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the Repository**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/SaraEAlshayeb/rahal.git
+cd rahal
+```
 
-### `npm run eject`
+2. **Install Dependencies**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+npm install react-router-dom
+npm install react-icons
+npm install react-bootstrap bootstrap
+npm install @fortawesome/fontawesome-free
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **Run the Application**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🎨 Figma Design
 
-## Learn More
+[View UI Wireframes](<https://www.figma.com/design/o0IxUTauWMydf7WZRRJtYq/Responsive-Landing-Page-Design-%7C-Website-Home-Page-Design-%7C-Agency-Website-UI-Design-(Community)?node-id=307-878&p=f&t=pSSY4bjB1SZn3t1f-0>)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 👩‍💻 Authors
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Reema Alghamdi
+- Farah Almutairi
+- Sara Alshayeb
+- Lamyaa Alyousef
+- Sara Alshallali

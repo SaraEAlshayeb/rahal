@@ -54,7 +54,8 @@ function Checkout() {
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              flexWrap: 'wrap'
             }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img src="/applepay.png" alt="Apple Pay" style={{ height: '38px', marginRight: '12px' }} />
@@ -66,7 +67,9 @@ function Checkout() {
                   border: 'none',
                   color: '#27445D',
                   cursor: 'pointer',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  fontSize: '15px',
+                  marginTop: '10px'
                 }}>
                 Change
               </button>
@@ -82,7 +85,8 @@ function Checkout() {
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              flexWrap: 'wrap'
             }}>
               <input
                 type="text"
@@ -92,7 +96,8 @@ function Checkout() {
                   fontSize: '16px',
                   backgroundColor: 'transparent',
                   flex: 1,
-                  outline: 'none'
+                  outline: 'none',
+                  minWidth: '180px'
                 }}
               />
               <button
@@ -102,7 +107,8 @@ function Checkout() {
                   border: 'none',
                   color: '#27445D',
                   fontWeight: '500',
-                  marginLeft: '15px',
+                  marginTop: '10px',
+                  fontSize: '15px',
                   cursor: 'pointer'
                 }}>
                 Apply
@@ -131,12 +137,8 @@ function Checkout() {
                 border: 'none',
                 borderRadius: '8px',
                 fontSize: '16px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={e => e.target.style.opacity = '0.9'}
-              onMouseOut={e => e.target.style.opacity = '1'}
-            >
+                cursor: 'pointer'
+              }}>
               Confirm Booking
             </button>
           </div>
@@ -176,12 +178,8 @@ function Checkout() {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={e => e.target.style.opacity = '0.9'}
-              onMouseOut={e => e.target.style.opacity = '1'}
-            >
+                cursor: 'pointer'
+              }}>
               Track Ride
             </button>
           </div>

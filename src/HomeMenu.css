@@ -1,36 +1,58 @@
-.user-wrapper {
+/* HomeMenu.css */
+
+.user-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .user-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: Tahoma, sans-serif;
+    color: #27445d;
+  }
+  
+  .user-header p {
+    font-size: 1.1rem;
+    color: #555;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .user-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 60px 20px;
-}
-
-.user-card {
+  }
+  
+  .user-card {
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 900px;
     max-width: 100%;
     gap: 30px;
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.user-card.show {
+  }
+  
+  .user-card.show {
     opacity: 1;
     transform: translateY(0);
-}
-
-.user-img {
+  }
+  
+  .user-img {
     width: 180px;
     height: 200px;
     border-radius: 20px;
     object-fit: cover;
     flex-shrink: 0;
-}
-
-.user-box {
+  }
+  
+  .user-box {
     flex: 1;
     padding: 20px;
     border-radius: 20px;
@@ -40,56 +62,37 @@
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.58);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.user-box:hover {
+  }
+  
+  .user-box:hover {
     transform: scale(1.03);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-}
-
-.user-box h3 {
+  }
+  
+  .user-box h3 {
     margin: 0 0 10px 0;
     font-size: 1.3rem;
-}
-
-.user-box p {
+  }
+  
+  .user-box p {
     margin: 0;
     font-size: 1rem;
-}
-
-#box1 {
+  }
+  
+  #box1 {
     background-color: #27445d;
-}
-#box2 {
+  }
+  #box2 {
     background-color: #497D74;
-}
-#box3 {
+  }
+  #box3 {
     background-color: #71BBB2;
-}
-#box4 {
+  }
+  #box4 {
     background-color: #27445d;
-}
-
-.user-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.user-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-family: Tahoma, sans-serif;
-    color: #27445d;
-}
-
-.user-header p {
-    font-size: 1.1rem;
-    color: #555;
-    font-family: 'Courier New', monospace;
-}
-
-.user-btn {
+  }
+  
+  .user-btn {
     padding: 8px 20px;
     background-color: transparent;
     border: 1px solid white;
@@ -101,9 +104,57 @@
     align-self: flex-start;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-top: 15px;
-}
-
-.user-btn:hover {
+  }
+  
+  .user-btn:hover {
     background-color: white;
     color: #333;
-}
+  }
+  
+  /* Responsive fixes */
+  @media (max-width: 768px) {
+    .user-card {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: 95%;
+    }
+  
+    .user-img {
+      width: 130px;
+      height: 150px;
+    }
+  
+    .user-box {
+      padding: 16px;
+    }
+  
+    .user-box h3 {
+      font-size: 1.1rem;
+    }
+  
+    .user-box p {
+      font-size: 0.95rem;
+    }
+  
+    .user-btn {
+      font-size: 0.85rem;
+      padding: 6px 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .user-card {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    .user-img {
+      width: 100px;
+      height: 110px;
+    }
+  
+    .user-box {
+      padding: 10px;
+    }
+  }
+  
