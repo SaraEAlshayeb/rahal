@@ -30,7 +30,7 @@ function AdminMenu() {
 
                     </div>
                 </div>
-
+              
                 {/* Card 2: box left, image right */}
                 <div className="admin-card">
                     <div className="admin-box" id="box2">

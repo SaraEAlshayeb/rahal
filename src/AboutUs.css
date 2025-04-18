@@ -200,3 +200,224 @@ body, html {
     opacity: 1;
     transform: translateY(0);
 }
+.aboutus-hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: #2E7463;
+    margin-left: 10px;
+  }
+  
+  .aboutus-mobile-menu {
+    display: none; /* default hidden unless menuOpen = true */
+  }
+/* Mobile Responsiveness for About Us Page */
+@media (max-width: 768px) {
+     .aboutus-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: white;
+        padding: 10px 20px;
+        height: auto;
+        color: #2E7463;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      } 
+     
+      .aboutus-navbar-center {
+        display: flex;
+        gap: 32px;
+      }
+      
+      .aboutus-nav-link {
+        color: #2E7463;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .aboutus-nav-link::after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 2px;
+        background: #2E7463;
+        transition: width 0.3s ease;
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+      }
+      
+      .aboutus-nav-link:hover {
+        color: #1e5248;
+      }
+      
+      .aboutus-nav-link:hover::after {
+        width: 100%;
+      }
+      
+      .aboutus-login-button {
+        border: 2px solid #2E7463;
+        padding: 8px 16px;
+        border-radius: 6px;
+        background: none;
+        font-weight: bold;
+        color: #2E7463;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .aboutus-login-button:hover {
+        background-color: #2E7463;
+        color: white;
+      }
+    
+      .aboutus-navbar-logo {
+        height: 36px;
+      }
+      .aboutus-navbar-center,
+      .aboutus-navbar-right {
+        display: none;
+      }
+    
+      .aboutus-hamburger {
+        display: block;
+        font-size: 26px;
+        cursor: pointer;
+        color: #2E7463;
+        margin-left: 10px;
+      }
+    
+    
+      .aboutus-mobile-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: white;
+        padding: 10px 20px;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+      }
+      
+
+      .aboutus-mobile-menu .aboutus-nav-link {
+        color: #2E7463;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1rem;
+      }
+    
+       .aboutus-mobile-menu .aboutus-login-button {
+        border: 2px solid #2E7463;
+        color: #2E7463;
+        background: none;
+        font-weight: bold;
+        padding: 8px 16px;
+        cursor: pointer;
+      } 
+    
+      .aboutus-mobile-menu .aboutus-login-button:hover {
+        background-color: #2E7463;
+        color: white;
+      }
+    
+      /* Hero Section */
+      .aboutus-hero-section {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+      }
+    
+      .aboutus-hero-image {
+        height: auto;
+        max-height: 300px;
+        object-fit: cover;
+      }
+    
+      .aboutus-hero-text {
+        position: static;
+        transform: none;
+        padding: 20px;
+        text-align: center;
+        color: #2E7463;
+      }
+    
+      .aboutus-hero-text h1 {
+        font-size: 1.8rem;
+        text-align: center;
+      }
+    
+      .aboutus-hero-text p {
+        font-size: 1rem;
+        text-align: center;
+        color: #2E7463;
+      }
+    
+      .aboutus-hero-buttons-inline {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+    
+      .aboutus-login-btn {
+        width: 100%;
+        max-width: 200px;
+        color: #2E7463;
+        border: 2px solid #2E7463;
+        background-color: transparent;
+        font-weight: bold;
+      }
+    
+      .aboutus-login-btn:hover {
+        background-color: #2E7463;
+        color: white;
+      }
+    
+      .aboutus-register-inline {
+        font-size: 0.9rem;
+        text-align: center;
+        color: #2E7463;
+      }
+    
+      .aboutus-register-inline a {
+        color: #2E7463;
+        font-weight: bold;
+      }
+    
+      /* Why Us Section */
+      .aboutus-why-us-section {
+        padding: 40px 20px;
+      }
+    
+      .aboutus-why-us-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+    
+      .aboutus-card {
+        width: 100%;
+        max-width: 300px;
+        margin: 0;
+        padding: 20px;
+      }
+    
+      /* Quote Section */
+      .aboutus-quote-section {
+        padding: 40px 20px;
+      }
+    
+      .aboutus-quote-section blockquote {
+        font-size: 1.1rem;
+      }
+    
+      .aboutus-author {
+        font-size: 0.9rem;
+      }
+    }

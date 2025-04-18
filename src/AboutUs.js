@@ -7,6 +7,8 @@ function AboutUs() {
     const [showHero, setShowHero] = useState(false);
     const [showWhyUs, setShowWhyUs] = useState(false);
     const [showQuote, setShowQuote] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+
 
     useEffect(() => {
         setTimeout(() => setShowHero(true), 300);
@@ -19,6 +21,7 @@ function AboutUs() {
             <nav className="aboutus-navbar">
                 <div className="aboutus-navbar-left">
                     <img src="/Rahal.png" alt="Logo" className="aboutus-navbar-logo" />
+                    <div className="aboutus-hamburger" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
                 </div>
 
                 <div className="aboutus-navbar-center">
@@ -32,6 +35,22 @@ function AboutUs() {
                         Login
                     </button>
                 </div>
+                {/* Mobile menu only */}
+                {menuOpen && (
+          <div className="aboutus-mobile-menu">
+            <a href="#hero" className="aboutus-nav-link" onClick={() => setMenuOpen(false)}>Home</a>
+            <a href="#why-us" className="aboutus-nav-link" onClick={() => setMenuOpen(false)}>Why Us</a>
+            <a href="#about" className="aboutus-nav-link" onClick={() => setMenuOpen(false)}>About</a>
+            <button
+              className="aboutus-login-button"
+              onClick={() => {
+                setMenuOpen(false);
+                navigate('/login');
+              }}>
+              Login
+            </button>
+          </div>
+        )}
             </nav>
 
             {/* Hero Section */}

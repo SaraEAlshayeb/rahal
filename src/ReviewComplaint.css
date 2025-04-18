@@ -120,4 +120,38 @@ body {
     gap: 15px;
     margin-top: 10px;
 }
-
+@media (max-width: 768px) {
+    .review-page {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+    }
+  
+    .box-left,
+    .box-right {
+      width: 100%;
+      height: auto;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+  
+    .buttons-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+  
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .description-box {
+      padding: 20px;
+    }
+  }
+  
+  
+  
