@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
-import './ManageProfiles.css'
+import { Button, Modal, Container, Row, Col } from "react-bootstrap";
+import './ManageProfiles.css';
 
 function ManageProfiles() {
     const [showModal, setShowModal] = useState(false);
     const [activeUserName, setActiveUserName] = useState('');
-    const [suspendedUsers, setSuspendedUsers] = useState([]); // New state
+    const [suspendedUsers, setSuspendedUsers] = useState([]);
     const navigate = useNavigate();
 
     const userProfiles = [
@@ -26,7 +26,7 @@ function ManageProfiles() {
     const handleSuspendClick = (userName) => {
         setActiveUserName(userName);
         setShowModal(true);
-        setSuspendedUsers(prev => [...prev, userName]); // Add to suspended list
+        setSuspendedUsers(prev => [...prev, userName]);
     };
 
     const viewProfile = (user) => {
@@ -34,118 +34,57 @@ function ManageProfiles() {
     };
 
     return (
-        <div className="body" style={{ paddingTop: "60px", height: "150vh" }}>
-            <div style={{ display: "flex", margin: "20px", flexDirection: "column", alignItems: "center" }}>
-                <h2 style={{ marginBottom: "0px" }}>Manage User Profiles</h2>
+        <div className="body py-5">
+            <div className="text-center mb-4">
+                <h2>Manage User Profiles</h2>
                 <p>View or suspend user accounts within your community.</p>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <div style={{
-                    marginTop: "15px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    columnGap: "40px",
-                    rowGap: "50px",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    width: "800px"
-                }}>
+            <Container  style={{ maxWidth: "800px"}}>
+                <Row className="justify-content-center g-4" >
                     {userProfiles.map((user, index) => {
                         const isSuspended = suspendedUsers.includes(user.name);
 
                         return (
-                            <div className="profileContainer" key={index}>
-                                <img
-                                    style={{
-                                        borderColor: "lightgray",
-                                        borderStyle: "solid",
-                                        borderWidth: "2px",
-                                        borderRadius: "50%",
-                                        height: "100px",
-                                        position: "relative",
-                                        top: "40px"
-                                    }}
-                                    src={user.img}
-                                    alt="user"
-                                />
-                                <div style={{
-                                    backgroundColor: "whitesmoke",
-                                    marginTop: "66px",
-                                    width: "220px",
-                                    height: "50px",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "space-between"
-                                }}>
-                                    <div style={{ padding: "10px" }}>
-                                        <p style={{
-                                            color: "black",
-                                            fontSize: "12px",
-                                            marginBottom: "0px",
-                                            marginLeft: "5px"
+                            <Col key={index} xs={12} sm={6} md={4} lg={4} className="d-flex justify-content-center p-2">
+                                <div className="profileContainer">
+                                    <img
+                                        className="profileImage"
+                                        src={user.img}
+                                        alt="user"
+                                    />
+                                    <div className="profileDetails">
+                                        <div className="p-2">
+                                            <p className="mb-1"><strong>Name:</strong> {user.name}</p>
+                                        </div>
+                                        <div style={{
+                                            display: "flex",
+                                            width: "100%",
+                                            borderTop: "1px solid #ccc"
                                         }}>
-                                            <strong>Name:</strong> {user.name}
-                                        </p>
-                                    </div>
+                                            <button
+                                                onClick={() => viewProfile(user)}
+                                                className="btn btnLeft"
+                                            >
+                                                View
+                                            </button>
 
-                                    <div style={{
-                                        display: "flex",
-                                        width: "100%",
-                                        borderTop: "1px solid #ccc"
-                                    }}>
-                                        <button
-                                            onClick={() => viewProfile(user)}
-                                            style={{
-                                                flex: 1,
-                                                padding: "8px 0",
-                                                fontSize: "11.5px",
-                                                border: "none",
-                                                backgroundColor: "#497D74",
-                                                color: "white",
-                                                cursor: "pointer",
-                                                borderBottomLeftRadius: "7px",
-                                                transition: "background-color 0.2s ease"
-                                            }}
-                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#3a655d"}
-                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#497D74"}
-                                        >
-                                            View
-                                        </button>
-
-                                        <div style={{ width: "1px", backgroundColor: "lightgray" }} />
-
-                                        <button
-                                            onClick={() => handleSuspendClick(user.name)}
-                                            disabled={isSuspended}
-                                            style={{
-                                                flex: 1,
-                                                padding: "8px 0",
-                                                fontSize: "11.5px",
-                                                border: "none",
-                                                backgroundColor: isSuspended ? "gray" : "#497D74",
-                                                color: "white",
-                                                cursor: isSuspended ? "not-allowed" : "pointer",
-                                                borderBottomRightRadius: "7px",
-                                                transition: "background-color 0.2s ease"
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                if (!isSuspended) e.currentTarget.style.backgroundColor = "#3a655d"
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                if (!isSuspended) e.currentTarget.style.backgroundColor = "#497D74"
-                                            }}
-                                        >
-                                            {isSuspended ? "Suspended" : "Suspend User"}
-                                        </button>
+                                            <div style={{ width: "1px", backgroundColor: "lightgray" }} />
+                                            <button
+                                                onClick={() => handleSuspendClick(user.name)}
+                                                disabled={isSuspended}
+                                                className={`btn btnRight ${isSuspended ? 'btn-secondary' : 'btn btnRight'}`}
+                                            >
+                                                {isSuspended ? "Suspended" : "Suspend User"}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Col>
                         );
                     })}
-                </div>
-            </div>
+                </Row>
+            </Container>
 
             <Modal show={showModal} onHide={handleClose} centered>
                 <Modal.Header closeButton>
