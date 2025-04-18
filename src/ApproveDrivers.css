@@ -125,3 +125,55 @@ body {
     height: 40px;
     white-space: nowrap;
 }
+@media (max-width: 768px) {
+    .search-filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      padding: 20px;
+    }
+  
+    .search-group,
+    .filter-group,
+    .apply-group {
+      width: 100%;
+    }
+  
+    .apply-group {
+      display: flex;
+      justify-content: flex-end;
+    }
+  
+    .apply-group button {
+      width: 100%;
+      height: 40px;
+      font-size: 1rem;
+    }
+  
+    .item-box {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px;
+    }
+  
+    .item-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+  
+    .item-buttons {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  

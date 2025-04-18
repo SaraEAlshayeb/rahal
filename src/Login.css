@@ -252,53 +252,61 @@ body {
 }
 @media (max-width: 768px) {
   .login-wrapper {
-    padding: 20px 12px;
+    height: 100vh;
+    padding: 16px 12px;
     justify-content: flex-start;
   }
 
   .Register-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     text-align: center;
   }
 
   .subtitle {
-    font-size: 0.85rem;
-    margin-top: 8px;
+    font-size: 0.8rem;
+    margin-top: 6px;
     text-align: center;
   }
 
   .register-form {
-    padding: 16px;
-    border-radius: 8px;
+    padding: 14px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 360px;
     box-sizing: border-box;
   }
 
   .register-form label {
     font-size: 0.75rem;
+    margin-bottom: 3px;
   }
 
   .register-form input,
   .register-form select {
     font-size: 0.8rem;
-    padding: 8px;
-    height: auto;
+    padding: 7px;
+    height: 32px;
   }
 
   .button-container {
-    padding: 0 10px;
+    padding: 0 6px;
+    margin-top: 12px;
   }
 
   .button-container button {
     width: 100%;
-    font-size: 0.9rem;
-    padding: 10px;
+    font-size: 0.85rem;
+    padding: 10px 0;
   }
 
   .register-link {
     font-size: 0.75rem;
     margin-top: 10px;
+    text-align: center;
   }
 }
+
+
 
 @media (max-width: 768px) {
 
