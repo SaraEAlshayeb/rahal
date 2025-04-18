@@ -1,5 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import './Profile.css';
+
+
 
 function Profile() {
     const location = useLocation();
@@ -16,6 +19,7 @@ function Profile() {
     return (
         <div style={{
             background: "linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
+            className: "profile-banner",
             minHeight: '100vh',
             paddingTop: '40px',
             fontFamily: 'Segoe UI, sans-serif',
@@ -37,6 +41,7 @@ function Profile() {
                     src={user.img || "/profile.png"}
                     alt="Profile"
                     style={{
+                        className:"profile-image",
                         width: '90px',
                         height: '90px',
                         borderRadius: '50%',
@@ -51,6 +56,7 @@ function Profile() {
             {/* Info Section */}
             <div style={{
                 maxWidth: '500px',
+                className: "profile-details-box",
                 margin: '30px auto 40px',
                 backgroundColor: 'white',
                 borderRadius: '16px',
@@ -77,6 +83,7 @@ function Profile() {
                 {/* Buttons */}
                 <div style={{
                     marginTop: '24px',
+                    className: "profile-buttons",
                     display: 'flex',
                     justifyContent: "flex-end",
                     gap: '10px'
