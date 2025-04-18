@@ -250,4 +250,53 @@ body {
   color: #2c3e50;
   margin: 0 0 6px 0;
 }
+@media (max-width: 768px) {
+  .login-wrapper {
+    padding: 20px 12px;
+    justify-content: flex-start;
+  }
+
+  .Register-title {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .register-form {
+    padding: 16px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .register-form label {
+    font-size: 0.75rem;
+  }
+
+  .register-form input,
+  .register-form select {
+    font-size: 0.8rem;
+    padding: 8px;
+    height: auto;
+  }
+
+  .button-container {
+    padding: 0 10px;
+  }
+
+  .button-container button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .register-link {
+    font-size: 0.75rem;
+    margin-top: 10px;
+  }
+}
 

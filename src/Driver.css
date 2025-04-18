@@ -14,17 +14,19 @@
 
 .driver-form-wrapper {
     padding: 1rem;
-    margin-top: 80px;
+    margin-top: 40px;
     border-radius: 20px;
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     gap: 1rem;
-    min-width: 300px;
-    display: flex; /* Make wrapper a flex container */
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally within the wrapper */
-    width: 965px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    max-width: 965px; /* allow shrinking on small screens */
 }
+
 
 .driver-form {
     display: flex;

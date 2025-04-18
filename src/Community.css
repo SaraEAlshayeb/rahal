@@ -1,6 +1,6 @@
 .body {
     margin: 0;
-    font-family: Arial, sans-serif; 
+    font-family: Arial, sans-serif;
     background: linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%);
     min-height: 100vh;
     padding-top: 70px;

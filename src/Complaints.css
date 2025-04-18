@@ -141,7 +141,57 @@ body {
     height: 40px;
     white-space: nowrap;
 }
-
+@media (max-width: 768px) {
+    .search-filter-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px;
+      gap: 12px;
+    }
+  
+    .search-group,
+    .filter-group,
+    .apply-group {
+      width: 100%;
+    }
+  
+    .apply-group {
+      display: flex;
+      justify-content: flex-end;
+    }
+  
+    .apply-group button {
+      width: 100%;
+      height: 40px;
+      font-size: 1rem;
+    }
+  
+    .item-box {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px;
+    }
+  
+    .item-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .item-buttons {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      gap: 10px;
+    }
+  
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
 
 
 

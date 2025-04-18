@@ -8,11 +8,6 @@ function AdminMenu() {
 
     return (
         <div>
-            <div className="admin-toolbar">
-                <img src="/Rahal_Logo.png" alt="Logo" className="toolbar-logo" />
-                <span className="logout-text">Logout</span>
-            </div>
-
 
             <div className="admin-header">
                 <br/><br/><br/>
