@@ -36,9 +36,9 @@ function Navbar() {
   {/* Notification */}
   <Link to="/notifications">
     <button className="notification-button">
-      <img src="/1.png" // your image path
-           alt="Profile"
-           style={{ height: '28px', width: '28px' }}src="/2.png" alt="notification" />
+      <img src="/2.png" // your image path
+           alt="notification"
+           style={{ height: '28px', width: '28px' }}  />
     </button>
   </Link>
 

@@ -1,13 +1,10 @@
 import React from 'react';
 import './AdminMenu.css';
-import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 
 function AdminMenu() {
     const navigate = useNavigate();
-    <button className="admin-btn" onClick={() => navigate('/manage-communities')}>Start</button>
-
 
     return (
         <div>
