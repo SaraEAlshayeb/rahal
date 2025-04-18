@@ -19,7 +19,7 @@ function Login() {
       localStorage.setItem("userEmail", email);
 
       if (email === 'admin@hotmail.com') {
-          navigate('/adminmenu');
+          navigate('/AdminMenu');
       } else {
           navigate('/home');
       }

@@ -1,85 +1,79 @@
-.about-page {
+.aboutus-about-page {
     font-family: 'Tahoma', sans-serif;
     color: #333;
     line-height: 1.6;
 }
 
 /* Section 1 */
-.hero-section {
+.aboutus-hero-section {
     position: relative;
     width: 100%;
-    height: 60vh;
+    height: 65vh;
     overflow: hidden;
 }
 
-.hero-section .hero-image {
+.aboutus-hero-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
-
-
-
 /* Section 2 */
-.why-us-section {
+.aboutus-why-us-section {
     background-color: rgb(244, 239, 225);
     padding: 60px 40px;
     text-align: center;
-    color: #4CAF50;
 }
 
-.why-us-section h2 {
+.aboutus-why-us-section h2 {
     margin-bottom: 40px;
     font-size: 2rem;
     color: #2E7463;
 }
 
-.why-us-cards {
+.aboutus-why-us-cards {
     display: flex;
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
 }
 
-.card {
+.aboutus-card {
     background: rgba(255, 255, 255, 0);
     padding: 30px;
     width: 280px;
     margin: 30px;
     border: none;
     box-shadow: none;
-
 }
 
-
-
-.card h3 {
+.aboutus-card h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
     color: rgb(39, 68, 93);
 }
 
 /* Section 3 */
-.quote-section {
+.aboutus-quote-section {
     background: white;
     padding: 80px 20px;
     text-align: center;
 }
 
-.quote-section blockquote {
+.aboutus-quote-section blockquote {
     font-size: 1.3rem;
     font-style: italic;
     max-width: 800px;
     margin: 0 auto 20px;
 }
 
-.quote-section .author {
+.aboutus-quote-section .aboutus-author {
     color: rgba(113, 187, 178, 0.91);
     font-weight: bold;
 }
-.hero-text {
+
+.aboutus-hero-text {
     position: absolute;
     top: 50%;
     left: 5%;
@@ -88,26 +82,27 @@
     text-align: left;
     z-index: 2;
     padding-right: 20px;
-    width: 90%; /* Optional, controls wrapping */
+    width: 90%;
 }
 
-.hero-text h1 {
+.aboutus-hero-text h1 {
     font-size: 3rem;
     margin-bottom: 10px;
     text-align: left;
 }
 
-.hero-text p {
+.aboutus-hero-text p {
     font-size: 1.2rem;
     margin: 0;
     text-align: left;
 }
-.hero-buttons {
+
+.aboutus-hero-buttons {
     margin-top: 20px;
     text-align: left;
 }
 
-.login-btn {
+.aboutus-login-btn {
     padding: 10px 20px;
     background-color: rgba(255, 255, 255, 0);
     border: white solid 2px;
@@ -118,40 +113,31 @@
     transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
+.aboutus-login-btn:hover {
     background-color: #f0f0f0;
     z-index: 900;
 }
 
-.register-text {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: white;
-}
-
-.register-text a {
-    color: white;
-    text-decoration: underline;
-}
-.hero-buttons-inline {
+.aboutus-hero-buttons-inline {
     margin-top: 25px;
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.register-inline {
+.aboutus-register-inline {
     color: white;
     font-size: 0.95rem;
 }
 
-.register-inline a {
+.aboutus-register-inline a {
     color: white;
     font-weight: bold;
     text-decoration: underline;
 }
-.navbar-aboutus {
 
+.aboutus-navbar {
+    position: absolute;
     top: 0;
     width: 100%;
     height: 70px;
@@ -164,16 +150,16 @@
     color: white;
 }
 
-.navbar-logo {
+.aboutus-navbar-logo {
     height: 40px;
 }
 
-.navbar-center {
+.aboutus-navbar-center {
     display: flex;
     gap: 30px;
 }
 
-.nav-link {
+.aboutus-nav-link {
     color: white;
     font-weight: 500;
     text-decoration: none;
@@ -181,23 +167,36 @@
     transition: color 0.3s ease;
 }
 
-.nav-link:hover {
+.aboutus-nav-link:hover {
     color: #ccc;
 }
 
-.login-button {
+.aboutus-login-button {
     border: 2px solid white;
     padding: 8px 16px;
     border-radius: 6px;
     color: white;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: white 0.3s ease;
+    background-color: transparent;
 }
 
-.login-button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+.aboutus-login-button:hover {
+    background-color: white;
 }
 
+body, html {
+    margin: 0;
+    padding: 0;
+}
+.fade-section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
 
-
+.fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
