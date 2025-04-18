@@ -43,7 +43,6 @@ function PostRide(){
 
     return(
         <>
-        <Navbar />
         <div className="page-container">
             <div className="form-wrapper">
                 <h1>Post Ride</h1>

@@ -30,6 +30,9 @@ import Driver from './Driver';
 import VerifyDriver from './VerifyDriver';
 import AboutUs from "./AboutUs";
 import AdminNavbar from "./components/AdminNavbar";
+import AboutUsNavbar from "./components/AboutUsNavbar";
+import { useNavigate } from "react-router-dom"; // Required for AboutUsNavbar
+
 
 function App() {
   return (
@@ -41,6 +44,7 @@ function App() {
 
 function MainLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const adminPaths = [
     '/adminmenu',
@@ -54,14 +58,16 @@ function MainLayout() {
   ];
 
   const hideNavbarOn = ['/login', '/register'];
-
   const currentPath = location.pathname.toLowerCase();
+
   const showAdminNavbar = adminPaths.includes(currentPath);
-  const showDefaultNavbar = !hideNavbarOn.includes(currentPath) && !showAdminNavbar;
+  const showAboutUsNavbar = currentPath === '/about-us';
+  const showDefaultNavbar = !hideNavbarOn.includes(currentPath) && !showAdminNavbar && !showAboutUsNavbar;
 
   return (
       <>
         {showAdminNavbar && <AdminNavbar />}
+        {showAboutUsNavbar && <AboutUsNavbar navigate={navigate} />}
         {showDefaultNavbar && <Navbar />}
 
         <Routes>
@@ -92,5 +98,6 @@ function MainLayout() {
       </>
   );
 }
+
 
 export default App;
