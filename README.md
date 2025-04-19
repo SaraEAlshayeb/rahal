@@ -21,6 +21,24 @@ Many university students struggle with limited transportation options between ci
 - **Users (Drivers & Passengers)**: Each user account supports posting rides (as a driver) and booking rides (as a passenger). Users can approve ride requests, chat, rate others,and view ride history.
 - **Admins**: Manage users, complaints, and approve driver applications.
 
+## 📲 Functionality Overview
+
+### For Regular Users (Drivers & Passengers):
+
+- 🌍 **Join Communities** to connect with users from your university or area.
+- 🚘 **Offer a Ride** (Driver mode) — Post trip details, approve passengers, and get feedback.
+- 🧍‍♀️ **Find a Ride** (Passenger mode) — Search available rides using filters and book a seat.
+- ⭐ **Rate Drivers/Passengers** — Give feedback after a completed trip.
+- 📱 **Contact Others** — Initiate WhatsApp or Call communication through profile cards.
+- 🧾 **View History** — See completed and in-progress rides with full trip details.
+
+### For Admins:
+
+- ✅ **Approve Driver Requests** — Review user documents and verify their eligibility to drive.
+- 🛠 **Manage Communities** — Add/edit/delete university or regional communities.
+- 📂 **Handle Complaints** — View and resolve issues submitted by users.
+- 🔐 **Manage User Accounts** — View profiles and suspend accounts if needed.
+
 ## ⚙️ Setup and Installation
 
 To run this project on your local machine, follow these detailed steps:
@@ -86,6 +104,28 @@ http://localhost:3000
 - [Node.js Guides](https://nodejs.dev/learn)
 - [GitHub Getting Started](https://docs.github.com/en/get-started)
 - [Bootstrap Documentation](https://getbootstrap.com/docs/)
+
+## 🧭 Usage Instructions
+
+### 🧑‍💻 Logging In
+
+- To log in as an **admin**, use:  
+  **Email**: `admin@hotmail.com`
+
+- To log in as a **verified driver**, use:  
+  **Email**: `sara@hotmail.com`
+
+- To log in as a **normal user**, enter any email address.
+
+### 👣 Navigation Tips
+
+- The homepage lets users:  
+  🔹 Join a Community  
+  🔹 Become a Driver & Offer a Ride (Submit driver request & Post Ride)  
+  🔹 Find a Ride (Book Ride)
+
+- Verified drivers can access both ride posting and booking functionalities.
+- Admins access a dedicated dashboard to handle all management tasks.
 
 ## 🎨 Figma Design
 
