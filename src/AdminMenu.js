@@ -65,7 +65,7 @@ function AdminMenu() {
                         <button className="admin-btn" onClick={() => navigate('/manage-profile')}>Start</button>
 
                     </div>
-                    <img src="/Complaints.png" alt="Admin 2" className="admin-img" />
+                    <img src="/ChatGPT Image Apr 19, 2025, 06_19_28 PM.png" alt="Admin 2" className="admin-img" />
                 </div>
             </div>
 
