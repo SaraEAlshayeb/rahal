@@ -15,26 +15,17 @@ function ManageCommunities() {
         { name: "IAU", img: "./IAU.png" },
     ];
 
-    const deleteCommunity = (index) => {
-        console.log(`Deleting community at index ${index}`);
-    };
 
-    const editCommunity = (community) => {
-        navigate('/EditCommunity', { state: community });
-    };
 
     return (
         <div className="pt-4 pb-5">
-            {/* Intro text */}
             <div className="text-center mb-4">
-                <h2 style={{ marginBottom: "0px" }}>Where Community Meets the Road</h2>
+                <h2 style={{ marginBottom: "0px" }}>Manage Communities</h2>
                 <p>
-                    Join a community to connect with riders who share your background,
-                    making every trip more trusted and personalized.
+                    edit, and manage communities categorized by institutions, interests, or regions.
                 </p>
             </div>
 
-            {/* Container for cards */}
             <Container style={{ maxWidth: "800px" }}>
                 <Row className="justify-content-center g-4">
                     {communityData.map((community, index) => (
@@ -80,7 +71,6 @@ function ManageCommunities() {
                                         borderTop: "1px solid #ccc"
                                     }}>
                                         <button
-                                            onClick={() => deleteCommunity(index)}
                                             style={{
                                                 flex: 1,
                                                 padding: "8px 0",
@@ -98,7 +88,6 @@ function ManageCommunities() {
                                         <div style={{ width: "1px", backgroundColor: "lightgray" }} />
 
                                         <button
-                                            onClick={() => editCommunity(community)}
                                             style={{
                                                 flex: 1,
                                                 padding: "8px 0",

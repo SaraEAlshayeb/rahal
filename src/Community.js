@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Toast, ToastContainer, Button } from "react-bootstrap";
 import "./Community.css";
 
 function Community() {
     const [expanded, setExpanded] = useState(Array(8).fill(false));
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
 
     const toggleDescription = (index) => {
         const newExpanded = [...expanded];
@@ -12,7 +14,12 @@ function Community() {
     };
 
     const handleJoinClick = (communityName) => {
-        alert(`You have successfully joined the ${communityName} community.`);
+        setToastMessage(`You have successfully joined the ${communityName} community.`);
+        setShowToast(true);
+
+        setTimeout(() => {
+            setShowToast(false);
+        }, 3000);
     };
 
     const communityData = [
@@ -26,7 +33,6 @@ function Community() {
 
     return (
         <div className="pt-4 pb-5">
-            {/* Full width intro section */}
             <div className="text-center mb-4">
                 <h2 style={{ marginBottom: "0px" }}>Where Community Meets the Road</h2>
                 <p>
@@ -35,7 +41,6 @@ function Community() {
                 </p>
             </div>
 
-            {/* Narrow container just for the cards */}
             <Container style={{ maxWidth: "800px" }}>
                 <Row className="justify-content-center g-4">
                     {communityData.map((community, index) => (
@@ -126,6 +131,21 @@ function Community() {
                     ))}
                 </Row>
             </Container>
+
+            <ToastContainer position="bottom-center" className="p-3">
+                <Toast show={showToast} onClose={() => setShowToast(false)} autohide delay={3000}>
+                    <Toast.Body
+                        style={{
+                            backgroundColor: "#27445D",
+                            color: "white",
+                            textAlign: "center",
+                            borderRadius: "5px"
+                        }}
+                    >
+                        {toastMessage}
+                    </Toast.Body>
+                </Toast>
+            </ToastContainer>
         </div>
     );
 }
