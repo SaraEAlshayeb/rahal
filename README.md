@@ -23,14 +23,38 @@ Many university students struggle with limited transportation options between ci
 
 ## ⚙️ Setup and Installation
 
-1. **Clone the Repository**
+To run this project on your local machine, follow these detailed steps:
+
+### 📥 1. Prerequisites
+
+Make sure you have the following tools installed:
+
+- [Visual Studio Code](https://code.visualstudio.com/) – code editor
+- [Node.js (LTS Version)](https://nodejs.org/) – includes npm
+- [Git](https://git-scm.com/) – to clone the repository
+
+---
+
+### 🧪 2. Setup Steps
+
+#### Step 1: Clone the Project
 
 ```bash
 git clone https://github.com/SaraEAlshayeb/rahal.git
 cd rahal
 ```
 
-2. **Install Dependencies**
+#### Step 2: Open in VS Code
+
+```bash
+code .
+```
+
+> If `code .` doesn’t work, follow this guide to enable it: [VS Code CLI Setup](https://code.visualstudio.com/docs/setup/windows#_launching-from-the-command-line)
+
+---
+
+### 📦 3. Install Dependencies
 
 ```bash
 npm install
@@ -40,15 +64,32 @@ npm install react-bootstrap bootstrap
 npm install @fortawesome/fontawesome-free
 ```
 
-3. **Run the Application**
+---
+
+### 🚀 4. Run the Application
 
 ```bash
 npm start
 ```
 
+Then open your browser and go to:
+
+```
+http://localhost:3000
+```
+
+---
+
+### 📚 Helpful Resources
+
+- [React Documentation](https://react.dev/)
+- [Node.js Guides](https://nodejs.dev/learn)
+- [GitHub Getting Started](https://docs.github.com/en/get-started)
+- [Bootstrap Documentation](https://getbootstrap.com/docs/)
+
 ## 🎨 Figma Design
 
-[View UI Wireframes](<https://www.figma.com/design/o0IxUTauWMydf7WZRRJtYq/Responsive-Landing-Page-Design-%7C-Website-Home-Page-Design-%7C-Agency-Website-UI-Design-(Community)?node-id=307-878&p=f&t=pSSY4bjB1SZn3t1f-0>)
+[View UI Wireframes](https://www.figma.com/design/k3QKIAhjpatlG2pk0rtMuc/Responsive-Landing-Page-Design-%7C-Website-Home-Page-Design-%7C-Agency-Website-UI-Design--Community-?node-id=0-1&t=6JTZBZtIEEP0GNNm-1)
 
 ## 👩‍💻 Authors
 

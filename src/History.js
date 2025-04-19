@@ -1,4 +1,3 @@
-// History.js
 import React, { useState } from 'react';
 import { FaStar, FaArrowUp, FaFilter } from 'react-icons/fa';
 
@@ -12,7 +11,7 @@ const riderRides = [
     vehicle: 'BMW Cabrio',
     image: '/bmw.png',
     driver: 'BADER SULTAN ABDALZIZ',
-    status: 'upcoming',
+    status: 'In Progress',
     rating: 0,
     community: 'KFUPM',
   },
@@ -57,7 +56,7 @@ const driverRides = [
     image: '/bmw.png',
     earning: 135,
     ratingGiven: 5,
-    status: 'upcoming',
+    status: 'In Progress',
     community: 'PMU',
   },
 ];
@@ -71,6 +70,7 @@ const History = () => {
   const [comment, setComment] = useState('');
   const [hoverCard, setHoverCard] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [rideCompleted, setRideCompleted] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     community: '',
     from: '',
@@ -78,12 +78,21 @@ const History = () => {
   });
 
   const rides = mode === 'rider' ? riderRides : driverRides;
-  const filteredRides = rides.filter((ride) =>
+
+  // 🔧 Sort so that "In Progress" rides always appear first
+  const sortedRides = [...rides].sort((a, b) => {
+    if (a.status === 'In Progress' && b.status !== 'In Progress') return -1;
+    if (a.status !== 'In Progress' && b.status === 'In Progress') return 1;
+    return 0;
+  });
+
+  const filteredRides = sortedRides.filter((ride) =>
     (filter === 'all' || ride.status === filter) &&
     (!activeFilters.community || ride.community === activeFilters.community) &&
     (!activeFilters.from || ride.from === activeFilters.from) &&
     (!activeFilters.to || ride.to === activeFilters.to)
   );
+
 
   const toggleFilter = (type, value) => {
     setActiveFilters(prev => ({
@@ -98,10 +107,26 @@ const History = () => {
 
   const handleSubmit = () => {
     alert('Feedback submitted!');
+  
+    if (selectedRide.status === 'In Progress') {
+      const rideIndex = rides.findIndex(r => r.id === selectedRide.id);
+      if (rideIndex !== -1) {
+        rides[rideIndex].status = 'completed';
+        if (mode === 'rider') {
+          rides[rideIndex].rating = rating;
+        } else {
+          rides[rideIndex].ratingGiven = rating;
+        }
+      }
+    }
+  
     setSelectedRide(null);
     setRating(0);
     setComment('');
+    setRideCompleted(false);
   };
+  
+  
 
   return (
     <div style={{ background: 'linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)', minHeight: '100vh', padding: '100px 20px', fontFamily: 'Segoe UI' }}>
@@ -222,10 +247,10 @@ const History = () => {
               
             >
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ fontWeight: 'bold', color: ride.status === 'upcoming' ? 'orange' : 'green' }}>
+                <div style={{ fontWeight: 'bold', color: ride.status === 'In Progress' ? 'orange' : 'green' }}>
                   {ride.status.toUpperCase()}
                 </div>
-                {(ride.rating || ride.ratingGiven) && (
+                {ride.status === 'completed' && (ride.rating || ride.ratingGiven) && (
                   <div style={{ display: 'flex', gap: '4px' }}>
                     {[...Array(ride.rating || ride.ratingGiven)].map((_, i) => (
                       <FaStar key={i} color='gold' />
@@ -241,16 +266,17 @@ const History = () => {
               {ride.earning && mode === 'driver' && (
                 <p><strong>Earning:</strong> SAR {ride.earning}</p>
               )}
-              {ride.status === 'upcoming' && (
-                <div style={{ position: 'absolute', right: '20px', bottom: '20px' }}>
+              {ride.status === 'In Progress' && (
+                <div style={{ marginTop: '10px', textAlign: 'right' }}>
                   <button
                     onClick={() => setSelectedRide(ride)}
                     style={{
                       backgroundColor: '#27445D',
                       color: 'white',
                       border: 'none',
-                      padding: '10px 20px',
-                      borderRadius: '12px'
+                      padding: '8px 16px',
+                      borderRadius: '10px',
+                      cursor: 'pointer'
                     }}
                   >
                     View
@@ -258,22 +284,22 @@ const History = () => {
                 </div>
               )}
                {ride.status === 'completed' && (
-  <div style={{ marginTop: '10px', textAlign: 'right' }}>
-    <button
-      onClick={() => setSelectedRide({ ...ride, isComplaint: true })}
-      style={{
-        backgroundColor: '#27445D',
-        color: 'white',
-        border: 'none',
-        padding: '8px 16px',
-        borderRadius: '10px',
-        cursor: 'pointer'
-      }}
-    >
-      Raise a Complaint
-    </button>
-  </div>
-)}
+                <div style={{ marginTop: '10px', textAlign: 'right' }}>
+                  <button
+                    onClick={() => setSelectedRide({ ...ride, isComplaint: true })}
+                    style={{
+                      backgroundColor: '#27445D',
+                      color: 'white',
+                      border: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '10px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Raise a Complaint
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -340,41 +366,55 @@ const History = () => {
                   </div>
                 </div>
               </div>
-              <p style={{ fontWeight: 'bold' }}>How was your ride?</p>
-              <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginBottom: '10px' }}>
-                {[...Array(5)].map((_, i) => {
-                  const value = i + 1;
-                  return (
-                    <FaStar
-                      key={i}
-                      color={value <= (hover || rating) ? '#ffc107' : '#e4e5e9'}
-                      size={24}
-                      onMouseEnter={() => setHover(value)}
-                      onMouseLeave={() => setHover(0)}
-                      onClick={() => setRating(value)}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  );
-                })}
-              </div>
+              {!rideCompleted ? (
+                <button
+                  onClick={() => setRideCompleted(true)}
+                  style={{
+                    backgroundColor: '#27445D', color: 'white',
+                    border: 'none', padding: '10px 24px', borderRadius: '8px',
+                    width: '100%'
+                  }}>
+                  Ride completed? Ready to leave feedback?
+                </button>
+              ) : (
+                <>
+                  <p style={{ fontWeight: 'bold', marginTop: '20px' }}>How was your ride?</p>
+                  <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', marginBottom: '10px' }}>
+                    {[...Array(5)].map((_, i) => {
+                      const value = i + 1;
+                      return (
+                        <FaStar
+                          key={i}
+                          color={value <= (hover || rating) ? '#ffc107' : '#e4e5e9'}
+                          size={24}
+                          onMouseEnter={() => setHover(value)}
+                          onMouseLeave={() => setHover(0)}
+                          onClick={() => setRating(value)}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder='Write your text'
+                    style={{
+                      width: '100%', padding: '10px', borderRadius: '8px',
+                      border: '1px solid #ccc', marginBottom: '16px'
+                    }}
+                  />
+                  <button
+                    onClick={handleSubmit}
+                    style={{
+                      backgroundColor: '#27445D', color: 'white',
+                      border: 'none', padding: '10px 24px', borderRadius: '8px'
+                    }}>
+                    Submit
+                  </button>
+                </>
+              )}
 
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder='Write your text'
-                style={{
-                  width: '100%', padding: '10px', borderRadius: '8px',
-                  border: '1px solid #ccc', marginBottom: '16px'
-                }}
-              />
-              <button
-                onClick={handleSubmit}
-                style={{
-                  backgroundColor: '#27445D', color: 'white',
-                  border: 'none', padding: '10px 24px', borderRadius: '8px'
-                }}>
-                Submit
-              </button>
             </div>
           </div>
         )}
