@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Login.css'; 
+import './register.css';
 import { Link } from 'react-router-dom';
 import regBackground from './regBackground.png'; 
 import { useNavigate } from 'react-router-dom';
