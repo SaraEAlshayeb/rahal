@@ -58,7 +58,7 @@ function Register() {
 
             if (response.ok) {
                 alert(`Registration successful! Welcome ${data.name}`);
-                navigate('/home');
+                navigate('/login');
             } else {
                 alert(data.message || 'Registration failed');
             }

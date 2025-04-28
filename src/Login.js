@@ -7,18 +7,38 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         if (!email || !password) {
             alert('All fields are required.');
             return;
         }
-        localStorage.setItem("userEmail", email);
 
-        if (email === 'admin@hotmail.com') {
-            navigate('/AdminMenu');
-        } else {
-            navigate('/home');
+        try {
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Save token and user info
+                localStorage.setItem("userToken", data.token);
+                localStorage.setItem("userEmail", data.email);
+
+                if (data.email === 'admin@hotmail.com') {
+                    navigate('/AdminMenu');
+                } else {
+                    navigate('/home');
+                }
+            } else {
+                alert(`data.message  'Login failed.'`);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('Something went wrong during login.');
         }
     };
 
