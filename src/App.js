@@ -6,6 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import { useEffect, useState } from 'react'; // ✅ Import hooks
 import Profile from './Profile';
 import Navbar from './components/Navbar';
 import Home from './Home';
@@ -33,7 +34,6 @@ import AdminNavbar from "./components/AdminNavbar";
 import AboutUsNavbar from "./components/AboutUsNavbar";
 import { useNavigate } from "react-router-dom"; // Required for AboutUsNavbar
 
-
 function App() {
   return (
       <Router>
@@ -45,6 +45,17 @@ function App() {
 function MainLayout() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // ✅ Server message state
+  const [serverMessage, setServerMessage] = useState("");
+
+  // ✅ Fetch server message when the app loads
+  useEffect(() => {
+    fetch('/api')
+        .then(res => res.json())
+        .then(data => setServerMessage(data.message))
+        .catch(err => console.error('Failed to fetch from server:', err));
+  }, []);
 
   const adminPaths = [
     '/adminmenu',
@@ -70,6 +81,12 @@ function MainLayout() {
         {showAboutUsNavbar && <AboutUsNavbar navigate={navigate} />}
         {showDefaultNavbar && <Navbar />}
 
+        {/* ✅ Display server message */}
+        {serverMessage && (
+            <div style={{ backgroundColor: "#f0f0f0", padding: "10px", textAlign: "center" }}>
+              {serverMessage}
+            </div>
+        )}
         <Routes>
           <Route path="/" element={<Navigate to="/about-us" />} />
           <Route path="/login" element={<Login />} />
@@ -98,6 +115,5 @@ function MainLayout() {
       </>
   );
 }
-
 
 export default App;
