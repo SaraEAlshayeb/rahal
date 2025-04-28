@@ -57,7 +57,7 @@ function Register() {
             const data = await response.json();
 
             if (response.ok) {
-                alert(Registration successful! Welcome ${data.name});
+                alert(`Registration successful! Welcome ${data.name}`);
                 navigate('/home');
             } else {
                 alert(data.message || 'Registration failed');
