@@ -32,7 +32,6 @@ import AboutUs from "./AboutUs";
 import AdminNavbar from "./components/AdminNavbar";
 import AboutUsNavbar from "./components/AboutUsNavbar";
 import { useNavigate } from "react-router-dom"; // Required for AboutUsNavbar
-import ProtectedRoute from './components/ProtectedRoute'; // ✅ New import
 
 function App() {
   return (
@@ -78,27 +77,27 @@ function MainLayout() {
           <Route path="/about-us" element={<AboutUs />} />
 
           {/* Protected routes */}
-          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/community" element={<ProtectedRoute><Community /></ProtectedRoute>} />
-          <Route path="/book-ride" element={<ProtectedRoute><BookRide /></ProtectedRoute>} />
-          <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-          <Route path="/post-ride" element={<ProtectedRoute><PostRide /></ProtectedRoute>} />
-          <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><Notification /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/driver" element={<ProtectedRoute><Driver /></ProtectedRoute>} />
-          <Route path="/verified" element={<ProtectedRoute><Verified /></ProtectedRoute>} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/book-ride" element={<BookRide />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/post-ride" element={<PostRide />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/driver" element={<Driver />} />
+          <Route path="/verified" element={<Verified />} />
 
           {/* Protected Admin routes */}
-          <Route path="/adminmenu" element={<ProtectedRoute><AdminMenu /></ProtectedRoute>} />
-          <Route path="/manage-communities" element={<ProtectedRoute><ManageCommunities /></ProtectedRoute>} />
-          <Route path="/complaints" element={<ProtectedRoute><Complaints /></ProtectedRoute>} />
-          <Route path="/review" element={<ProtectedRoute><ReviewComplaint /></ProtectedRoute>} />
-          <Route path="/approve-drivers" element={<ProtectedRoute><ApproveDrivers /></ProtectedRoute>} />
-          <Route path="/editcommunity" element={<ProtectedRoute><EditCommunity /></ProtectedRoute>} />
-          <Route path="/manage-profile" element={<ProtectedRoute><ManageProfiles /></ProtectedRoute>} />
-          <Route path="/review-driver" element={<ProtectedRoute><ReviewDriverRequest /></ProtectedRoute>} />
-          <Route path="/verifydriver" element={<ProtectedRoute><VerifyDriver /></ProtectedRoute>} />
+          <Route path="/adminmenu" element={<AdminMenu />} />
+          <Route path="/manage-communities" element={<ManageCommunities />} />
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/review" element={<ReviewComplaint />} />
+          <Route path="/approve-drivers" element={<ApproveDrivers />} />
+          <Route path="/editcommunity" element={<EditCommunity />} />
+          <Route path="/manage-profile" element={<ManageProfiles />} />
+          <Route path="/review-driver" element={<ReviewDriverRequest />} />
+          <Route path="/verifydriver" element={<VerifyDriver />} />
         </Routes>
       </>
   );

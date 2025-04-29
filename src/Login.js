@@ -9,38 +9,42 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
         if (!email || !password) {
             alert('All fields are required.');
             return;
         }
 
         try {
-            const response = await fetch('/api/users/login', {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                // Save token and user info
-                localStorage.setItem("userToken", data.token);
-                localStorage.setItem("userEmail", data.email);
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("userId", data.id);
 
-                if (data.email === 'admin@hotmail.com') {
+                if (data.role === "admin") {
                     navigate('/AdminMenu');
                 } else {
                     navigate('/home');
                 }
             } else {
-                alert(`data.message  'Login failed.'`);
+                alert(data.message || "Login failed");
             }
         } catch (error) {
-            console.error('Login error:', error);
-            alert('Something went wrong during login.');
+            alert("Error connecting to server");
+            console.error("Login error:", error);
         }
     };
+
+
 
     return (
         <div className="login-container">

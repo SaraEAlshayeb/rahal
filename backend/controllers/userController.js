@@ -1,20 +1,18 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../models/userModel.js');
 
-// Temporary fake database
-const users = [];
+const jwtSecret = 'mySimpleSecret123'; // ✅ Simple hardcoded secret
 
-// @desc    Register new user
-// @route   POST /api/users/register
-// @access  Public
+// Register user
 const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone, gender } = req.body;
 
-    if (!name  ||!email || !password) {
-        return res.status(400).json({ message: 'Please provide all fields' });
+    if (!name || !email || !password  ||!phone || !gender) {
+        return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    const userExists = users.find(u => u.email === email);
+    const userExists = await User.findOne({ email });
     if (userExists) {
         return res.status(400).json({ message: 'User already exists' });
     }
@@ -22,27 +20,29 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = {
-        id: users.length + 1,
+    const newUser = await User.create({
         name,
         email,
-        password: hashedPassword
-    };
+        password: hashedPassword,
+        phone,
+        gender,
+    });
 
-    users.push(newUser);
+    const token = jwt.sign({ id: newUser._id }, jwtSecret, { expiresIn: '30d' });
 
-    const token = generateToken(newUser.id);
-
-    res.status(201).json({ id: newUser.id, name: newUser.name, email: newUser.email, token });
+    res.status(201).json({
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        token,
+    });
 };
 
-// @desc    Login user
-// @route   POST /api/users/login
-// @access  Public
+// Login user
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = users.find(u => u.email === email);
+    const user = await User.findOne({ email });
 
     if (!user) {
         return res.status(400).json({ message: 'Invalid credentials' });
@@ -54,17 +54,14 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const token = generateToken(user.id);
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '30d' });
 
-    res.json({ id: user.id, name: user.name, email: user.email, token });
+    res.json({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        token,
+    });
 };
 
-// Generate JWT token
-const generateToken = (id) => {
-    return jwt.sign({ id }, 'your_jwt_secret', { expiresIn: '30d' });
-};
-
-module.exports = {
-    registerUser,
-    loginUser
-};
+module.exports = { registerUser, loginUser };
