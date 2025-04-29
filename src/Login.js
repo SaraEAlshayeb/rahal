@@ -7,20 +7,40 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+     
         if (!email || !password) {
-            alert('All fields are required.');
-            return;
+          alert('All fields are required.');
+          return;
         }
-        localStorage.setItem("userEmail", email);
-
-        if (email === 'admin@hotmail.com') {
-            navigate('/AdminMenu');
-        } else {
-            navigate('/home');
+     
+        try {
+          const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+     
+          const data = await response.json();
+     
+          if (response.ok) {
+            localStorage.setItem("userEmail", email);
+            if (data.role === "admin") {
+              navigate('/AdminMenu');
+            } else {
+              navigate('/home');
+            }
+          } else {
+            alert(data.message || "Login failed");
+          }
+        } catch (error) {
+          alert("Error connecting to server");
+          console.error("Login error:", error);
         }
-    };
+      };
 
     return (
         <div className="login-container">
