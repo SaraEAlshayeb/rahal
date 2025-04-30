@@ -25,7 +25,7 @@ function Login() {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = response.data;
+            const data = await response.json();
 
             if (response.ok) {
                 localStorage.setItem("userEmail", email);

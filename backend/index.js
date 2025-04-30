@@ -27,6 +27,12 @@ app.use(bodyParser.json());
 // Routes
 app.use("/api/community", communityRouter);
 
+const notificationRoutes = require('./routes/notificationRoutes');
+app.use('/api/notifications', notificationRoutes);
+
+
+
+
 /*// profile route
 app.get("/profile", async (req, res) => {
     const email = req.query.email;
