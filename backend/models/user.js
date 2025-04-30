@@ -1,5 +1,3 @@
-// Will be used later when MongoDB is ready
-// For now, just a placeholder
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -8,6 +6,6 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
 }, { timestamps: true });
 
-const user = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports = user;
+module.exports = User;

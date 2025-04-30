@@ -1,40 +1,5 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-// Temporary fake database
-const users = [];
-
-// @desc    Register new user
-// @route   POST /api/users/register
-// @access  Public
-const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
-
-    if (!name  ||!email || !password) {
-        return res.status(400).json({ message: 'Please provide all fields' });
-    }
-
-    const userExists = users.find(u => u.email === email);
-    if (userExists) {
-        return res.status(400).json({ message: 'User already exists' });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = {
-        id: users.length + 1,
-        name,
-        email,
-        password: hashedPassword
-    };
-
-    users.push(newUser);
-
-    const token = generateToken(newUser.id);
-
-    res.status(201).json({ id: newUser.id, name: newUser.name, email: newUser.email, token });
-};
+const User = require('../models/user');
 
 // @desc    Login user
 // @route   POST /api/users/login
@@ -42,21 +7,34 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = users.find(u => u.email === email);
+    try {
+        // Step 1: Find the user in MongoDB by email
+        const user = await User.findOne({ email });
 
-    if (!user) {
-        return res.status(400).json({ message: 'Invalid credentials' });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid credentials (email not found)' });
+        }
+
+        // Step 2: Compare the entered password with plain password from MongoDB
+        if (password !== user.password) {
+            return res.status(400).json({ message: 'Invalid credentials (wrong password)' });
+        }
+
+        // Step 3: If login successful, return user info and a JWT token
+        const token = generateToken(user._id);
+
+        res.json({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            token
+        });
+
+    } catch (error) {
+        console.error(' Full Login error:', JSON.stringify(error, null, 2));
+        res.status(500).json({ message: 'Server error during login' });
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-    }
-
-    const token = generateToken(user.id);
-
-    res.json({ id: user.id, name: user.name, email: user.email, token });
+    
 };
 
 // Generate JWT token
@@ -65,6 +43,5 @@ const generateToken = (id) => {
 };
 
 module.exports = {
-    registerUser,
-    loginUser
+    loginUser,
 };

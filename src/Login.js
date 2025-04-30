@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -9,36 +10,37 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        
         if (!email || !password) {
             alert('All fields are required.');
             return;
         }
 
         try {
-            const response = await fetch('/api/users/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+            const response = await axios.post('http://localhost:3001/api/users/login', {
+                email,
+                password,
             });
 
-            const data = await response.json();
+            const data = response.data;
 
-            if (response.ok) {
-                // Save token and user info
-                localStorage.setItem("userToken", data.token);
-                localStorage.setItem("userEmail", data.email);
+            // Save token and user info
+            localStorage.setItem('userToken', data.token);
+            localStorage.setItem('userEmail', data.email);
 
-                if (data.email === 'admin@hotmail.com') {
-                    navigate('/AdminMenu');
-                } else {
-                    navigate('/home');
-                }
+            // Navigate based on user type
+            if (data.email === 'admin@hotmail.com') {
+                navigate('/AdminMenu');
             } else {
-                alert(`data.message  'Login failed.'`);
+                navigate('/home');
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Something went wrong during login.');
+            if (error.response?.data?.message) {
+                alert(error.response.data.message);
+            } else {
+                alert('Something went wrong during login.');
+            }
         }
     };
 
@@ -78,7 +80,6 @@ function Login() {
                 </div>
             </div>
         </div>
-
     );
 }
 
