@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Post.css';
 import Verified from './Verified.js';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,14 @@ const saudiCities = [
   ];
 
 function PostRide(){
+    /*const [communityOptions, setCommunityOptions] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:5000/api/communities/options')
+            .then(res => res.json())
+            .then(data => setCommunityOptions(data))
+            .catch(err => console.error("Failed to load communities", err));
+    }, []);*/
+
     const [rideData, setRideData] = useState({
         from: '',
         to: '',
@@ -17,7 +25,11 @@ function PostRide(){
         time: '',
         vehicleType: '',
         seatCapacity: '',
+        price: '',
+        preferredCommunity: '',
+        notes: '',
     });
+
     const navigate = useNavigate(); 
 
     const handleChange = (e) => {
@@ -96,6 +108,8 @@ function PostRide(){
                         />
                     </div>
                 </div>
+
+                <h2>Vehicle Details</h2>
                 <div className="form-container">
                     <div className="vehicle-grid">
                         <label className="form-label">Vehicle Type:</label>
@@ -121,7 +135,36 @@ function PostRide(){
 
                     </div>
                 </div>
-                
+
+                <h2>Ride Preferences</h2>
+                <div className="form-container">
+                    <div className="vehicle-grid">
+                        <label className="form-label">Price (SAR) :</label>
+                        <input
+                            type="text"
+                            name="price"
+                            value={rideData.vehicleType}
+                            onChange={handleChange}
+                            placeholder="e.g. 50 "
+                            className="form-input"
+                        />
+
+                        <label className="form-label">Preferred Communities: </label>
+                        <select
+                            name="preferredCommunity"
+                            value={rideData.preferredCommunity || ''}
+                            onChange={handleChange}
+                            className="form-input"
+                        >
+                            <option value="">Select</option>
+                            // here goes the backend data
+                        </select>
+
+                    </div>
+                </div>
+
+
+
                 <button
                     onClick={handleSubmit}
                 className="submit-button"
