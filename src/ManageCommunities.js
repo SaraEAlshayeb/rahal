@@ -7,7 +7,7 @@ function ManageCommunities() {
     const navigate = useNavigate();
 
     const communityData = [
-        { name: "KFUPM", img: "./kfupmLogo.png" },
+        { name: "KFUPM", img: "./KFUPM.png" },
         { name: "PNU", img: "./PNU.png" },
         { name: "KSAU", img: "./KSAU.png" },
         { name: "KFU", img: "./KFU.png" },

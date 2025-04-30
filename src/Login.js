@@ -10,39 +10,42 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        
+
         if (!email || !password) {
             alert('All fields are required.');
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/api/users/login', {
-                email,
-                password,
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
             });
 
             const data = response.data;
 
-            // Save token and user info
-            localStorage.setItem('userToken', data.token);
-            localStorage.setItem('userEmail', data.email);
+            if (response.ok) {
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("userId", data.id);
 
-            // Navigate based on user type
-            if (data.email === 'admin@hotmail.com') {
-                navigate('/AdminMenu');
+                if (data.role === "admin") {
+                    navigate('/AdminMenu');
+                } else {
+                    navigate('/home');
+                }
             } else {
-                navigate('/home');
+                alert(data.message || "Login failed");
             }
         } catch (error) {
-            console.error('Login error:', error);
-            if (error.response?.data?.message) {
-                alert(error.response.data.message);
-            } else {
-                alert('Something went wrong during login.');
-            }
+            alert("Error connecting to server");
+            console.error("Login error:", error);
         }
     };
+
+
 
     return (
         <div className="login-container">

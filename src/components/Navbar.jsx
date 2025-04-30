@@ -1,8 +1,20 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
+    const navigate = useNavigate(); // Use navigate hook for navigation
+
+    const handleLogout = () => {
+        // Remove the authentication tokens and other user-related data
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userId");
+
+        // Redirect to login page after logout
+        navigate("/login");
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light custom-navbar px-3">
             <div className="container-fluid">
@@ -61,7 +73,7 @@ function Navbar() {
                         </Link>
 
                         {/* Logout */}
-                        <Link to="/login" onClick={() => localStorage.clear()}>
+                        <Link to="/login" onClick={handleLogout}>
                             <img src="/3.png" alt="logout" height="27" width="27" />
                         </Link>
                     </div>
