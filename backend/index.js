@@ -74,6 +74,43 @@ app.get("/profile", async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+app.put("/suspend-user", async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+    }
+
+    try {
+        const db = client.db("RahalDb"); // use your actual DB name
+        const result = await db.collection("user").updateOne(
+            { email: email },
+            { $set: { status: "suspended" } }
+        );
+
+        if (result.modifiedCount === 1) {
+            res.status(200).json({ message: "User suspended" });
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        console.error("Error suspending user:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
+app.get("/users", async (req, res) => {
+    try {
+        const db = client.db("RahalDb"); // make sure this matches your DB name in Atlas
+        const users = await db.collection("user").find({}).toArray();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 
   
   

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// export default ManageProfiles;
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 import './ManageProfiles.css';
@@ -7,27 +8,54 @@ function ManageProfiles() {
     const [showModal, setShowModal] = useState(false);
     const [activeUserName, setActiveUserName] = useState('');
     const [suspendedUsers, setSuspendedUsers] = useState([]);
+    const [userProfiles, setUserProfiles] = useState([]);
     const navigate = useNavigate();
 
-    const userProfiles = [
-        { name: "Sara Alshayeb", img: "./profile.png", email: "sara@example.com", phone: "0501234567", memberSince: "January 2024" },
-        { name: "Lamyaa Alyousef", img: "./profile.png", email: "lamyaa@example.com", phone: "0507654321", memberSince: "February 2024" },
-        { name: "Norah Alkanhal", img: "./profile.png", email: "norah@example.com", phone: "0551237890", memberSince: "March 2024" },
-        { name: "Sara Alshlaly", img: "./profile.png", email: "Sara@hotmail.com", phone: "0135894235", memberSince: "April 2024" },
-        { name: "Farah Almutairi", img: "./profile.png", email: "farah@kfupm.edu.sa", phone: "0138495672", memberSince: "May 2024" },
-        { name: "Remas Alghamdi", img: "./profile.png", email: "remas@gmail.com", phone: "0138673000", memberSince: "June 2024" }
-    ];
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/users");
+                const data = await response.json();
+                if (response.ok) {
+                    setUserProfiles(data);
+                    setSuspendedUsers(data.filter(user => user.status === "suspended").map(user => user.name));
+                }
+            } catch (error) {
+                console.error("Error loading users:", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleClose = () => {
         setShowModal(false);
         setActiveUserName('');
     };
 
-    const handleSuspendClick = (userName) => {
-        setActiveUserName(userName);
-        setShowModal(true);
-        setSuspendedUsers(prev => [...prev, userName]);
+    const handleSuspendClick = async (user) => {
+        try {
+            const response = await fetch("http://localhost:5000/suspend-user", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: user.email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuspendedUsers(prev => [...prev, user.name]);
+                setActiveUserName(user.name);
+                setShowModal(true);
+            } else {
+                alert(data.message || "Failed to suspend user");
+            }
+        } catch (error) {
+            console.error("Suspend error:", error);
+            alert("Server error while suspending user");
+        }
     };
+
 
     const viewProfile = (user) => {
         navigate('/Profile', { state: user });
@@ -40,19 +68,23 @@ function ManageProfiles() {
                 <p>View or suspend user accounts within your community.</p>
             </div>
 
-            <Container  style={{ maxWidth: "800px"}}>
-                <Row className="justify-content-center g-4" >
+            <Container style={{ maxWidth: "800px" }}>
+                <Row className="justify-content-center g-4">
                     {userProfiles.map((user, index) => {
                         const isSuspended = suspendedUsers.includes(user.name);
 
                         return (
                             <Col key={index} xs={12} sm={6} md={4} lg={4} className="d-flex justify-content-center p-2">
                                 <div className="profileContainer">
-                                    <img
-                                        className="profileImage"
-                                        src={user.img}
-                                        alt="user"
-                                    />
+                                    <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                                        <img
+                                            className="profileImage"
+                                            src={user.profileImage || "./profile.png"}
+                                            alt="user"
+                                        />
+                                    </div>
+
+
                                     <div className="profileDetails">
                                         <div className="p-2">
                                             <p className="mb-1"><strong>Name:</strong> {user.name}</p>
@@ -71,9 +103,9 @@ function ManageProfiles() {
 
                                             <div style={{ width: "1px", backgroundColor: "lightgray" }} />
                                             <button
-                                                onClick={() => handleSuspendClick(user.name)}
+                                                onClick={() => handleSuspendClick(user)}
                                                 disabled={isSuspended}
-                                                className={`btn btnRight ${isSuspended ? 'btn-secondary' : 'btn btnRight'}`}
+                                                className={`btn btnRight ${isSuspended ? 'btn-secondary' : ''}`}
                                             >
                                                 {isSuspended ? "Suspended" : "Suspend User"}
                                             </button>
@@ -104,3 +136,4 @@ function ManageProfiles() {
 }
 
 export default ManageProfiles;
+
