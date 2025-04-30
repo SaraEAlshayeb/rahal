@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const communityRouter = require('./routes/communityRoutes');  // Import the router
+const userRoutes = require('./routes/user');
+
 
 
 const app = express();
@@ -20,6 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 app.use("/api/profile", profileRoutes);
 app.use(bodyParser.json());

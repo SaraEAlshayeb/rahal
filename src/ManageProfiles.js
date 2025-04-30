@@ -14,11 +14,14 @@ function ManageProfiles() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch("http://localhost:5000/users");
+                const response = await fetch("http://localhost:5000/api/users");
                 const data = await response.json();
                 if (response.ok) {
                     setUserProfiles(data);
-                    setSuspendedUsers(data.filter(user => user.status === "suspended").map(user => user.name));
+                    setSuspendedUsers(data
+                        .filter(user => user.status === "suspended")
+                        .map(user => user.name)
+                    );
                 }
             } catch (error) {
                 console.error("Error loading users:", error);
@@ -35,7 +38,7 @@ function ManageProfiles() {
 
     const handleSuspendClick = async (user) => {
         try {
-            const response = await fetch("http://localhost:5000/suspend-user", {
+            const response = await fetch("http://localhost:5000/api/users/suspend", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: user.email })
@@ -44,7 +47,9 @@ function ManageProfiles() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuspendedUsers(prev => [...prev, user.name]);
+                if (!suspendedUsers.includes(user.name)) {
+                    setSuspendedUsers(prev => [...prev, user.name]);
+                }
                 setActiveUserName(user.name);
                 setShowModal(true);
             } else {
