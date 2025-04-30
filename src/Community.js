@@ -38,7 +38,7 @@ function Community() {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/joinCommunity", {
+            const response = await fetch("http://localhost:5000/api/community/joinCommunity", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
