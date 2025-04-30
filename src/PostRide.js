@@ -73,13 +73,7 @@ function PostRide() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (userRole !== 'driver') {
-            alert('You must be a verified driver to post a ride.');
-            return;
-        }
 
-        // Here you'd submit the ride data to your backend
-        console.log('Ride posted:', rideData);
 
         navigate('/Verified');
     };

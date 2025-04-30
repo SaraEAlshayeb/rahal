@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const communityRouter = require('./routes/communityRoutes');  // Import the router
 const postRideRoutes = require('./routes/postRideRoutes');
+const userRoutes=require("./routes/user");
 
 
 const app = express();

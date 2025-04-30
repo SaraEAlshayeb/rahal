@@ -1,8 +1,11 @@
 const express = require('express');
-const { checkUserRole } = require('../controllers/postRideController');
+const { checkUserRole, postRide } = require('../controllers/postRideController');
 const router = express.Router();
 
-// Define the route to check if the user is a driver
+// Check user role
 router.get('/checkRole', checkUserRole);
+
+// Post a new ride
+router.post('/create', postRide);
 
 module.exports = router;
