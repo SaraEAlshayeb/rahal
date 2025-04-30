@@ -33,7 +33,6 @@ import AdminNavbar from "./components/AdminNavbar";
 import AboutUsNavbar from "./components/AboutUsNavbar";
 import { useNavigate } from "react-router-dom"; // Required for AboutUsNavbar
 
-
 function App() {
   return (
       <Router>
@@ -71,9 +70,13 @@ function MainLayout() {
         {showDefaultNavbar && <Navbar />}
 
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Navigate to="/about-us" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/about-us" element={<AboutUs />} />
+
+          {/* Protected routes */}
           <Route path="/home" element={<Home />} />
           <Route path="/community" element={<Community />} />
           <Route path="/book-ride" element={<BookRide />} />
@@ -81,23 +84,23 @@ function MainLayout() {
           <Route path="/post-ride" element={<PostRide />} />
           <Route path="/history" element={<History />} />
           <Route path="/notifications" element={<Notification />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/driver" element={<Driver />} />
+          <Route path="/verified" element={<Verified />} />
+
+          {/* Protected Admin routes */}
           <Route path="/adminmenu" element={<AdminMenu />} />
           <Route path="/manage-communities" element={<ManageCommunities />} />
           <Route path="/complaints" element={<Complaints />} />
           <Route path="/review" element={<ReviewComplaint />} />
           <Route path="/approve-drivers" element={<ApproveDrivers />} />
           <Route path="/editcommunity" element={<EditCommunity />} />
-          <Route path="/verified" element={<Verified />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/manage-profile" element={<ManageProfiles />} />
           <Route path="/review-driver" element={<ReviewDriverRequest />} />
-          <Route path="/driver" element={<Driver />} />
           <Route path="/verifydriver" element={<VerifyDriver />} />
-          <Route path="/about-us" element={<AboutUs />} />
         </Routes>
       </>
   );
 }
-
 
 export default App;

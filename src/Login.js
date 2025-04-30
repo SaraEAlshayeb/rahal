@@ -9,38 +9,41 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-     
         if (!email || !password) {
           alert('All fields are required.');
           return;
         }
-     
+
         try {
-          const response = await fetch('http://localhost:5000/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          });
-     
-          const data = await response.json();
-     
-          if (response.ok) {
-            localStorage.setItem("userEmail", email);
-            if (data.role === "admin") {
-              navigate('/AdminMenu');
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("userId", data.id);
+
+                if (data.role === "admin") {
+                    navigate('/AdminMenu');
+                } else {
+                    navigate('/home');
+                }
             } else {
-              navigate('/home');
+                alert(data.message || "Login failed");
             }
-          } else {
-            alert(data.message || "Login failed");
-          }
         } catch (error) {
-          alert("Error connecting to server");
-          console.error("Login error:", error);
+            alert("Error connecting to server");
+            console.error("Login error:", error);
         }
       };
+
+
 
     return (
         <div className="login-container">

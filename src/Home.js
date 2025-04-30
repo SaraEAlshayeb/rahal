@@ -69,7 +69,7 @@ function Home() {
                         <p>Turn miles into money by joining our driver team.</p>
                         <button className="user-btn" onClick={() => navigate('/Driver')}>Start</button>
                     </div>
-                    <img src="/ChatGPT Image Apr 17, 2025, 09_45_26 PM.png" alt="Become a Driver" className="user-img" />
+                    <img src="/becomeadriver.png" alt="Become a Driver" className="user-img" />
                 </div>
             </div>
         </div>

@@ -114,7 +114,7 @@ function Profile() {
             if (!email) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/profile?email=${email}`);
+                const response = await fetch(`http://localhost:5000/api/profile?email=${email}`);
                 const data = await response.json();
 
                 if (response.ok) {
@@ -197,7 +197,6 @@ function Profile() {
                 <div style={{ marginTop: '16px', lineHeight: '1.8', fontSize: '14px' }}>
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>Phone:</strong> {user.phone}</p>
-                    <p><strong>Status:</strong> {user.status}</p>
                     <p><strong>National ID:</strong> {user.nationalId}</p>
                     <p><strong>Driving License:</strong> {user.drivingLicense}</p>
                     <p><strong>Vehicle Reg:</strong> {user.vehicleRegistration}</p>
@@ -206,8 +205,6 @@ function Profile() {
                     <p><strong>Total Rides:</strong> {user.totalRides}</p>
                     <p><strong>Rate:</strong> {user.rate ?? "Not rated"}</p>
                 </div>
-
-
 
                 <div style={{
                     marginTop: '24px',

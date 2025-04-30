@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Toast, ToastContainer, Button } from "react-bootstrap";
 import "./Community.css";
 
@@ -6,6 +6,22 @@ function Community() {
     const [expanded, setExpanded] = useState(Array(8).fill(false));
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
+    const [communityData, setCommunityData] = useState([]);
+
+    useEffect(() => {
+        // Fetch the community data from the backend
+        const fetchCommunityData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/community/getCommunityData");
+                const data = await response.json();
+                setCommunityData(data);  // Set community data with member count
+            } catch (error) {
+                console.error("Error fetching community data:", error);
+            }
+        };
+
+        fetchCommunityData();
+    }, []);
 
     const toggleDescription = (index) => {
         const newExpanded = [...expanded];
@@ -13,23 +29,41 @@ function Community() {
         setExpanded(newExpanded);
     };
 
-    const handleJoinClick = (communityName) => {
-        setToastMessage(`You have successfully joined the ${communityName} community.`);
-        setShowToast(true);
+    const handleJoinClick = async (communityName) => {
+        const userId = localStorage.getItem("userId");
 
-        setTimeout(() => {
-            setShowToast(false);
-        }, 3000);
+        if (!userId) {
+            alert("User not logged in");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/joinCommunity", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId, communityName }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setToastMessage(`You have successfully joined the ${communityName} community.`);
+                setShowToast(true);
+
+                setTimeout(() => {
+                    setShowToast(false);
+                }, 3000);
+
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Join community error:", error);
+            alert("Error connecting to server");
+        }
     };
-
-    const communityData = [
-        { name: "KFUPM", img: "./kfupmLogo.png" },
-        { name: "PNU", img: "./PNU.png" },
-        { name: "KSAU", img: "./KSAU.png" },
-        { name: "KFU", img: "./KFU.png" },
-        { name: "PMU", img: "./PMU.png" },
-        { name: "IAU", img: "./IAU.png" },
-    ];
 
     return (
         <div className="pt-4 pb-5">
@@ -76,7 +110,7 @@ function Community() {
                                             <strong>Name:</strong> {community.name}
                                         </p>
                                         <p style={{ fontSize: "12px", color: "#aaa", marginBottom: "0px", marginLeft: "5px" }}>
-                                            👥 2,135 members
+                                            👥 {community.members} members
                                         </p>
                                         {expanded[index] && (
                                             <p style={{ fontSize: "12px", marginTop: "5px", marginLeft: "5px", marginRight: "5px" }}>
