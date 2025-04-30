@@ -9,6 +9,10 @@ function ManageProfiles() {
     const [activeUserName, setActiveUserName] = useState('');
     const [suspendedUsers, setSuspendedUsers] = useState([]);
     const [userProfiles, setUserProfiles] = useState([]);
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,8 +67,10 @@ function ManageProfiles() {
 
 
     const viewProfile = (user) => {
-        navigate('/Profile', { state: user });
+        setSelectedUser(user);
+        setShowViewModal(true);
     };
+
 
     return (
         <div className="body py-5">
@@ -136,6 +142,30 @@ function ManageProfiles() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <Modal show={showViewModal} onHide={() => setShowViewModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>User Profile</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedUser && (
+                        <div>
+                            <p><strong>Name:</strong> {selectedUser.name}</p>
+                            <p><strong>Email:</strong> {selectedUser.email}</p>
+                            <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
+                            <p><strong>National ID:</strong> {selectedUser.nationalId || 'N/A'}</p>
+                            <p><strong>Status:</strong> {selectedUser.status || 'active'}</p>
+                            <p><strong>Community:</strong> {selectedUser.community?.join(", ") || 'N/A'}</p>
+                            {/* Add more fields as needed */}
+                        </div>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowViewModal(false)}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     );
 }
