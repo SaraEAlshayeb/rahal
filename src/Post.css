@@ -151,4 +151,16 @@ h2 {
       margin-top: 20px;
     }
   }
+
+.additional-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
   
