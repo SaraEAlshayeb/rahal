@@ -8,7 +8,6 @@ const communityRouter = require('./routes/communityRoutes');  // Import the rout
 const userRoutes = require('./routes/user');
 
 
-
 const app = express();
 const port = 5000;
 
@@ -23,12 +22,12 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/community", communityRouter);
+
 
 app.use("/api/profile", profileRoutes);
 app.use(bodyParser.json());
 
-// Routes
-app.use("/api/community", communityRouter);
 
 /*// profile route
 app.get("/profile", async (req, res) => {
