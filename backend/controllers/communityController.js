@@ -29,6 +29,7 @@ const getCommunityData = async (req, res) => {
 
 // Controller for joining a community
 const joinCommunity = async (req, res) => {
+
     const { userId, communityName } = req.body;
 
     // Check if both userId and communityName are provided
@@ -67,5 +68,46 @@ const joinCommunity = async (req, res) => {
         res.status(500).json({ message: "Server error", error: err });
     }
 };
+const addCommunity = async (req, res) => {
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ message: "Community name is required" });
 
-module.exports = { getCommunityData, joinCommunity };
+    try {
+        const db = client.db("RahalDb");
+
+        const exists = await db.collection("Community").findOne({ name });
+        if (exists) return res.status(409).json({ message: "Community already exists" });
+
+        await db.collection("Community").insertOne({
+            name,
+            imageC: `./${name}.png`,
+            description: "",
+            members: []
+        });
+
+        res.status(201).json({ message: "Community added successfully" });
+    } catch (err) {
+        console.error("Error adding community:", err);
+        res.status(500).json({ message: "Server error", error: err });
+    }
+};
+const deleteCommunity = async (req, res) => {
+    const { name } = req.params;
+
+    try {
+        const db = client.db("RahalDb");
+        const result = await db.collection("Community").deleteOne({ name });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "Community not found" });
+        }
+
+        res.status(200).json({ message: `${name} deleted successfully` });
+    } catch (err) {
+        console.error("Error deleting community:", err);
+        res.status(500).json({ message: "Server error", error: err });
+    }
+};
+
+
+module.exports = { getCommunityData, joinCommunity ,deleteCommunity ,addCommunity};

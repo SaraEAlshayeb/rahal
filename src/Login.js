@@ -9,7 +9,6 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         if (!email || !password) {
           alert('All fields are required.');
           return;
@@ -42,7 +41,7 @@ function Login() {
             alert("Error connecting to server");
             console.error("Login error:", error);
         }
-    };
+      };
 
 
 

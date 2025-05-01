@@ -4,7 +4,7 @@
     backdrop-filter: blur(10px); /* Optional: Adds a blur effect behind navbar */
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: 1030;
     margin-bottom: 0!important;
     padding-bottom: 0;
 }

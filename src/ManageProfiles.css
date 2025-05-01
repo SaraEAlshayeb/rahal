@@ -20,12 +20,15 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
+
 .profileImage {
     border: 2px solid lightgray;
     border-radius: 50%;
-    height: 100px;
-    margin-top: 20px;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
 }
+
 
 .profileDetails {
     background-color: whitesmoke;
