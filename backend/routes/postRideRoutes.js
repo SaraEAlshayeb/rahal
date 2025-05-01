@@ -5,7 +5,6 @@ const router = express.Router();
 // Check user role
 router.get('/checkRole', checkUserRole);
 
-// Post a new ride
-router.post('/create', postRide);
+router.post('/postRide', postRide);
 
 module.exports = router;
