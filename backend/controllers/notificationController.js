@@ -77,7 +77,15 @@ const respondToNotification = async (req, res) => {
           $addToSet: { acceptedRiders: new ObjectId(passengerId) }
         }
       );
+    } else if (action === "reject") {
+      await rideCollection.updateOne(
+        { _id: ride._id },
+        {
+          $pull: { pendingRiders: new ObjectId(passengerId) }
+        }
+      );
     }
+    
 
     await notifCollection.deleteOne({ _id: notif._id });
 

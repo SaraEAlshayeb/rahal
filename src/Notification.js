@@ -3,6 +3,8 @@ import './Login.css';
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
 
  
   useEffect(() => {
@@ -48,7 +50,22 @@ function Notification() {
       alert("Server error.");
     }
   };
-  
+  const filteredNotifications = notifications
+  .filter(n =>
+    n.passengerName.toLowerCase().includes(search.toLowerCase()) ||
+    n.from.toLowerCase().includes(search.toLowerCase()) ||
+    n.to.toLowerCase().includes(search.toLowerCase())
+  );
+
+if (filter === "latest") {
+  filteredNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+} else if (filter === "oldest") {
+  filteredNotifications.sort((a, b) => new Date(a.date) - new Date(b.date));
+} else if (filter === "name") {
+  filteredNotifications.sort((a, b) => a.passengerName.localeCompare(b.passengerName));
+}
+
+
 
   return (
     <div
@@ -64,22 +81,30 @@ function Notification() {
         {/* Search and Filter */}
         <div className="search-filter-bar">
           <div className="search-group">
-            <label htmlFor="search">Search</label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search notifications..."
-              className="search-input"
-            />
+          <input
+  id="search"
+  type="text"
+  placeholder="Search notifications..."
+  className="search-input"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+
           </div>
           <div className="filter-group">
             <label htmlFor="filter">Filter</label>
-            <select id="filter" className="filter-dropdown">
-              <option value="">All</option>
-              <option value="latest">Latest</option>
-              <option value="name">Name A-Z</option>
-              <option value="oldest">Oldest</option>
-            </select>
+            <select
+  id="filter"
+  className="filter-dropdown"
+  value={filter}
+  onChange={(e) => setFilter(e.target.value)}
+>
+  <option value="">All</option>
+  <option value="latest">Latest</option>
+  <option value="name">Name A-Z</option>
+  <option value="oldest">Oldest</option>
+</select>
+
           </div>
         </div>
 
@@ -88,7 +113,8 @@ function Notification() {
           {notifications.length === 0 ? (
             <p style={{ textAlign: 'center' }}>No new notifications.</p>
           ) : (
-            notifications.map((n) => (
+            filteredNotifications.map((n) => (
+              
               <div key={n.notificationId} className="item-box">
                 <div className="item-content">
                   <div className="item-info">

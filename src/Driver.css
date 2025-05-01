@@ -14,7 +14,6 @@
 
 .driver-form-wrapper {
     padding: 1rem;
-    margin-top: 40px;
     border-radius: 20px;
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -24,8 +23,19 @@
     align-items: center;
 
     width: 100%;
-    max-width: 965px; /* allow shrinking on small screens */
+    max-width: 965px;
 }
+.driver-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* align to top instead of center */
+    min-height: 100vh;
+    padding-top: 130px;        /* controls how far from top */
+    padding-bottom: 2rem;     /* prevents cut-off on small screens */
+    box-sizing: border-box;
+}
+
+
 
 
 .driver-form {

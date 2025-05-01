@@ -12,7 +12,7 @@ function Community() {
         // Fetch the community data from the backend
         const fetchCommunityData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/community/getCommunityData");
+                const response = await fetch("http://localhost:5000/api/community");
                 const data = await response.json();
                 setCommunityData(data);  // Set community data with member count
             } catch (error) {
