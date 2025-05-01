@@ -3,6 +3,7 @@ import './Post.css';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import Navbar from './components/Navbar';
+import axios from "axios";
 
 const saudiCities = [
     'Riyadh', 'Jeddah', 'Dammam', 'Makkah', 'Madinah',
@@ -10,73 +11,111 @@ const saudiCities = [
 ];
 
 function PostRide() {
+    const [communityNames, setCommunityNames] = useState([]);
+    const [selectedCommunity, setSelectedCommunity] = useState('');
+
     const [rideData, setRideData] = useState({
         from: '',
         to: '',
         date: '',
         time: '',
         vehicleType: '',
-        seatCapacity: '',
-        price: '',
+        seatCapacity: 0,
+        price: 0,
         preferredCommunity: '',
-        notes: '',
-    });
+    },[]);
 
     const [showDialog, setShowDialog] = useState(false);
-    const [userRole, setUserRole] = useState(null);
-    const [communityOptions, setCommunityOptions] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserRole = async () => {
             try {
                 const email = localStorage.getItem('userEmail');
-                if (!email) {
-                    alert('No user email found, please login first');
-                    navigate('/login');
-                    return;
-                }
+                console.log(email)
 
-                const response = await fetch(`http://localhost:5000/api/getUserRole/checkRole?email=${email}`);
+                const response = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`);
                 const data = await response.json();
+                console.log(data.role);
 
-                if (data.role === 'driver') {
-                    setUserRole('driver');
-                } else {
-                    setUserRole('non-driver');
-                    setShowDialog(true);
+                if (data.role !== 'driver') {
+                    setShowDialog(true)
                 }
             } catch (error) {
                 console.error('Error fetching user role:', error);
             }
         };
-
         const fetchCommunities = async () => {
             try {
-                const res = await fetch('http://localhost:5000/api/communities/options');
-                const data = await res.json();
-                setCommunityOptions(data);
-            } catch (err) {
-                console.error('Failed to load communities', err);
+                const response = await fetch("http://localhost:5000/api/community");
+                const data = await response.json();
+
+                // Assuming the response is an array of community objects,
+                // extract the names into a new array
+                const names = data.map(community => community.name);  // Adjust if the structure is different
+
+                setCommunityNames(names);
+            } catch (error) {
+                console.error('Error fetching community data:', error);
             }
         };
 
+
+
         fetchUserRole();
         fetchCommunities();
+
     }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setRideData({ ...rideData, [name]: value });
+        setRideData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
     };
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const email = localStorage.getItem('userEmail');
+        const response = await axios.get(`http://localhost:5000/api/users/${email}`);
+        const id= response.data._id
 
+        // Include email in the payload
+        const newRideData = {
+            ...rideData,
+            driver: id
+        };
 
-        navigate('/Verified');
+        try {
+            const response = await fetch('http://localhost:5000/api/rides/postRide', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newRideData),
+
+            });
+            console.log(response)
+
+            if (response.ok) {
+                console.log('Ride posted successfully');
+                navigate('/Verified');
+            } else {
+                const errorData = await response.json();
+
+                console.error('Failed to post ride:', errorData.message);
+                alert(`Failed to post ride: ${errorData.message}`);
+            }
+        } catch (error) {
+
+            console.error('Error posting ride:', error);
+            alert('An error occurred while posting the ride.');
+        }
     };
+
 
     const handleGoToDriverPage = () => {
         navigate('/driver');
@@ -158,29 +197,23 @@ function PostRide() {
                                 placeholder="e.g. 50"
                                 className="form-input"
                             />
-
-                            <label className="form-label">Preferred Community:</label>
+                            <label htmlFor="communitySelect" className="form-label">Preferred Community:</label>
                             <select
+                                id="communitySelect"
                                 name="preferredCommunity"
                                 value={rideData.preferredCommunity}
                                 onChange={handleChange}
                                 className="form-input"
                             >
                                 <option value="">Select</option>
-                                {communityOptions.map((community, index) => (
-                                    <option key={index} value={community}>{community}</option>
+                                {communityNames.map((name, index) => (
+                                    <option key={index} value={name}>{name}</option>
                                 ))}
                             </select>
 
-                            <label className="form-label">Notes:</label>
-                            <textarea
-                                name="notes"
-                                value={rideData.notes}
-                                onChange={handleChange}
-                                placeholder="Any extra info"
-                                className="form-input"
-                                rows="2"
-                            />
+
+
+
                         </div>
                     </div>
 
@@ -188,9 +221,13 @@ function PostRide() {
                 </div>
             </div>
 
-            {/* Modal Dialog for non-driver users */}
-            <Modal show={showDialog} onHide={() => setShowDialog(false)}>
-                <Modal.Header closeButton>
+            <Modal
+                show={showDialog}
+                onHide={() => setShowDialog(false)}
+                backdrop="static"    // Prevent closing by clicking outside
+                keyboard={false}     // Prevent closing by pressing ESC key
+            >
+                <Modal.Header closeButton={false}>  {/* Disable the close button */}
                     <Modal.Title>Not a Verified Driver</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -211,6 +248,7 @@ function PostRide() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
         </>
     );
 }
