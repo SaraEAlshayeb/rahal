@@ -29,6 +29,7 @@ const getCommunityData = async (req, res) => {
 
 // Controller for joining a community
 const joinCommunity = async (req, res) => {
+
     const { userId, communityName } = req.body;
 
     // Check if both userId and communityName are provided

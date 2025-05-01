@@ -19,7 +19,7 @@ connectDB().then(() => {
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes); // Make sure this line is present to handle the routes
+app.use("/api/auth", authRoutes);
 
 app.use("/api/profile", profileRoutes);
 app.use(bodyParser.json());
@@ -27,8 +27,9 @@ app.use(bodyParser.json());
 // Routes
 app.use("/api/community", communityRouter);
 
-const notificationRoutes = require('./routes/notificationRoutes');
-app.use('/api/notifications', notificationRoutes);
+const notificationRoutes = require("./routes/notificationRoutes");
+app.use("/api/notifications", notificationRoutes);
+
 
 
 
