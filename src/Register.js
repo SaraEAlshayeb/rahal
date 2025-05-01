@@ -17,34 +17,56 @@ function Register() {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, password, gender, phone } = form;
-  
-    if (!name || !email || !password || !gender || !phone) {
-      alert('All fields are required');
-      return;
-    }
-  
-    const emailPattern = /^[^\s@]+@[^\s@]/i;
-    if (!emailPattern.test(email)) {
-      alert('Email must be valid and end with .com');
-      return;
-    }
-  
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters long');
-      return;
-    }
-  
-    const phonePattern = /^05\d{8}$/;
-    if (!phonePattern.test(phone)) {
-      alert('Phone number must start with 05 and be exactly 10 digits');
-      return;
-    }
-  
-    navigate('/home'); 
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const { name, email, password, gender, phone } = form;
+
+        // Frontend validation
+        if (!name || !email || !password || !gender || !phone) {
+            alert('All fields are required');
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.(com)$/i;
+        if (!emailPattern.test(email)) {
+            alert('Email must be valid and end with .com');
+            return;
+        }
+
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters long');
+            return;
+        }
+
+        const phonePattern = /^05\d{8}$/;
+        if (!phonePattern.test(phone)) {
+            alert('Phone number must start with 05 and be exactly 10 digits');
+            return;
+        }
+
+        // ✅ Send data to backend
+        try {
+            const response = await fetch('/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(`Registration successful! Welcome ${data.name}`);
+                navigate('/login');
+            } else {
+                alert(data.message || 'Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong during registration');
+        }
+    };
   
   
 

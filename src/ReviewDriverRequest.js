@@ -38,10 +38,6 @@ function ReviewDriverRequest() {
                         <span className="value">Lamyaa Alyousef</span>
                     </div>
                     <div className="info-row">
-                        <span className="label">Age:</span>
-                        <span className="value">18</span>
-                    </div>
-                    <div className="info-row">
                         <span className="label">Email:</span>
                         <span className="value">email@hotmail.com</span>
                     </div>

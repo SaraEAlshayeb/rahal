@@ -1,83 +1,125 @@
-const { MongoClient } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
- 
+const { connectDB } = require("./config/db");
+const bodyParser = require('body-parser');
+const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const communityRouter = require('./routes/communityRoutes');  // Import the router
+
+
 const app = express();
 const port = 5000;
-app.use(cors());
-app.use(express.json()); // for JSON body parsing
- 
-app.get("/", (req, res) => {
-    res.send("Welcome to Rahal Backend API ");
-  });
- 
-// Replace the uri string with your connection string.
-const uri = "mongodb+srv://reemasy24:Rahal%40kfupm@rahaldb.b7mrw16.mongodb.net/?retryWrites=true&w=majority&appName=RahalDb";
-const client = new MongoClient(uri);
- 
- 
-// Connect to MongoDB once
-async function connectDB() {
-    try {
-      await client.connect();
-      console.log("Connected to MongoDB");
-    } catch (err) {
-      console.error("MongoDB connection error", err);
-    }
-}
-connectDB();
- 
-// Login route
-app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    try {
-      const db = client.db("RahalDb");
-      const userCollection = db.collection("user");
-      const adminCollection = db.collection("Admin");
- 
-      let user = await userCollection.findOne({ email, password });
-      if (user) {
-        res.status(200).json({ role: "user", email: user.email });
-        return;
-      }
- 
-      let admin = await adminCollection.findOne({ email, password });
-      if (admin) {
-        res.status(200).json({ role: "admin", email: admin.email });
-        return;
-      }
- 
-      res.status(401).json({ message: "Invalid credentials" });
-    } catch (err) {
-      res.status(500).json({ message: "Server error", error: err });
-    }
+
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
 });
- 
-// profile route
+
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/auth", authRoutes); // Make sure this line is present to handle the routes
+
+app.use("/api/profile", profileRoutes);
+app.use(bodyParser.json());
+
+// Routes
+app.use("/api/community", communityRouter);
+
+/*// profile route
 app.get("/profile", async (req, res) => {
     const email = req.query.email;
     if (!email) {
         return res.status(400).json({ message: "Email is required" });
     }
- 
+
     try {
         const db = client.db("RahalDb");
         const user = await db.collection("user").findOne({ email });
- 
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
- 
+
         res.status(200).json(user); // ✅ return full user object
     } catch (err) {
         console.error("Profile fetch error:", err);
         res.status(500).json({ message: "Server error" });
     }
 });
- 
- 
- 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+// Join a community route
+app.post("/joinCommunity", async (req, res) => {
+    // Extract userId and communityName from the request body
+    const { userId, communityName } = req.body;
+
+    // Check if both userId and communityName are provided
+    if (!userId || !communityName) {
+        return res.status(400).json({ message: "User ID and community name are required" });
+    }
+
+    try {
+        const db = client.db("RahalDb");
+        const userCollection = db.collection("user");
+        const communityCollection = db.collection("Community");
+
+
+
+
+        // 1. Update user's community array
+        const userUpdate = await userCollection.updateOne(
+            { _id: new ObjectId(userId) }, // Find user by their ID
+            { $addToSet: { community: communityName } } // Add communityName to community array
+        );
+
+        if (userUpdate.modifiedCount === 0) {
+            return res.status(400).json({ message: "Failed to add community to user" });
+        }
+
+        // 2. Update community's members array
+        const communityUpdate = await communityCollection.updateOne(
+            { name: communityName }, // Find community by its name
+            { $addToSet: { members: userId } } // Add userId to members array
+        );
+
+        if (communityUpdate.modifiedCount === 0) {
+            return res.status(400).json({ message: "Failed to add user to community members" });
+        }
+
+        // 3. Return success message
+        res.status(200).json({ message: `Successfully joined ${communityName} community` });
+    } catch (err) {
+        console.error("Error joining community:", err);
+        res.status(500).json({ message: "Server error", error: err });
+    }
 });
+app.get("/getCommunityData", async (req, res) => {
+    try {
+        const db = client.db("RahalDb");
+        const communityCollection = db.collection("Community");
+        console.log(communityCollection.toString());
+
+        // Fetch all communities from the database
+        const communities = await communityCollection.find({}).toArray();
+
+        // Map over the communities and add members count
+        const communityData = communities.map(community => {
+            return {
+                name: community.name,
+                img: `./${community.name}.png`, // Assuming image name is the same as the community name
+                members: community.members ? community.members.length : 0 // Get the length of the members array
+            };
+        });
+
+        res.status(200).json(communityData);
+
+    } catch (err) {
+        console.error("Error fetching community data:", err);
+        res.status(500).json({ message: "Server error", error: err });
+    }
+});*/
+
+
+
+
 
