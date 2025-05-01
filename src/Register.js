@@ -67,8 +67,8 @@
 //             alert('Something went wrong during registration');
 //         }
 //     };
-  
-  
+
+
 
 //   return (
 //     <div
@@ -80,7 +80,7 @@
 //       backgroundRepeat: 'no-repeat',
 //     }}
 //   >
-  
+
 //       <div className="Register-title">
 //         <h1>Create Account</h1>
 //       </div>
@@ -164,7 +164,7 @@
 import React, { useState } from 'react';
 import './register.css';
 import { Link } from 'react-router-dom';
-import regBackground from './regBackground.png'; 
+import regBackground from './regBackground.png';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -186,11 +186,11 @@ function Register() {
     e.preventDefault();
     const { name, email, password, gender, phone } = form;
 
-        // Frontend validation
-        if (!name || !email || !password || !gender || !phone) {
-            alert('All fields are required');
-            return;
-        }
+    // Frontend validation
+    if (!name || !email || !password || !gender || !phone) {
+      alert('All fields are required');
+      return;
+    }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.(com)$/i;
     if (!emailPattern.test(email)) {
@@ -209,31 +209,32 @@ function Register() {
       return;
     }
 
-        // ✅ Send data to backend
-        try {
-            const response = await fetch('/api/users/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, email, password })
-            });
+    // ✅ Send data to backend
+    try {
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password, gender, phone }) 
 
-            const data = await response.json();
+      });
 
-            if (response.ok) {
-                alert(`Registration successful! Welcome ${data.name}`);
-                navigate('/login');
-            } else {
-                alert(data.message || 'Registration failed');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Something went wrong during registration');
-        }
-    };
-  
-  
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(`Registration successful! Welcome ${data.name}`);
+        navigate('/login');
+      } else {
+        alert(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong during registration');
+    }
+  };
+
+
 
   return (
     <div
@@ -264,15 +265,15 @@ function Register() {
 
         <label>Email</label>
         <input
-  type="email"
-  name="email"
-  placeholder="Ex.example@hotmail.com"
-  value={form.email}
-  onChange={handleChange}
-  required
-  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com)$"
-  title="Email must contain @ and end with .com"
-/>
+          type="email"
+          name="email"
+          placeholder="Ex.example@hotmail.com"
+          value={form.email}
+          onChange={handleChange}
+          required
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com)$"
+          title="Email must contain @ and end with .com"
+        />
 
         <label>Password</label>
         <input
@@ -310,12 +311,13 @@ function Register() {
           minLength={10}
         />
 
-      <div className="button-container">
-        <button onClick={handleSubmit}>Sign In</button>
-        <p className="register-link">
-          Already have an account? <Link to="/">Login</Link>
-        </p>
-      </div>
+        <div className="button-container">
+          <button onClick={handleSubmit}>Sign In</button>
+          <p className="register-link">
+            Already have an account? <Link to="/">Login</Link>
+          </p>
+        </div>
+        </form>
     </div>
   );
 }
