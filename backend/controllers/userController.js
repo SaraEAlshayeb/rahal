@@ -62,9 +62,18 @@ const registerUser = async (req, res) => {
             gender,
             phone,
             status: "active",
+            nationalId: "",
+            drivingLicense: "",
+            vehicleRegistration: "",
+            vehicleType: "",
             community: [],
-            profileImage: "",
-            roles: ["rider"]
+            profileImage: "/profile.png",            
+            roles: ["rider"],
+            feedback: [],
+            notifications: [],
+            rate: [],
+            totalRides: 0,
+            totalEarnings: 0
         };
 
         await userCollection.insertOne(newUser);
