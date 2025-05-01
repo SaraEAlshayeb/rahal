@@ -22,15 +22,7 @@ function Driver() {
     console.log(email);
 
     useEffect(() => {
-        const fetchUserRole = async () => {
 
-                const email = localStorage.getItem('userEmail');
-                console.log(email)
-
-                const response = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`);
-                const data = await response.json();
-                console.log(data.role);
-        if (data.role === 'driver') {}}
         const fetchUserStatus = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/users/${email}`);
