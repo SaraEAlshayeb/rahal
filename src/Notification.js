@@ -1,23 +1,76 @@
-import React, { useState } from 'react';
-import './Login.css'; // reusing styles from complaints
-import regBackground from './regBackground.png';
+import React, { useState, useEffect } from 'react';
+import './Login.css';
 
 function Notification() {
-  const [notifications, setNotifications] = useState([
-    { id: 1, from: "Dammam", to: "Riyadh", date: "2025-04-15", name: "Sara", gender: "Female" },
-    { id: 2, from: "Unaizah", to: "Riyadh", date: "2025-04-16", name: "Saud", gender: "Male" },
-    { id: 3, from: "Dhahran", to: "Jubail", date: "2025-04-17", name: "Mona", gender: "Female" },
-    { id: 4, from: "Jeddah", to: "Makkah", date: "2025-04-18", name: "Farah", gender: "Female" },
-  ]);
+  const [notifications, setNotifications] = useState([]);
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
 
-  const handleRemove = (id) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+ 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const driverId = localStorage.getItem("userId");
+  
+      if (!driverId) {
+        alert("Driver not logged in");
+        return;
+      }
+  
+      try {
+        const response = await fetch(`http://localhost:5000/api/notifications/${driverId}`);
+        const data = await response.json();
+        setNotifications(data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+  
+    fetchNotifications();
+  }, []);
+  const handleResponse = async (notificationId, action, passengerId) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/notifications/respond", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "driver-id": localStorage.getItem("userId")
+        },
+        body: JSON.stringify({ notificationId, action, passengerId })
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setNotifications(prev => prev.filter(n => n.notificationId !== notificationId));
+      } else {
+        alert(data.message || "Action failed.");
+      }
+    } catch (err) {
+      console.error("Response error:", err);
+      alert("Server error.");
+    }
   };
+  const filteredNotifications = notifications
+  .filter(n =>
+    n.passengerName.toLowerCase().includes(search.toLowerCase()) ||
+    n.from.toLowerCase().includes(search.toLowerCase()) ||
+    n.to.toLowerCase().includes(search.toLowerCase())
+  );
+
+if (filter === "latest") {
+  filteredNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+} else if (filter === "oldest") {
+  filteredNotifications.sort((a, b) => new Date(a.date) - new Date(b.date));
+} else if (filter === "name") {
+  filteredNotifications.sort((a, b) => a.passengerName.localeCompare(b.passengerName));
+}
+
+
 
   return (
     <div
       style={{
-        background:"linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
+        background: "linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -28,52 +81,72 @@ function Notification() {
         {/* Search and Filter */}
         <div className="search-filter-bar">
           <div className="search-group">
-            <label htmlFor="search">Search</label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search notifications..."
-              className="search-input"
-            />
+          <input
+  id="search"
+  type="text"
+  placeholder="Search notifications..."
+  className="search-input"
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+/>
+
           </div>
           <div className="filter-group">
             <label htmlFor="filter">Filter</label>
-            <select id="filter" className="filter-dropdown">
-              <option value="">All</option>
-              <option value="latest">Latest</option>
-              <option value="name">Name A-Z</option>
-              <option value="oldest">Oldest</option>
-            </select>
+            <select
+  id="filter"
+  className="filter-dropdown"
+  value={filter}
+  onChange={(e) => setFilter(e.target.value)}
+>
+  <option value="">All</option>
+  <option value="latest">Latest</option>
+  <option value="name">Name A-Z</option>
+  <option value="oldest">Oldest</option>
+</select>
+
           </div>
         </div>
 
         {/* Notifications List */}
         <div className="page-center">
-          {notifications.map((n) => (
-            <div key={n.id} className="item-box">
-              <div className="item-content">
-                <div className="item-info">
-                  <h5 className="passenger-header">
-                    There is a passenger who wants to join your ride
-                  </h5>
-                  <p className="item-date">{n.date}</p>
-                  <p className="item-sub"><strong>From:</strong> {n.from}</p>
-                  <p className="item-sub"><strong>To:</strong> {n.to}</p>
-                  <p className="item-sub"><strong>Passenger:</strong> {n.name}</p>
-                  <p className="item-sub"><strong>Gender:</strong> {n.gender}</p>
+          {notifications.length === 0 ? (
+            <p style={{ textAlign: 'center' }}>No new notifications.</p>
+          ) : (
+            filteredNotifications.map((n) => (
+              
+              <div key={n.notificationId} className="item-box">
+                <div className="item-content">
+                  <div className="item-info">
+                    <h5 className="passenger-header">
+                      There is a passenger who wants to join your ride
+                    </h5>
+                    <p className="item-date">{new Date(n.date).toLocaleDateString()}</p>
+                    <p className="item-sub"><strong>From:</strong> {n.from}</p>
+                    <p className="item-sub"><strong>To:</strong> {n.to}</p>
+                    <p className="item-sub"><strong>Passenger:</strong> {n.passengerName}</p>
+                    <p className="item-sub"><strong>Gender:</strong> {n.passengerGender}</p>
+                  </div>
+                </div>
+                <div className="item-buttons" style={{ marginTop: 'auto', alignSelf: 'flex-end' }}>
+                <button
+  className="btn btn-outline"
+  onClick={() => handleResponse(n.notificationId, "reject", n.passengerId)}
+>
+  Reject
+</button>
+<button
+  className="btn btn-filled"
+  style={{ background: "#27445D" }}
+  onClick={() => handleResponse(n.notificationId, "accept", n.passengerId)}
+>
+  Accept
+</button>
+
                 </div>
               </div>
-
-              <div className="item-buttons" style={{ marginTop: 'auto', alignSelf: 'flex-end' }}>
-    <button className="btn btn-outline"  onClick={() => handleRemove(n.id)}>
-      Reject
-    </button>
-    <button className="btn btn-filled" background="#27445D" onClick={() => handleRemove(n.id)}>
-      Accept
-    </button>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

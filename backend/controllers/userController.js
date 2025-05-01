@@ -13,7 +13,6 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-// PUT /api/users/suspend
 const suspendUser = async (req, res) => {
     const { email } = req.body;
 
@@ -39,23 +38,4 @@ const suspendUser = async (req, res) => {
     }
 };
 
-
-const getUserByEmail = async (req, res) => {
-    const { email } = req.params;
-
-    try {
-        const db = client.db("RahalDb");
-        const user = await db.collection("user").findOne({ email });
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ message: "Server error" });
-    }
-};
-
-module.exports = { getAllUsers, suspendUser, getUserByEmail };
+module.exports = { getAllUsers, suspendUser };

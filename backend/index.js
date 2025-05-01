@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const cors = require("cors");
 const { connectDB } = require("./config/db");
@@ -8,6 +10,7 @@ const communityRouter = require('./routes/communityRoutes');
 const postRideRoutes = require('./routes/postRideRoutes');
 const userRoutes = require("./routes/user");
 const driverRoutes = require("./routes/driverRoutes"); // <-- add this
+const notificationRoutes = require("./routes/notificationRoutes"); 
 
 const app = express();
 const port = 5000;
@@ -24,6 +27,7 @@ app.use(bodyParser.json());
 
 // Serve uploaded files statically
 app.use("/uploads", express.static("uploads"));
+app.use("/api/notifications", notificationRoutes); 
 
 // Routes
 app.use("/api/auth", authRoutes);
