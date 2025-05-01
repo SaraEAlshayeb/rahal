@@ -163,8 +163,10 @@
 
 import React, { useState } from 'react';
 import './register.css';
-import { Link, useNavigate } from 'react-router-dom';
-import regBackground from './regBackground.png';
+import { Link } from 'react-router-dom';
+import regBackground from './regBackground.png'; 
+import { useNavigate } from 'react-router-dom';
+
 
 function Register() {
   const [form, setForm] = useState({
@@ -174,7 +176,6 @@ function Register() {
     gender: '',
     phone: '',
   });
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -185,11 +186,11 @@ function Register() {
     e.preventDefault();
     const { name, email, password, gender, phone } = form;
 
-    // ## Frontend validation
-    if (!name || !email || !password || !gender || !phone) {
-      alert('All fields are required');
-      return;
-    }
+        // Frontend validation
+        if (!name || !email || !password || !gender || !phone) {
+            alert('All fields are required');
+            return;
+        }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.(com)$/i;
     if (!emailPattern.test(email)) {
@@ -208,34 +209,31 @@ function Register() {
       return;
     }
 
-    // ## Send all user info to backend
-    try {
-      const response = await fetch('/api/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, password, gender, phone }) // ✅ send all fields
-      });
+        // ✅ Send data to backend
+        try {
+            const response = await fetch('/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            });
 
-      const data = await response.json();
+            const data = await response.json();
 
-      if (response.ok) {
-        alert(`Registration successful! Welcome ${data.name}`);
-        navigate('/login');
-      } else {
-        // ## Handle duplicate email
-        if (response.status === 409) {
-          alert("This email is already registered. Please use a different one.");
-        } else {
-          alert(data.message || 'Registration failed');
+            if (response.ok) {
+                alert(`Registration successful! Welcome ${data.name}`);
+                navigate('/login');
+            } else {
+                alert(data.message || 'Registration failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Something went wrong during registration');
         }
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Something went wrong during registration');
-    }
-  };
+    };
+  
+  
 
   return (
     <div
@@ -266,15 +264,15 @@ function Register() {
 
         <label>Email</label>
         <input
-          type="email"
-          name="email"
-          placeholder="Ex.example@hotmail.com"
-          value={form.email}
-          onChange={handleChange}
-          required
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com)$"
-          title="Email must contain @ and end with .com"
-        />
+  type="email"
+  name="email"
+  placeholder="Ex.example@hotmail.com"
+  value={form.email}
+  onChange={handleChange}
+  required
+  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com)$"
+  title="Email must contain @ and end with .com"
+/>
 
         <label>Password</label>
         <input
@@ -312,14 +310,12 @@ function Register() {
           minLength={10}
         />
 
-        {/* ## Submit inside the form */}
-        <div className="button-container">
-          <button type="submit">Sign In</button>
-          <p className="register-link">
-            Already have an account? <Link to="/">Login</Link>
-          </p>
-        </div>
-      </form>
+      <div className="button-container">
+        <button onClick={handleSubmit}>Sign In</button>
+        <p className="register-link">
+          Already have an account? <Link to="/">Login</Link>
+        </p>
+      </div>
     </div>
   );
 }

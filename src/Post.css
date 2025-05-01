@@ -162,5 +162,14 @@ h2 {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
+.custom-button {
+    background-color: #27445d;
+    color: #fff;
+    border: none;
+}
+
+.custom-button:hover {
+    background-color: #1d3449;
+}
 
   
