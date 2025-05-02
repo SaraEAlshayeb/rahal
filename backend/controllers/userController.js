@@ -1,6 +1,7 @@
 const { client } = require("../config/db");
 const { ObjectId } = require("mongodb");
 
+
 // GET /api/users
 const getAllUsers = async (req, res) => {
     try {
