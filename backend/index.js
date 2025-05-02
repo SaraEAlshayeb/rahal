@@ -7,6 +7,7 @@ const profileRoutes = require("./routes/profileRoutes");
 const communityRouter = require('./routes/communityRoutes');  // Import the router
 const postRideRoutes = require('./routes/postRideRoutes');
 const userRoutes = require("./routes/user");
+const approveDriverRoutes = require('./routes/approveDriverRoutes');
 
 const app = express();
 const port = 5000;
@@ -26,6 +27,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/community", communityRouter); // Ensure this route is only listed once
 
-
+app.use('/approve', approveDriverRoutes); // now available at /approve/pending
 app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
