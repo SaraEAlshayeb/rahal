@@ -11,6 +11,8 @@ const driverRoutes = require("./routes/driverRoutes"); // <-- add this
 const notificationRoutes = require("./routes/notificationRoutes"); 
 const complaintRoutes = require("./routes/complaintRoutes");
 const approveDriverRoutes = require('./routes/approveDriverRoutes');
+const historyRoutes = require('./routes/historyRoute');
+
 
 
 const app = express();
@@ -41,4 +43,6 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
 app.use("/api/complaints", complaintRoutes);
+app.use('/api/history', historyRoutes);
+
 

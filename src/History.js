@@ -1,65 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaStar, FaArrowUp, FaFilter } from 'react-icons/fa';
-
-const riderRides = [
-  {
-    id: 1,
-    from: 'Riyadh',
-    to: 'Jeddah',
-    date: '2024-06-01',
-    time: '08:30 AM',
-    vehicle: 'BMW Cabrio',
-    image: '/bmw.png',
-    driver: 'BADER SULTAN ABDALZIZ',
-    status: 'In Progress',
-    rating: 0,
-    community: 'KFUPM',
-  },
-  {
-    id: 2,
-    from: 'Dammam',
-    to: 'Makkah',
-    date: '2024-04-01',
-    time: '10:00 AM',
-    vehicle: 'Toyota Camry',
-    image: '/bmw.png',
-    driver: 'OMAR KHALID',
-    status: 'completed',
-    rating: 5,
-    community: 'PNU',
-  },
-];
-
-const driverRides = [
-  {
-    id: 101,
-    from: 'Jeddah',
-    to: 'Mecca',
-    date: '2024-05-01',
-    time: '09:00 AM',
-    passenger: 'Ahmed Ali',
-    vehicle: 'Kia Sportage',
-    image: '/bmw.png',
-    earning: 85,
-    ratingGiven: 4,
-    status: 'completed',
-    community: 'KSAU',
-  },
-  {
-    id: 102,
-    from: 'Medina',
-    to: 'Riyadh',
-    date: '2024-04-21',
-    time: '03:00 PM',
-    passenger: 'Sara Faisal',
-    vehicle: 'Hyundai Sonata',
-    image: '/bmw.png',
-    earning: 135,
-    ratingGiven: 5,
-    status: 'In Progress',
-    community: 'PMU',
-  },
-];
 
 const History = () => {
   const [filter, setFilter] = useState('all');
@@ -71,62 +12,129 @@ const History = () => {
   const [hoverCard, setHoverCard] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [rideCompleted, setRideCompleted] = useState(false);
-  const [activeFilters, setActiveFilters] = useState({
-    community: '',
-    from: '',
-    to: ''
-  });
+  const [activeFilters, setActiveFilters] = useState({ community: '', from: '', to: '' });
+  const [rides, setRides] = useState([]);
 
-  const rides = mode === 'rider' ? riderRides : driverRides;
+  const [userId] = useState(localStorage.getItem("userId"));
 
-  // 🔧 Sort so that "In Progress" rides always appear first
-  const sortedRides = [...rides].sort((a, b) => {
-    if (a.status === 'In Progress' && b.status !== 'In Progress') return -1;
-    if (a.status !== 'In Progress' && b.status === 'In Progress') return 1;
-    return 0;
-  });
+  useEffect(() => {
+    if (!userId) return;
+  
+    const fetchHistory = async () => {
+      const endpoint = mode === 'driver'
+        ? `http://localhost:5000/api/history/driver/${userId}`
+        : `http://localhost:5000/api/history/rider/${userId}`;
+      const res = await axios.get(endpoint);
+      setRides(res.data);
+    };
+  
+    fetchHistory();
+  }, [mode, userId]); // now this is safe
+  
+
+  const sortedRides = [...rides]
+  .filter(ride =>
+    mode === 'driver'
+      ? ride.driver?.toString() === userId || ride.driver === userId
+      : ride.acceptedRiders?.some(id => id.toString() === userId || id === userId)
+  )
+
+    .sort((a, b) => {
+      if (a.status === 'In Progress' && b.status !== 'In Progress') return -1;
+      if (a.status !== 'In Progress' && b.status === 'In Progress') return 1;
+      return 0;
+    });
 
   const filteredRides = sortedRides.filter((ride) =>
     (filter === 'all' || ride.status === filter) &&
-    (!activeFilters.community || ride.community === activeFilters.community) &&
-    (!activeFilters.from || ride.from === activeFilters.from) &&
-    (!activeFilters.to || ride.to === activeFilters.to)
+    (!activeFilters.community || ride.preferredCommunity === activeFilters.community) &&
+    (!activeFilters.from || ride.origin === activeFilters.from) &&
+    (!activeFilters.to || ride.destination === activeFilters.to)
   );
 
-
   const toggleFilter = (type, value) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [type]: prev[type] === value ? '' : value
-    }));
+    setActiveFilters(prev => ({ ...prev, [type]: prev[type] === value ? '' : value }));
   };
 
-  const totalEarnings = driverRides.reduce((sum, r) => sum + r.earning, 0);
-  const avgRating = (driverRides.reduce((sum, r) => sum + r.ratingGiven, 0) / driverRides.length).toFixed(1);
-  const isMobile = window.innerWidth <= 768;
+  const totalEarnings = rides
+  .filter(r => r.driver === userId && r.status === 'completed')
+  .reduce((sum, r) => sum + (r.price || 0), 0);
 
-  const handleSubmit = () => {
-    alert('Feedback submitted!');
+
+  const avgRating = (
+    rides.filter(r => r.driverId === userId && r.ratingGiven)
+      .reduce((sum, r) => sum + (r.ratingGiven || 0), 0) /
+    rides.filter(r => r.driverId === userId && r.ratingGiven).length || 1
+  ).toFixed(1);
+
+  const handleSubmit = async () => {
+    const issuedBy = localStorage.getItem("userId");
+    const driverId = selectedRide.driver?._id || selectedRide.driver;
+    const rideId = selectedRide._id?.toString?.() || selectedRide._id;
   
-    if (selectedRide.status === 'In Progress') {
-      const rideIndex = rides.findIndex(r => r.id === selectedRide.id);
-      if (rideIndex !== -1) {
-        rides[rideIndex].status = 'completed';
-        if (mode === 'rider') {
-          rides[rideIndex].rating = rating;
-        } else {
-          rides[rideIndex].ratingGiven = rating;
-        }
-      }
+    if (!issuedBy || !driverId || !rideId || !comment) {
+      alert("Missing data for complaint");
+      return;
     }
   
-    setSelectedRide(null);
-    setRating(0);
-    setComment('');
-    setRideCompleted(false);
+    try {
+      const res = await fetch('http://localhost:5000/api/history/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          issuedBy: issuedBy.toString(),
+          driverId: driverId.toString(),
+          rideId: rideId.toString(),
+          description: comment
+        })
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        alert("Complaint submitted successfully!");
+        setComment('');
+        setSelectedRide(null);
+      } else {
+        console.error("Backend error:", data);
+        alert("Error submitting complaint: " + data.error);
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Network error submitting complaint.");
+    }
   };
   
   
+  
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+useEffect(() => {
+  const handleResize = () => setIsMobile(window.innerWidth <= 768);
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+const handleViewClick = async (ride) => {
+  try {
+    const res = await fetch(`http://localhost:5000/api/users/${ride.driver}`);
+    const data = await res.json();
+
+    setSelectedRide({
+      ...ride,
+      driverName: data.name || "Unknown Driver"
+    });
+  } catch (error) {
+    console.error("Failed to fetch driver name:", error);
+    setSelectedRide({
+      ...ride,
+      driverName: "Unknown Driver"
+    });
+  }
+};
+
+
+
 
   return (
     <div style={{ background: 'linear-gradient(to top, rgb(246, 244, 240) 60%, rgba(247, 241, 211, 0.71) 100%)', minHeight: '100vh', padding: '100px 20px', fontFamily: 'Segoe UI' }}>
@@ -146,7 +154,7 @@ const History = () => {
 
           <select value={filter} onChange={(e) => setFilter(e.target.value)} style={{ padding: '10px 20px', borderRadius: '10px' }}>
             <option value="all">All</option>
-            <option value="upcoming">Upcoming</option>
+            <option value="In Progress">Upcoming</option>
             <option value="completed">Completed</option>
           </select>
 
@@ -201,102 +209,113 @@ const History = () => {
         )}
 
         {/* Dashboard Section */}
-        {mode === 'driver' && (
-          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', marginTop: '30px' }}>
-            <div style={{
-              background: '#fff', padding: '16px 24px', borderRadius: '16px',
-              flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
-              boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
-            }}>
-              <FaArrowUp color='green' size={20} /> <strong>Total Earnings:</strong> SAR {totalEarnings}
-            </div>
-            <div style={{
-              background: '#fff', padding: '16px 24px', borderRadius: '16px',
-              flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
-              boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
-            }}>
-              <FaArrowUp color='green' size={20} /> <strong>Total Rides:</strong> {driverRides.length}
-            </div>
-            <div style={{
-              background: '#fff', padding: '16px 24px', borderRadius: '16px',
-              flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
-              boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
-            }}>
-              <FaStar color='gold' size={20} /> <strong>Avg Rating:</strong> {avgRating}
-            </div>
+{mode === 'driver' && (
+  <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', marginTop: '30px' }}>
+    <div style={{
+      background: '#fff', padding: '16px 24px', borderRadius: '16px',
+      flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
+    }}>
+      <FaArrowUp color='green' size={20} /> <strong>Total Earnings:</strong> SAR {totalEarnings || 0}
+
+    </div>
+    <div style={{
+      background: '#fff', padding: '16px 24px', borderRadius: '16px',
+      flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
+    }}>
+      <FaArrowUp color='green' size={20} /> <strong>Total Rides:</strong> {
+        rides.filter(r => r.driver?.toString() === userId).length
+      }
+    </div>
+    <div style={{
+      background: '#fff', padding: '16px 24px', borderRadius: '16px',
+      flex: 1, display: 'flex', alignItems: 'center', gap: '10px',
+      boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
+    }}>
+      <FaStar color='gold' size={20} /> <strong>Avg Rating:</strong> {avgRating}
+    </div>
+  </div>
+)}
+
+{/* Rides List */}
+<div style={{ marginTop: '30px' }}>
+  {filteredRides.map((ride) => (
+    <div
+      key={ride._id}
+      onMouseEnter={() => setHoverCard(ride._id)}
+      onMouseLeave={() => setHoverCard(null)}
+      style={{
+        background: 'white',
+        padding: '20px',
+        borderRadius: '20px',
+        marginBottom: '20px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        transform: hoverCard === ride._id ? 'scale(1.02)' : 'scale(1)',
+        transition: 'transform 0.3s ease',
+        position: 'relative',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ fontWeight: 'bold', color: ride.status === 'In Progress' ? 'orange' : 'green' }}>
+          {ride.status.toUpperCase()}
+        </div>
+        {ride.status === 'completed' && (ride.rating || ride.ratingGiven) && (
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {[...Array(ride.rating || ride.ratingGiven)].map((_, i) => (
+              <FaStar key={i} color='gold' />
+            ))}
           </div>
         )}
-        {/* Rides List */}
-        <div style={{ marginTop: '30px' }}>
-          {filteredRides.map((ride) => (
-            <div
-              key={ride.id}
-              onMouseEnter={() => setHoverCard(ride.id)}
-              onMouseLeave={() => setHoverCard(null)}
-              style={{
-                background: 'white',
-                padding: '20px',
-                borderRadius: '20px',
-                marginBottom: '20px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                transform: hoverCard === ride.id ? 'scale(1.02)' : 'scale(1)',
-                transition: 'transform 0.3s ease',
-                position: 'relative',
-                cursor: 'pointer',
-              }}
-              
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ fontWeight: 'bold', color: ride.status === 'In Progress' ? 'orange' : 'green' }}>
-                  {ride.status.toUpperCase()}
-                </div>
-                {ride.status === 'completed' && (ride.rating || ride.ratingGiven) && (
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    {[...Array(ride.rating || ride.ratingGiven)].map((_, i) => (
-                      <FaStar key={i} color='gold' />
-                    ))}
-                  </div>
-                )}
-              </div>
-              <p style={{ fontWeight: 'bold', fontSize: '16px' }}>
-                {mode === 'driver' ? ride.passenger : ride.vehicle}
-              </p>
-              <p><strong>From:</strong> {ride.from} | <strong>To:</strong> {ride.to}</p>
-              <p>{ride.date} | {ride.time}</p>
-              {ride.earning && mode === 'driver' && (
-                <p><strong>Earning:</strong> SAR {ride.earning}</p>
-              )}
-              {ride.status === 'In Progress' && (
-                <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                  <button
-                    onClick={() => setSelectedRide(ride)}
-                    style={{
-                      backgroundColor: '#27445D',
-                      color: 'white',
-                      border: 'none',
-                      padding: '8px 16px',
-                      borderRadius: '10px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    View
-                  </button>
-                </div>
-              )}
-               {ride.status === 'completed' && (
-                <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                  <button
-                    onClick={() => setSelectedRide({ ...ride, isComplaint: true })}
-                    style={{
-                      backgroundColor: '#27445D',
-                      color: 'white',
-                      border: 'none',
-                      padding: '8px 16px',
-                      borderRadius: '10px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Raise a Complaint
+      </div>
+
+      <p style={{ fontWeight: 'bold', fontSize: '16px' }}>
+  {mode === 'driver' ? ride.passengerName : ride.vehicleType}
+</p>
+
+
+
+      <p><strong>From:</strong> {ride.origin} | <strong>To:</strong> {ride.destination}</p>
+      <p>{new Date(ride.date).toLocaleDateString()} | {ride.time}</p>
+
+      {ride.price && mode === 'driver' && (
+        <p><strong>Earning:</strong> SAR {ride.price}</p>
+      )}
+
+
+{ride.status === 'In Progress' && mode === 'rider' && (
+  <div style={{ marginTop: '10px', textAlign: 'right' }}>
+    <button
+      onClick={() => handleViewClick(ride)}
+      style={{
+        backgroundColor: '#27445D',
+        color: 'white',
+        border: 'none',
+        padding: '8px 16px',
+        borderRadius: '10px',
+        cursor: 'pointer'
+      }}
+    >
+      View
+    </button>
+  </div>
+)}
+
+                {ride.status === 'completed' && (
+      <div style={{ marginTop: '10px', textAlign: 'right' }}>
+        <button
+          onClick={() => setSelectedRide({ ...ride, isComplaint: true })}
+          style={{
+            backgroundColor: '#27445D',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '10px',
+            cursor: 'pointer'
+          }}
+        >
+          Raise a Complaint
                   </button>
                 </div>
               )}
@@ -348,8 +367,9 @@ const History = () => {
                     {mode === 'rider' ? 'Contact Your Driver' : 'Contact Your Passenger'}
                   </p>
                   <p style={{ margin: 0 }}>
-                    {mode === 'rider' ? selectedRide.driver : selectedRide.passenger}
-                  </p>
+  {mode === 'rider' ? selectedRide.driverName : selectedRide.passenger}
+</p>
+
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div
