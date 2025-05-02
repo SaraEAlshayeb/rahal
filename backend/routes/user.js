@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { getAllUsers, suspendUser,getUserByEmail } = require("../controllers/userController");
+const { getAllUsers, suspendUser,registerUser, getUserByEmail} = require("../controllers/userController");
 
 router.get("/", getAllUsers);                  // GET /api/users
-router.put("/suspend", suspendUser);
+router.put("/suspend", suspendUser);           // PUT /api/users/suspend
 router.get("/:email", getUserByEmail);
-// PUT /api/users/suspend
+router.post("/register", registerUser); 
 
 module.exports = router;

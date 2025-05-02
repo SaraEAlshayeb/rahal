@@ -7,6 +7,8 @@ const profileRoutes = require("./routes/profileRoutes");
 const communityRouter = require('./routes/communityRoutes');  // Import the router
 const postRideRoutes = require('./routes/postRideRoutes');
 const userRoutes = require("./routes/user");
+const driverRoutes = require("./routes/driverRoutes"); // <-- add this
+const notificationRoutes = require("./routes/notificationRoutes");
 const approveDriverRoutes = require('./routes/approveDriverRoutes');
 
 const app = express();
@@ -22,11 +24,17 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+// Serve uploaded files statically
+app.use("/uploads", express.static("uploads"));
+app.use("/api/notifications", notificationRoutes);
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/community", communityRouter); // Ensure this route is only listed once
 
 app.use('/approve', approveDriverRoutes); // now available at /approve/pending
+app.use("/api/community", communityRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
+app.use("/api/drivers", driverRoutes); // <-- register route here
