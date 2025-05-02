@@ -1,106 +1,104 @@
-import React, {useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function ApproveDrivers() {
     const navigate = useNavigate();
-    const [complaints, setComplaints] = useState([
-        {
-            id: 1,
-            issuedBy: "Lamyaa Alyousef",
-            requestNumber: "#RN1925",
+    const [requests, setRequests] = useState([]);
+    const [filtered, setFiltered] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [sortOption, setSortOption] = useState('All');
 
-        },
-        {
-            id: 2,
-            issuedBy: "Sara Alshayeb",
-            drequestNumber: "#RN2025",
+    useEffect(() => {
+        fetch('http://localhost:5000/approve/pending')
+            .then(res => res.json())
+            .then(data => {
+                setRequests(data);
+                setFiltered(data);
+            })
+            .catch(err => console.error("Error fetching driver requests:", err));
+    }, []);
 
-        },
-        {
-            id: 3,
-            issuedBy: "Rimas Alghamdi",
-            requestNumber: "#RN2125",
+    const applyFilters = () => {
+        let results = [...requests];
 
-        },
-        {
-            id: 4,
-            issuedBy: "Farah Almutairi",
-            requestNumber: "#RN2225",
+        // 🔍 Filter by search
+        if (searchText.trim()) {
+            results = results.filter((user) =>
+                user.name.toLowerCase().includes(searchText.toLowerCase())
+            );
+        }
 
-        },
-        {
-            id: 5,
-            issuedBy: "Sarah Alshalali",
-            requestNumber: "#RN2325",
+        // 🔃 Sort by selected option
+        switch (sortOption) {
+            case 'Latest':
+                results.sort((a, b) => new Date(b._id) - new Date(a._id));
+                break;
+            case 'Oldest':
+                results.sort((a, b) => new Date(a._id) - new Date(b._id));
+                break;
+            case 'Name A-Z':
+                results.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            default:
+                break;
+        }
 
-        },
-        {
-            id: 6,
-            issuedBy: "Mohammad Ali",
-            requestNumber: "#RN2425",
-
-        },
-        {
-            id: 7,
-            issuedBy: "Fawaz Aref",
-            requestNumber: "#RN2525",
-
-        },
-    ]);
-
-    const handleDismiss = (id) => {
-        setComplaints((prev) => prev.filter((complaint) => complaint.id !== id));
+        setFiltered(results);
     };
 
     return (
         <div>
-
-
             <div className="search-filter-bar">
                 <div className="search-group">
                     <label htmlFor="search">Search</label>
                     <input
                         id="search"
                         type="text"
-                        placeholder="Search complaints..."
+                        placeholder="Search by name..."
                         className="search-input"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
                 </div>
                 <div className="filter-group">
                     <label htmlFor="filter">Filter</label>
-                    <select id="filter" className="filter-dropdown">
-                        <option value="">All</option>
-                        <option value="latest">Latest</option>
-                        <option value="name">Name A-Z</option>
-                        <option value="oldest">Oldest</option>
+                    <select
+                        id="filter"
+                        className="filter-dropdown"
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}
+                    >
+                        <option value="All">All</option>
+                        <option value="Latest">Latest</option>
+                        <option value="Name A-Z">Name A-Z</option>
+                        <option value="Oldest">Oldest</option>
                     </select>
                 </div>
                 <div className="apply-group">
-                    <button className="btn btn-filled">Apply</button>
+                    <button className="btn btn-filled" onClick={applyFilters}>
+                        Apply
+                    </button>
                 </div>
             </div>
 
-
-
             <div className="page-center">
-                {complaints.map((complaint) => (
-                    <div className="item-box" key={complaint.id}>
+                {filtered.map((user) => (
+                    <div className="item-box" key={user._id}>
                         <div className="item-content">
                             <div className="item-info">
                                 <p>
-                                    <strong>{complaint.issuedBy}</strong>
+                                    <strong>{user.name}</strong>
                                     <span style={{ fontWeight: "normal" }}> has requested to be a driver!</span>
                                 </p>
-
                             </div>
                         </div>
-
                         <div className="item-buttons">
-
-                            <button className="btn btn-filled" onClick={() => navigate('/review-driver')}>
+                            <button
+                                className="btn btn-filled"
+                                onClick={() => navigate('/review-driver', { state: { userId: user._id } })}
+                            >
                                 Review
                             </button>
-
                         </div>
                     </div>
                 ))}
