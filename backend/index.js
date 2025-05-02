@@ -11,6 +11,7 @@ const postRideRoutes = require('./routes/postRideRoutes');
 const userRoutes = require("./routes/user");
 const driverRoutes = require("./routes/driverRoutes"); // <-- add this
 const notificationRoutes = require("./routes/notificationRoutes"); 
+const complaintRoutes = require("./routes/complaintRoutes");
 
 const app = express();
 const port = 5000;
@@ -36,3 +37,4 @@ app.use("/api/community", communityRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
+app.use("/api/complaints", complaintRoutes);
