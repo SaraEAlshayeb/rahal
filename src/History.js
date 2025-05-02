@@ -284,7 +284,7 @@ const handleViewClick = async (ride) => {
       )}
 
 
-{ride.status === 'In Progress' && mode === 'rider' && (
+{ mode === 'rider' && (
   <div style={{ marginTop: '10px', textAlign: 'right' }}>
     <button
       onClick={() => handleViewClick(ride)}
