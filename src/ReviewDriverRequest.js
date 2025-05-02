@@ -1,27 +1,68 @@
 import './ReviewDriverRequest.css';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ReviewDriverRequest() {
     const [showApproveModal, setShowApproveModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
+    const [user, setUser] = useState(null);
+
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const userId = state?.userId;
 
-    const handleApprove = () => {
-        setShowApproveModal(true);
+    useEffect(() => {
+        console.log('userId received:', userId);
+
+        if (!userId) return;
+
+        fetch(`http://localhost:5000/approve/user/${userId}`)
+            .then(res => res.json())
+            .then(data => setUser(data))
+            .catch(err => console.error('Error fetching user:', err));
+    }, [userId]);
+
+    const handleApprove = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/approve/user/${userId}/approve`, {
+                method: 'PUT',
+            });
+
+            if (res.ok) {
+                setShowApproveModal(true);
+            } else {
+                const data = await res.json();
+                alert(`Failed to approve user: ${data.message}`);
+            }
+        } catch (error) {
+            console.error("Error approving user:", error);
+            alert("Something went wrong while approving the user.");
+        }
     };
 
-    const handleApproveOk = () => {
-        navigate('/approve-drivers');
+    const handleReject = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/approve/user/${userId}/reject`, {
+                method: 'PUT',
+            });
+
+            if (res.ok) {
+                setShowRejectModal(true);
+            } else {
+                const data = await res.json();
+                alert(`Failed to reject user: ${data.message}`);
+            }
+        } catch (error) {
+            console.error("Error rejecting user:", error);
+            alert("Something went wrong while rejecting the user.");
+        }
     };
 
-    const handleReject = () => {
-        setShowRejectModal(true);
-    };
 
-    const handleRejectOk = () => {
-        navigate('/approve-drivers');
-    };
+    const handleApproveOk = () => navigate('/approve-drivers');
+    const handleRejectOk = () => navigate('/approve-drivers');
+
+    if (!user) return <p>Loading...</p>;
 
     return (
         <div className="review-page">
@@ -35,19 +76,15 @@ function ReviewDriverRequest() {
                     <h2 className="section-title">Personal Info</h2>
                     <div className="info-row">
                         <span className="label">Name:</span>
-                        <span className="value">Lamyaa Alyousef</span>
-                    </div>
-                    <div className="info-row">
-                        <span className="label">Age:</span>
-                        <span className="value">18</span>
+                        <span className="value">{user.name}</span>
                     </div>
                     <div className="info-row">
                         <span className="label">Email:</span>
-                        <span className="value">email@hotmail.com</span>
+                        <span className="value">{user.email}</span>
                     </div>
                     <div className="info-row">
                         <span className="label">Gender:</span>
-                        <span className="value">Female</span>
+                        <span className="value">{user.gender}</span>
                     </div>
                 </div>
 
@@ -56,12 +93,19 @@ function ReviewDriverRequest() {
                 <div className="section last">
                     <h2 className="section-title">Documentation</h2>
                     <div className="info-row">
-                        <span className="label">Driver License:</span>
-                        <a href="/path-to-file.pdf" download className="download-link">Download</a>
+                        <span className="label">Driver Documentations:</span>
+                        <a
+                            href="#"
+                            className="download-link"
+                            onClick={(e) => {
+
+                            }}
+                        >
+                            Download
+                        </a>
                     </div>
                 </div>
 
-                <hr className="section-divider" />
 
                 <div className="buttons-bottom">
                     <button className="btn btn-filled" onClick={handleApprove}>Approve</button>
