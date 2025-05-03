@@ -321,8 +321,7 @@ const BookRide = () => {
             />
             <h2 style={{ marginBottom: "20px" }}>Booking Request Sent</h2>
             <p style={{ fontSize: "16px" }}>
-              Waiting for{" "}
-              <strong>{selectedRide?.driverName || "Unknown"}</strong> to
+              Waiting for Driver to
               approve your ride request.
               <br />
               Ride ID: <code>{selectedRide?._id}</code>
