@@ -116,17 +116,6 @@ function Profile() {
           <p>
             <strong>Status:</strong> {user.status}
           </p>
-          <p>
-            <strong>National ID:</strong> {user.nationalId?.originalname}
-          </p>
-          <p>
-            <strong>Driving License:</strong>{" "}
-            {user.drivingLicense?.originalname}
-          </p>
-          <p>
-            <strong>Vehicle Reg:</strong>{" "}
-            {user.vehicleRegistration?.originalname}
-          </p>
 
           <p>
             <strong>Gender:</strong> {user.gender}

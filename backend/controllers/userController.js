@@ -63,9 +63,9 @@ const registerUser = async (req, res) => {
             gender,
             phone,
             status: "active",
-            nationalId: "",
-            drivingLicense: "",
-            vehicleRegistration: "",
+            nationalId: {},
+            drivingLicense: {},
+            vehicleRegistration: {},
             vehicleType: "",
             community: [],
             profileImage: "/profile.png",            
@@ -76,6 +76,7 @@ const registerUser = async (req, res) => {
             totalRides: 0,
             totalEarnings: 0
         };
+        
 
         await userCollection.insertOne(newUser);
 
@@ -103,21 +104,20 @@ const getUserByEmail = async (req, res) => {
     }
 };
 const getUserById = async (req, res) => {
-    const { id } = req.params;
-
     try {
-        const db = client.db("RahalDb");
-        const user = await db.collection("user").findOne({ _id: new ObjectId(id) });
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.status(200).json({ name: user.name });
+      const db = client.db("RahalDb");
+      const userCollection = db.collection("user");
+      const user = await userCollection.findOne({ _id: new ObjectId(req.params.id) });
+  
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      res.json(user);
     } catch (error) {
-        console.error("Error fetching user by ID:", error);
-        res.status(500).json({ message: "Server error" });
+      console.error("Error in getUserById:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-};
+  };
+  
+
 
 module.exports = { getAllUsers, suspendUser ,getUserByEmail,registerUser , getUserById};

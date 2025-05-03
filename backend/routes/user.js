@@ -5,13 +5,14 @@ const {
   suspendUser,
   registerUser,
   getUserByEmail,
+  getUserById,
 } = require("../controllers/userController");
-const verifyToken = require("../middleware/verifyToken");
 
-router.get("/", verifyToken, getAllUsers);
-router.put("/suspend", verifyToken, suspendUser);
-router.get("/:email", verifyToken, getUserByEmail);
+// Routes
+router.get("/", getAllUsers);
+router.put("/suspend", suspendUser);
 router.post("/register", registerUser);
-const { getUserById } = require("../controllers/userController");
-router.get("/:id", getUserById);
+router.get("/id/:id", getUserById);
+router.get("/:email", getUserByEmail);
+
 module.exports = router;
