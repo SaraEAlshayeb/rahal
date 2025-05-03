@@ -18,14 +18,18 @@
 
 h1 {
     font-size: 36px;
-     color: #27445D;
-     font-weight: bold;
+    color: #27445D;
+    font-weight: bold;
+    background: linear-gradient(to right, #27445D, #6e8b9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     text-align: center;
-    /* font-size: 2rem; */
-    margin-bottom: 30px;
-    font-family: Arial, sans-serif;
+
 
 }
+
 
 h2 {
     font-family: Arial, sans-serif;

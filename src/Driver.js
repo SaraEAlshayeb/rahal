@@ -203,12 +203,16 @@ function Driver() {
       
 
     const email = localStorage.getItem('userEmail');
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         const fetchUserStatus = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/users/${email}`);
-                const user = response.data;
+                const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  });                const user = response.data;
 
                 setUserStatus(user.status);
 

@@ -1,5 +1,3 @@
-
-
 // export default Profile;
 import React, { useEffect, useState } from 'react';
 
@@ -9,11 +7,15 @@ function Profile() {
     useEffect(() => {
         const fetchUserProfile = async () => {
             const email = localStorage.getItem('userEmail');
-            if (!email) return;
+            const token = localStorage.getItem('token'); 
+            if (!email || !token) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/profile?email=${email}`);
-                const data = await response.json();
+                const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });                const data = await response.json();
 
                 if (response.ok) {
                     setUser(data);
@@ -96,9 +98,10 @@ function Profile() {
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>Phone:</strong> {user.phone}</p>
                     <p><strong>Status:</strong> {user.status}</p>
-                    <p><strong>National ID:</strong> {user.nationalId}</p>
-                    <p><strong>Driving License:</strong> {user.drivingLicense}</p>
-                    <p><strong>Vehicle Reg:</strong> {user.vehicleRegistration}</p>
+                    <p><strong>National ID:</strong> {user.nationalId?.originalname}</p>
+                    <p><strong>Driving License:</strong> {user.drivingLicense?.originalname}</p>
+                    <p><strong>Vehicle Reg:</strong> {user.vehicleRegistration?.originalname}</p>
+
                     <p><strong>Gender:</strong> {user.gender}</p>
                     <p><strong>Community:</strong> {user.community?.join(", ")}</p>
                     <p><strong>Total Rides:</strong> {user.totalRides}</p>
