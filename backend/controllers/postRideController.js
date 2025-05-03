@@ -62,7 +62,7 @@ const postRide = asyncHandler(async (req, res) => {
         seatCapacity: Number(seatCapacity),
         price: Number(price),
         preferredCommunity,
-        status: "in progress",
+        status: "NotReserved",
         pendingRiders: [],
         acceptedRiders: [],
     };

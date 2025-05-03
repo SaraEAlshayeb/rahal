@@ -346,14 +346,10 @@ const handleViewClick = async (ride) => {
                 }}>×</button>
 
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                <img
-                  src={mode === 'rider' ? selectedRide.image : '/Rahal_Logo.png'}
-                  alt='car'
-                  style={{ width: '100px', marginRight: '15px', borderRadius: '8px' }}
-                />
+                
                 <div>
                   <h3>{mode === 'rider' ? selectedRide.vehicle : selectedRide.passenger}</h3>
-                  <p style={{ color: 'gray' }}>⭐ 4.9 (531 reviews)</p>
+                 
                 </div>
               </div>
 
@@ -366,9 +362,7 @@ const handleViewClick = async (ride) => {
                   <p style={{ fontWeight: 'bold', margin: 0 }}>
                     {mode === 'rider' ? 'Contact Your Driver' : 'Contact Your Passenger'}
                   </p>
-                  <p style={{ margin: 0 }}>
-  {mode === 'rider' ? selectedRide.driverName : selectedRide.passenger}
-</p>
+                  
 
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
