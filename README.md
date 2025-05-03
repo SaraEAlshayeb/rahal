@@ -170,18 +170,19 @@ Authenticates a user or admin and returns a JWT token.
 - **Method:** POST  
 - **URL:** `http://localhost:5000/api/auth/login`
 
-- **Request Body:**
+#### 📤 Request Body:
 ```json
 {
   "email": "reema@example.com",
   "password": "1234"
 }
 ```
-- **Response Body:**
+#### 📤 Response Body:
 - **Success Response:**
 ![image](https://github.com/user-attachments/assets/4cb4471b-15d9-497c-8410-467d41af6145)
 
-*Error Response:* 
+- **Error Response:**
+
 ![image](https://github.com/user-attachments/assets/52014e84-ff3f-4686-9369-f9edb0c66724)
 
 
