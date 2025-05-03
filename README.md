@@ -151,8 +151,8 @@ npm install
 ```
 
 #### 3. Run the Server
-bash
-```
+
+```bash
 node index.js
 ```
 
