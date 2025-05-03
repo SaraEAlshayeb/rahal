@@ -8,5 +8,5 @@ router.get("/", verifyToken, getAllUsers);
 router.put("/suspend", verifyToken, suspendUser); 
 router.get("/:email", verifyToken, getUserByEmail);
 router.post("/register", registerUser); 
-
+const { getUserById } = require('../controllers/userController');  router.get('/:id', getUserById); 
 module.exports = router;
