@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { getAllUsers, suspendUser,registerUser, getUserByEmail} = require("../controllers/userController");
-const verifyToken = require("../middleware/verifyToken");
+const {
+  getAllUsers,
+  suspendUser,
+  registerUser,
+  getUserByEmail,
+  getUserById
+} = require("../controllers/userController");
 
+// Routes
+router.get("/", getAllUsers);
+router.put("/suspend", suspendUser);
+router.post("/register", registerUser);
+router.get("/id/:id", getUserById);         // ✅ <-- safe route
+router.get("/:email", getUserByEmail);      // ✅ <-- keep this after /id/:id
 
-router.get("/", verifyToken, getAllUsers); 
-router.put("/suspend", verifyToken, suspendUser); 
-router.get("/:email", verifyToken, getUserByEmail);
-router.post("/register", registerUser); 
-const { getUserById } = require('../controllers/userController');  router.get('/:id', getUserById); 
 module.exports = router;
