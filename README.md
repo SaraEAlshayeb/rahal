@@ -177,8 +177,8 @@ Authenticates a user or admin and returns a JWT token.
   "password": "1234"
 }
 ```
--**Response Body:**
-*Success Response:*
+- **Response Body:**
+- **Success Response:**
 ![image](https://github.com/user-attachments/assets/4cb4471b-15d9-497c-8410-467d41af6145)
 
 *Error Response:* 
