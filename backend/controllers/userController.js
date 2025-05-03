@@ -63,9 +63,9 @@ const registerUser = async (req, res) => {
             gender,
             phone,
             status: "active",
-            nationalId: "",
-            drivingLicense: "",
-            vehicleRegistration: "",
+            nationalId: {},
+            drivingLicense: {},
+            vehicleRegistration: {},
             vehicleType: "",
             community: [],
             profileImage: "/profile.png",            
@@ -76,6 +76,7 @@ const registerUser = async (req, res) => {
             totalRides: 0,
             totalEarnings: 0
         };
+        
 
         await userCollection.insertOne(newUser);
 
@@ -117,5 +118,6 @@ const getUserById = async (req, res) => {
     }
   };
   
+
 
 module.exports = { getAllUsers, suspendUser ,getUserByEmail,registerUser , getUserById};

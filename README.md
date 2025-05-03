@@ -131,6 +131,73 @@ http://localhost:3000
 
 [View UI Wireframes](https://www.figma.com/design/k3QKIAhjpatlG2pk0rtMuc/Responsive-Landing-Page-Design-%7C-Website-Home-Page-Design-%7C-Agency-Website-UI-Design--Community-?node-id=0-1&t=6JTZBZtIEEP0GNNm-1)
 
+---
+
+## 🛠️ Back-End Setup 
+### 📁 How to Set Up and Run the Back-End
+
+Follow these steps to set up and run the back-end server locally:
+
+#### 1. Navigate to the back-end directory
+
+```bash
+cd backend
+```
+#### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+#### 3. Run the Server
+
+```bash
+node index.js
+```
+---
+
+## 📡 API Documentation
+
+This section provides example requests and responses for key back-end API endpoints used in Rahal.
+
+---
+
+### 🔐 POST `/api/auth/login`
+
+Authenticates a user or admin and returns a JWT token.
+
+- **Method:** POST  
+- **URL:** `http://localhost:5000/api/auth/login`
+
+#### 📤 Request Body:
+```json
+{
+  "email": "reema@example.com",
+  "password": "1234"
+}
+```
+#### 📤 Response Body:
+- **Success Response:**
+![image](https://github.com/user-attachments/assets/4cb4471b-15d9-497c-8410-467d41af6145)
+
+- **Error Response:**
+
+![image](https://github.com/user-attachments/assets/52014e84-ff3f-4686-9369-f9edb0c66724)
+
+### 👤 GET `/api/users/:email`
+Fetches a user profile by email.
+
+- **Method:** GET  
+- **URL:** `http://localhost:5000/api/users/reema@example.com`
+
+![image](https://github.com/user-attachments/assets/effa4a24-5be6-4f66-90a0-17da7854d86c)
+
+
+After receiving a successful response from the `/api/auth/login` endpoint, the JWT token returned in the response should be copied and added to the `Authorization` header in Postman using the format:
+```
+Bearer <token>
+ ```
+Then, a `GET` request can be sent to an endpoint such as `/api/users/reema@example.com`. With the valid token included, the request will be authorized successfully and return the expected data with a `200 OK` status, as shown in the screenshot above.
 ## 👩‍💻 Authors
 
 - Reema Alghamdi
