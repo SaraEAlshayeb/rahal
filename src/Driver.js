@@ -200,42 +200,83 @@ function Driver() {
     const navigate = useNavigate();
     const [hasSubmitted, setHasSubmitted] = useState(
         localStorage.getItem('hasSubmitted') === 'true'
-      );
-      
+    );
+
 
     const email = localStorage.getItem('userEmail');
     const token = localStorage.getItem('token');
 
+    // useEffect(() => {
+    //     const fetchUserStatus = async () => {
+    //         try {
+    //             const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+    //                 headers: {
+    //                   Authorization: `Bearer ${token}`,
+    //                 },
+    //               });                
+    //             const user = response.data;
+
+    //             setUserStatus(user.status);
+
+    //             const hasFilledInfo =
+    //                 user.vehicleType &&
+    //                 user.drivingLicense?.filename &&
+    //                 user.vehicleRegistration?.filename &&
+    //                 user.nationalId?.filename;
+
+    //             if (user.status === "InProgress" && hasFilledInfo) {
+    //                 setShowModal(true);
+    //             }
+
+    //         } catch (error) {
+    //             console.error("Error fetching user status:", error);
+    //         }
+    //     };
+
+    //     if (email) {
+    //         fetchUserStatus();
+    //     }
+    // }, [email]);
     useEffect(() => {
         const fetchUserStatus = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+                const response = await axios.get(`http://localhost:5000/api/users/${email}`, {
                     headers: {
-                      Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
-                  });                const user = response.data;
-
+                });
+    
+                const user = response.data;
+    
                 setUserStatus(user.status);
-
+    
                 const hasFilledInfo =
                     user.vehicleType &&
-                    user.drivingLicense?.filename &&
-                    user.vehicleRegistration?.filename &&
-                    user.nationalId?.filename;
-
+                    user.drivingLicense &&
+                    user.vehicleRegistration &&
+                    user.nationalId;
+    
                 if (user.status === "InProgress" && hasFilledInfo) {
+                    setHasSubmitted(true);
+                    localStorage.setItem('hasSubmitted', 'true');
                     setShowModal(true);
                 }
-
             } catch (error) {
-                console.error("Error fetching user status:", error);
+                if (error.response) {
+                    console.error("Server responded with error:", error.response.status, error.response.data);
+                } else if (error.request) {
+                    console.error("No response received:", error.request);
+                } else {
+                    console.error("Error setting up request:", error.message);
+                }
             }
         };
-
-        if (email) {
+    
+        if (email && token) {
             fetchUserStatus();
         }
-    }, [email]);
+    }, [email, token]);
+    
 
 
 
@@ -248,51 +289,51 @@ function Driver() {
     };
 
 
-   
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
-      
+
         if (!formData.drivingLicense) newErrors.drivingLicense = 'Driving license is required';
         if (!formData.nationalId) newErrors.nationalId = 'National ID is required';
         if (!formData.vehicleRegistration) newErrors.vehicleRegistration = 'Vehicle registration is required';
         if (!formData.vehicleType) newErrors.vehicleType = 'Vehicle type is required';
-      
+
         setErrors(newErrors);
-      
+
         if (Object.keys(newErrors).length === 0) {
-          try {
-            const response = await axios.put(
-              `http://localhost:5000/api/drivers/${email}`,
-              {
-                drivingLicense: formData.drivingLicense,
-                nationalId: formData.nationalId,
-                vehicleRegistration: formData.vehicleRegistration,
-                vehicleType: formData.vehicleType,
-                status: 'InProgress',
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }
-            );
-      
-            if (response.status === 200) {
-                setHasSubmitted(true);
-                localStorage.setItem('hasSubmitted', 'true');
-                setShowSuccessModal(true);
-              }
-               else {
-              alert('Error updating user data.');
+            try {
+                const response = await axios.put(
+                    `http://localhost:5000/api/drivers/${email}`,
+                    {
+                        drivingLicense: formData.drivingLicense,
+                        nationalId: formData.nationalId,
+                        vehicleRegistration: formData.vehicleRegistration,
+                        vehicleType: formData.vehicleType,
+                        status: 'InProgress',
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                if (response.status === 200) {
+                    setHasSubmitted(true);
+                    localStorage.setItem('hasSubmitted', 'true');
+                    setShowSuccessModal(true);
+                }
+                else {
+                    alert('Error updating user data.');
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+                alert('There was an error submitting your data. Please try again.');
             }
-          } catch (error) {
-            console.error('Error updating user:', error);
-            alert('There was an error submitting your data. Please try again.');
-          }
         }
-      };
-      
+    };
+
     const modalOverlayStyle = {
         position: 'fixed',
         top: 0,

@@ -17,23 +17,29 @@ function ManageProfiles() {
 
     useEffect(() => {
         const fetchUsers = async () => {
+            const token = localStorage.getItem('token');
             try {
-                const response = await fetch("http://localhost:5000/api/users");
+                const response = await fetch("http://localhost:5000/api/users", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
-                if (response.ok) {
-                    setUserProfiles(data);
-                    setSuspendedUsers(data
-                        .filter(user => user.status === "suspended")
-                        .map(user => user.name)
-                    );
-                }
+    
+                setUserProfiles(data);
+                setSuspendedUsers(data
+                    .filter(user => user.status === "suspended")
+                    .map(user => user.name)
+                );
             } catch (error) {
                 console.error("Error loading users:", error);
             }
         };
-
+    
         fetchUsers();
     }, []);
+    
 
     const handleClose = () => {
         setShowModal(false);
@@ -41,15 +47,19 @@ function ManageProfiles() {
     };
 
     const handleSuspendClick = async (user) => {
+        const token = localStorage.getItem('token');
         try {
             const response = await fetch("http://localhost:5000/api/users/suspend", {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify({ email: user.email })
             });
-
+    
             const data = await response.json();
-
+    
             if (response.ok) {
                 if (!suspendedUsers.includes(user.name)) {
                     setSuspendedUsers(prev => [...prev, user.name]);
@@ -64,6 +74,7 @@ function ManageProfiles() {
             alert("Server error while suspending user");
         }
     };
+    
 
 
     const viewProfile = (user) => {
