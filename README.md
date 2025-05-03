@@ -190,7 +190,17 @@ Fetches a user profile by email.
 
 - **Method:** GET  
 - **URL:** `http://localhost:5000/api/users/reema@example.com`
-- 
+
+
+
+ >  After receiving a successful response from the `/api/auth/login` endpoint, I copied the JWT token from the response and added it to the `Authorization` header in Postman using the format:
+>
+> ```
+> Bearer <your_token_here>
+> ```
+>
+> I then sent a `GET` request to `/api/users/reema@example.com`. The request was successfully authorized, returning the full user profile with a `200 OK` status, as shown in the screenshot above.
+
 ## 👩‍💻 Authors
 
 - Reema Alghamdi
