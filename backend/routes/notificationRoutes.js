@@ -1,8 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { getDriverNotifications, respondToNotification } = require("../controllers/notificationController");
+const {
+  getDriverNotifications,
+  respondToNotification,
+  createNotification,
+  getUserNotifications,
+  getUserById,
+  deleteNotification,
+} = require("../controllers/notificationController");
 
-router.get("/:driverId", getDriverNotifications);
-router.post("/respond", respondToNotification); 
-
+router.get("/:userId", getUserNotifications);
+router.post("/respond", respondToNotification);
+router.post("/", createNotification);
+router.get("/id/:id", getUserById); // return user by ObjectId
+router.delete("/:id", deleteNotification);
 module.exports = router;
