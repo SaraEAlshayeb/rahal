@@ -15,7 +15,7 @@ const getNotReservedRides = async (req, res) => {
 
     const notReservedRides = await rideCollection
       .find({
-        status: "NotReserved",
+        status: { $in: ["NotReserved", "InProgress", "in progress"] },
         driver: { $ne: new ObjectId(userId) },
       })
       .project({

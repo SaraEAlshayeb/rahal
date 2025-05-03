@@ -81,6 +81,7 @@ const respondToNotification = async (req, res) => {
         {
           $pull: { pendingRiders: new ObjectId(passengerId) },
           $addToSet: { acceptedRiders: new ObjectId(passengerId) },
+          $set: { status: "InProgress" }
         }
       );
     } else if (action === "reject") {
