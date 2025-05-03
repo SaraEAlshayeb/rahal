@@ -98,9 +98,6 @@ function Profile() {
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>Phone:</strong> {user.phone}</p>
                     <p><strong>Status:</strong> {user.status}</p>
-                    <p><strong>National ID:</strong> {typeof user.nationalId === 'string' ? user.nationalId : user.nationalId?.originalname}</p>
-                    <p><strong>Driving License:</strong> {typeof user.drivingLicense === 'string' ? user.drivingLicense : user.drivingLicense?.originalname}</p>
-                    <p><strong>Vehicle Reg:</strong> {typeof user.vehicleRegistration === 'string' ? user.vehicleRegistration : user.vehicleRegistration?.originalname}</p>
 
 
                     <p><strong>Gender:</strong> {user.gender}</p>
