@@ -4,11 +4,14 @@ const { connectDB } = require("./config/db");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-const communityRouter = require("./routes/communityRoutes");
+const communityRouter = require("./routes/communityRoutes"); // Import the router
 const postRideRoutes = require("./routes/postRideRoutes");
 const userRoutes = require("./routes/user");
 const driverRoutes = require("./routes/driverRoutes"); // <-- add this
 const notificationRoutes = require("./routes/notificationRoutes");
+const complaintRoutes = require("./routes/complaintRoutes");
+const approveDriverRoutes = require("./routes/approveDriverRoutes");
+const historyRoutes = require("./routes/historyRoute");
 const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
@@ -32,7 +35,12 @@ app.use("/api/notifications", notificationRoutes);
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/community", communityRouter); // Ensure this route is only listed once
+
+app.use("/approve", approveDriverRoutes); // now available at /approve/pending
 app.use("/api/community", communityRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
+app.use("/api/complaints", complaintRoutes);
+app.use("/api/history", historyRoutes);

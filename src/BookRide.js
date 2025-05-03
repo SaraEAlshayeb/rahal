@@ -67,7 +67,7 @@ const BookRide = () => {
 
   const fetchDriverName = async (driverId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/id/${driverId}`);
+      const res = await fetch(`http://localhost:5000/api/users/${driverId}`);
       if (!res.ok) throw new Error("Failed to fetch driver");
       const data = await res.json();
       return data.name || "Unknown";

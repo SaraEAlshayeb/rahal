@@ -8,6 +8,7 @@ const {
   getUserById,
   deleteNotification,
 } = require("../controllers/notificationController");
+router.get("/:driverId", getDriverNotifications);
 
 router.get("/:userId", getUserNotifications);
 router.post("/respond", respondToNotification);

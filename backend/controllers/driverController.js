@@ -2,7 +2,8 @@ const { client } = require("../config/db");
 
 const updateUser = async (req, res) => {
     const { email } = req.params;
-    const { vehicleType, status, nationalId, drivingLicense, vehicleRegistration } = req.body;
+    const { vehicleType, status } = req.body;
+    const { drivingLicense, nationalId, vehicleRegistration } = req.files;
 
     if (!email) {
         return res.status(400).json({ message: "Email is required" });
@@ -11,17 +12,24 @@ const updateUser = async (req, res) => {
     try {
         const db = client.db("RahalDb");
 
-        // Prepare the fields to be updated
         const updateFields = {
             vehicleType,
             status,
-            nationalId,
-            drivingLicense,
-            vehicleRegistration,
+            ...(drivingLicense && { drivingLicense: drivingLicense[0] }),
+            ...(nationalId && { nationalId: nationalId[0] }),
+            ...(vehicleRegistration && { vehicleRegistration: vehicleRegistration[0]}),
+
         };
 
+        // Remove undefined fields (if no file is uploaded)
+        for (const key in updateFields) {
+            if (updateFields[key] === undefined) {
+                delete updateFields[key];
+            }
+        }
+
         const result = await db.collection("user").updateOne(
-            { email },
+            { email: email },
             { $set: updateFields }
         );
 

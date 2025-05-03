@@ -68,12 +68,13 @@ function PostRide() {
     }, [navigate]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
         setRideData(prevData => ({
             ...prevData,
-            [name]: value
+            [name]: type === 'number' ? Number(value) : value
         }));
     };
+
 
 
     const handleSubmit = async (e) => {

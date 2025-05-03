@@ -1,106 +1,64 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FaStar, FaArrowUp, FaFilter } from "react-icons/fa";
 
 const History = () => {
-  const [rides, setRides] = useState([]);
-  const [mode, setMode] = useState("rider");
-  const [user, setUser] = useState(null);
+  const [filter, setFilter] = useState("all");
+  const [mode, setMode] = useState("driver");
   const [selectedRide, setSelectedRide] = useState(null);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
   const [hover, setHover] = useState(0);
-  const [rideCompleted, setRideCompleted] = useState(false);
+  const [comment, setComment] = useState("");
   const [hoverCard, setHoverCard] = useState(null);
-  const [filter, setFilter] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
+  const [rideCompleted, setRideCompleted] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     community: "",
     from: "",
     to: "",
   });
+  const [rides, setRides] = useState([]);
 
-  // Place this block first
-  const driverRides = Array.isArray(rides)
-    ? rides.filter((r) => r.driver === user?._id)
-    : [];
-  const riderRides = Array.isArray(rides)
-    ? rides.filter(
-        (r) =>
-          Array.isArray(r.acceptedRiders) &&
-          r.acceptedRiders.includes(user?._id)
-      )
-    : [];
-
-  // Now it's safe to use
-  const ridesToDisplay = mode === "rider" ? riderRides : driverRides;
+  const [userId] = useState(localStorage.getItem("userId"));
 
   useEffect(() => {
-    const fetchRides = async () => {
-      try {
-        const email = localStorage.getItem("userEmail");
-        const userRes = await fetch(`http://localhost:5000/api/users/${email}`);
-        const userData = await userRes.json();
+    if (!userId) return;
 
-        if (!userData || !userData._id) {
-          console.error(" Invalid user data:", userData);
-          return;
-        }
-        setUser(userData);
-
-        if (!userData._id) {
-          console.error("Missing user ID");
-          return;
-        }
-
-        const role = userData.roles.includes("driver") ? "driver" : "rider";
-        const ridesRes = await fetch("http://localhost:5000/api/rides/user", {
-          headers: {
-            "user-id": userData._id,
-            role: role,
-          },
-        });
-
-        const ridesData = await ridesRes.json();
-
-        if (!Array.isArray(ridesData)) {
-          console.error(" Fetched rides are not an array:", ridesData);
-          setRides([]);
-          return;
-        }
-
-        setRides(ridesData);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
+    const fetchHistory = async () => {
+      const endpoint =
+        mode === "driver"
+          ? `http://localhost:5000/api/history/driver/${userId}`
+          : `http://localhost:5000/api/history/rider/${userId}`;
+      const res = await axios.get(endpoint);
+      setRides(res.data);
     };
 
-    fetchRides();
-  }, []);
+    fetchHistory();
+  }, [mode, userId]); // now this is safe
 
-  const sortedDisplayedRides = [...ridesToDisplay].sort((a, b) => {
-    if (a.status === "InProgress" && b.status !== "InProgress") return -1;
-    if (a.status !== "InProgress" && b.status === "InProgress") return 1;
-    return 0;
-  });
+  const sortedRides = [...rides]
+    .filter((ride) =>
+      mode === "driver"
+        ? ride.driver?.toString() === userId || ride.driver === userId
+        : ride.acceptedRiders?.some(
+            (id) => id.toString() === userId || id === userId
+          )
+    )
 
-  const filteredRides = sortedDisplayedRides.filter(
+    .sort((a, b) => {
+      if (a.status === "In Progress" && b.status !== "In Progress") return -1;
+      if (a.status !== "In Progress" && b.status === "In Progress") return 1;
+      return 0;
+    });
+
+  const filteredRides = sortedRides.filter(
     (ride) =>
       (filter === "all" || ride.status === filter) &&
       (!activeFilters.community ||
         ride.preferredCommunity === activeFilters.community) &&
-      (!activeFilters.origin || ride.origin === activeFilters.origin) &&
-      (!activeFilters.destination ||
-        ride.destination === activeFilters.tdestinationo)
+      (!activeFilters.from || ride.origin === activeFilters.from) &&
+      (!activeFilters.to || ride.destination === activeFilters.to)
   );
-
-  const totalEarnings = driverRides.reduce(
-    (sum, r) => sum + (r.totalAmount || 0),
-    0
-  );
-  const avgRating = (
-    driverRides.reduce((sum, r) => sum + (r.ratingGiven || 0), 0) /
-    driverRides.length
-  ).toFixed(1);
 
   const toggleFilter = (type, value) => {
     setActiveFilters((prev) => ({
@@ -109,31 +67,79 @@ const History = () => {
     }));
   };
 
-  const isMobile = window.innerWidth <= 768;
+  const totalEarnings = rides
+    .filter((r) => r.driver === userId && r.status === "completed")
+    .reduce((sum, r) => sum + (r.price || 0), 0);
+
+  const avgRating = (
+    rides
+      .filter((r) => r.driverId === userId && r.ratingGiven)
+      .reduce((sum, r) => sum + (r.ratingGiven || 0), 0) /
+      rides.filter((r) => r.driverId === userId && r.ratingGiven).length || 1
+  ).toFixed(1);
 
   const handleSubmit = async () => {
-    const userEmail = localStorage.getItem("userEmail");
-    const userRes = await fetch(`http://localhost:5000/api/users/${userEmail}`);
-    const user = await userRes.json();
+    const issuedBy = localStorage.getItem("userId");
+    const driverId = selectedRide.driver?._id || selectedRide.driver;
+    const rideId = selectedRide._id?.toString?.() || selectedRide._id;
 
-    const body = {
-      rideId: selectedRide._id,
-      rating,
-      feedback: comment,
-      userId: user._id,
-      mode,
-    };
+    if (!issuedBy || !driverId || !rideId || !comment) {
+      alert("Missing data for complaint");
+      return;
+    }
 
-    await fetch("http://localhost:5000/api/rides/feedback", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    try {
+      const res = await fetch("http://localhost:5000/api/history/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          issuedBy: issuedBy.toString(),
+          driverId: driverId.toString(),
+          rideId: rideId.toString(),
+          description: comment,
+        }),
+      });
 
-    setSelectedRide(null);
-    setRating(0);
-    setComment("");
-    setRideCompleted(false);
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Complaint submitted successfully!");
+        setComment("");
+        setSelectedRide(null);
+      } else {
+        console.error("Backend error:", data);
+        alert("Error submitting complaint: " + data.error);
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Network error submitting complaint.");
+    }
+  };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleViewClick = async (ride) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/users/${ride.driver}`);
+      const data = await res.json();
+
+      setSelectedRide({
+        ...ride,
+        driverName: data.name || "Unknown Driver",
+      });
+    } catch (error) {
+      console.error("Failed to fetch driver name:", error);
+      setSelectedRide({
+        ...ride,
+        driverName: "Unknown Driver",
+      });
+    }
   };
 
   return (
@@ -185,7 +191,7 @@ const History = () => {
             style={{ padding: "10px 20px", borderRadius: "10px" }}
           >
             <option value="all">All</option>
-            <option value="upcoming">inprogress</option>
+            <option value="In Progress">Upcoming</option>
             <option value="completed">Completed</option>
           </select>
 
@@ -228,7 +234,7 @@ const History = () => {
                   cursor: "pointer",
                 }}
               >
-                ×
+                Ã—
               </button>
             </div>
 
@@ -283,14 +289,14 @@ const History = () => {
               ].map((c) => (
                 <button
                   key={c}
-                  onClick={() => toggleFilter("origin", c)}
+                  onClick={() => toggleFilter("from", c)}
                   style={{
                     padding: "8px 16px",
                     borderRadius: "16px",
                     border: "1px solid #27445D",
                     backgroundColor:
-                      activeFilters.origin === c ? "#27445D" : "white",
-                    color: activeFilters.origin === c ? "white" : "#27445D",
+                      activeFilters.from === c ? "#27445D" : "white",
+                    color: activeFilters.from === c ? "white" : "#27445D",
                   }}
                 >
                   {c}
@@ -322,15 +328,14 @@ const History = () => {
               ].map((c) => (
                 <button
                   key={c}
-                  onClick={() => toggleFilter("destination", c)}
+                  onClick={() => toggleFilter("to", c)}
                   style={{
                     padding: "8px 16px",
                     borderRadius: "16px",
                     border: "1px solid #27445D",
                     backgroundColor:
-                      activeFilters.destination === c ? "#27445D" : "white",
-                    color:
-                      activeFilters.tdestinationo === c ? "white" : "#27445D",
+                      activeFilters.to === c ? "#27445D" : "white",
+                    color: activeFilters.to === c ? "white" : "#27445D",
                   }}
                 >
                   {c}
@@ -363,7 +368,7 @@ const History = () => {
               }}
             >
               <FaArrowUp color="green" size={20} />{" "}
-              <strong>Total Earnings:</strong> SAR {totalEarnings}
+              <strong>Total Earnings:</strong> SAR {totalEarnings || 0}
             </div>
             <div
               style={{
@@ -378,7 +383,8 @@ const History = () => {
               }}
             >
               <FaArrowUp color="green" size={20} />{" "}
-              <strong>Total Rides:</strong> {driverRides.length}
+              <strong>Total Rides:</strong>{" "}
+              {rides.filter((r) => r.driver?.toString() === userId).length}
             </div>
             <div
               style={{
@@ -397,6 +403,7 @@ const History = () => {
             </div>
           </div>
         )}
+
         {/* Rides List */}
         <div style={{ marginTop: "30px" }}>
           {filteredRides.map((ride) => (
@@ -420,47 +427,45 @@ const History = () => {
                 <div
                   style={{
                     fontWeight: "bold",
-                    color: ride.status === "InProgress" ? "orange" : "green",
+                    color: ride.status === "In Progress" ? "orange" : "green",
                   }}
                 >
                   {ride.status.toUpperCase()}
                 </div>
                 {ride.status === "completed" &&
-                  ride.ratingArray &&
-                  ride.ratingArray.length > 0 && (
+                  (ride.rating || ride.ratingGiven) && (
                     <div style={{ display: "flex", gap: "4px" }}>
-                      {[
-                        ...Array(
-                          Math.round(
-                            ride.ratingArray.reduce((a, b) => a + b, 0) /
-                              ride.ratingArray.length
-                          )
-                        ),
-                      ].map((_, i) => (
-                        <FaStar key={i} color="gold" />
-                      ))}
+                      {[...Array(ride.rating || ride.ratingGiven)].map(
+                        (_, i) => (
+                          <FaStar key={i} color="gold" />
+                        )
+                      )}
                     </div>
                   )}
               </div>
+
               <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-                {mode === "driver" ? ride.passenger : ride.vehicle}
+                {mode === "driver" ? ride.passengerName : ride.vehicleType}
               </p>
+
               <p>
                 <strong>From:</strong> {ride.origin} | <strong>To:</strong>{" "}
                 {ride.destination}
               </p>
               <p>
-                {ride.date} | {ride.time}
+                {new Date(ride.date).toLocaleDateString()} | {ride.time}
               </p>
-              {ride.earning && mode === "driver" && (
+
+              {ride.price && mode === "driver" && (
                 <p>
-                  <strong>Earning:</strong> SAR {ride.earning}
+                  <strong>Earning:</strong> SAR {ride.price}
                 </p>
               )}
-              {ride.status === "InProgress" && (
+
+              {mode === "rider" && (
                 <div style={{ marginTop: "10px", textAlign: "right" }}>
                   <button
-                    onClick={() => setSelectedRide(ride)}
+                    onClick={() => handleViewClick(ride)}
                     style={{
                       backgroundColor: "#27445D",
                       color: "white",
@@ -474,6 +479,7 @@ const History = () => {
                   </button>
                 </div>
               )}
+
               {ride.status === "completed" && (
                 <div style={{ marginTop: "10px", textAlign: "right" }}>
                   <button
@@ -536,7 +542,7 @@ const History = () => {
                   fontSize: "20px",
                 }}
               >
-                ×
+                Ã—
               </button>
 
               <div
@@ -547,7 +553,9 @@ const History = () => {
                 }}
               >
                 <img
-                  src={"/Rahal_Logo.png"}
+                  src={
+                    mode === "rider" ? selectedRide.image : "/Rahal_Logo.png"
+                  }
                   alt="car"
                   style={{
                     width: "100px",
@@ -559,18 +567,9 @@ const History = () => {
                   <h3>
                     {mode === "rider"
                       ? selectedRide.vehicle
-                      : selectedRide.passengerName}
+                      : selectedRide.passenger}
                   </h3>
-                  <p style={{ color: "gray" }}>
-                    ⭐{" "}
-                    {selectedRide?.rate?.length
-                      ? (
-                          selectedRide.rate.reduce((a, b) => a + b, 0) /
-                          selectedRide.rate.length
-                        ).toFixed(1)
-                      : "N/A"}{" "}
-                    ({selectedRide?.rate?.length || 0} reviews)
-                  </p>
+                  <p style={{ color: "gray" }}>â­ 4.9 (531 reviews)</p>
                 </div>
               </div>
 
@@ -593,7 +592,7 @@ const History = () => {
                   </p>
                   <p style={{ margin: 0 }}>
                     {mode === "rider"
-                      ? selectedRide.driver
+                      ? selectedRide.driverName
                       : selectedRide.passenger}
                   </p>
                 </div>
@@ -726,7 +725,7 @@ const History = () => {
                   fontSize: "20px",
                 }}
               >
-                ×
+                Ã—
               </button>
               <div
                 style={{
