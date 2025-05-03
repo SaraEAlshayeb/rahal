@@ -22,13 +22,26 @@ function Driver() {
     const navigate = useNavigate();
     const email = localStorage.getItem("userEmail");
 
+
     useEffect(() => {
         const fetchUserInfo = async () => {
+            const token = localStorage.getItem("token");
+
             try {
-                const response = await axios.get(`http://localhost:5000/api/users/${email}`);
-                const response1 = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`);
-                const data1 = await response1.json()
+                const response = await axios.get(`http://localhost:5000/api/users/${email}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+
+                const response1 = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+
                 const data = response.data;
+                const data1 = await response1.json();
                 setUserName(data.name);
 
                 if (data1.role === 'driver') {
@@ -45,6 +58,7 @@ function Driver() {
 
         if (email) fetchUserInfo();
     }, [email]);
+
 
     const handleChange = (e) => {
         const { id, value, files } = e.target;
@@ -74,11 +88,19 @@ function Driver() {
                 formDataToSend.append("vehicleType", formData.vehicleType);
                 formDataToSend.append("status", "InProgress");
 
-                const response = await axios.put(`http://localhost:5000/api/drivers/${email}`, formDataToSend, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
+
+                const token = localStorage.getItem("token");
+                const response = await axios.put(
+                    `http://localhost:5000/api/drivers/${email}`,
+                    formDataToSend,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${token}`,
+                        }
                     }
-                });
+                );
+
 
                 if (response.status === 200) {
                     setShowSuccessModal(true);
@@ -145,14 +167,28 @@ function Driver() {
 
             {showSuccessModal && (
                 <div className="modal-backdrop">
-                    <div className="modal-content">
-                        <img src="/checkmark.gif" alt="Success" style={{ width: '100px', marginBottom: '20px' }} />
-                        <h2>Submitted Successfully</h2>
-                        <p>We are currently reviewing your request to become a driver.</p>
-                        <button className="driver-submit" onClick={() => { setShowSuccessModal(false); navigate("/home"); }}>OK</button>
+                    <div className="modal-content text-center">
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <img src="/checkmark.gif" alt="Success" style={{ width: '90px', height: '90px', marginBottom: '20px' }} />
+                        </div>
+                        <h2 style={{ fontSize: '20px', fontWeight: '600' }}>Submitted Successfully</h2>
+                        <p style={{ marginBottom: '20px' }}>
+                            We are currently reviewing your request to become a driver.
+                        </p>
+                        <button
+                            className="driver-submit"
+                            onClick={() => {
+                                setShowSuccessModal(false);
+                                navigate("/home");
+                            }}
+                        >
+                            OK
+                        </button>
                     </div>
                 </div>
             )}
+
+
 
             {showDriverModal && (
                 <div className="modal-backdrop">
