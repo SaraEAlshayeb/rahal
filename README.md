@@ -133,8 +133,7 @@ http://localhost:3000
 
 ---
 
-## 🛠️ Back-End Setup & API Documentation
-
+## 🛠️ Back-End Setup 
 ### 📁 How to Set Up and Run the Back-End
 
 Follow these steps to set up and run the back-end server locally:
