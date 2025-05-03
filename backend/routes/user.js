@@ -12,7 +12,7 @@ const {
 router.get("/", getAllUsers);
 router.put("/suspend", suspendUser);
 router.post("/register", registerUser);
-router.get("/id/:id", getUserById);         // ✅ <-- safe route
-router.get("/:email", getUserByEmail);      // ✅ <-- keep this after /id/:id
+router.get("/id/:id", getUserById);         
+router.get("/:email", getUserByEmail);     
 
 module.exports = router;
