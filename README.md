@@ -185,7 +185,12 @@ Authenticates a user or admin and returns a JWT token.
 
 ![image](https://github.com/user-attachments/assets/52014e84-ff3f-4686-9369-f9edb0c66724)
 
+### 👤 GET `/api/users/:email`
+Fetches a user profile by email.
 
+- **Method:** GET  
+- **URL:** `http://localhost:5000/api/users/reema@example.com`
+- 
 ## 👩‍💻 Authors
 
 - Reema Alghamdi
