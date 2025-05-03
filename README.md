@@ -131,6 +131,32 @@ http://localhost:3000
 
 [View UI Wireframes](https://www.figma.com/design/k3QKIAhjpatlG2pk0rtMuc/Responsive-Landing-Page-Design-%7C-Website-Home-Page-Design-%7C-Agency-Website-UI-Design--Community-?node-id=0-1&t=6JTZBZtIEEP0GNNm-1)
 
+---
+
+## 🛠️ Back-End Setup & API Documentation
+
+### 📁 How to Set Up and Run the Back-End
+
+Follow these steps to set up and run the back-end server locally:
+
+#### 1. Navigate to the back-end directory
+
+```bash
+cd backend
+```
+#### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+#### 3. Run the Server
+bash
+```
+node index.js
+```
+
+
 ## 👩‍💻 Authors
 
 - Reema Alghamdi
