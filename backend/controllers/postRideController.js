@@ -16,10 +16,8 @@ const checkUserRole = async (req, res) => {
         const db = client.db("RahalDb");
         const collection = db.collection('user');
 
-        // Normalize email (trim and convert to lowercase)
         const normalizedEmail = email.trim().toLowerCase();
 
-        // Query the database with normalized email
         const user = await collection.findOne({ email: normalizedEmail });
 
         if (!user) {
@@ -54,9 +52,8 @@ const postRide = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Invalid date format" });
     }
 
-    // Ensure price and seatCapacity are numbers
     const rideData = {
-        driver:new ObjectId(driver),  // already ObjectId string from frontend
+        driver:new ObjectId(driver),
         origin: from,
         destination: to,
         date: rideDate,
@@ -65,7 +62,7 @@ const postRide = asyncHandler(async (req, res) => {
         seatCapacity: Number(seatCapacity),
         price: Number(price),
         preferredCommunity,
-        status: "in progress",  // match your DB structure exactly
+        status: "in progress",
         pendingRiders: [],
         acceptedRiders: [],
     };
