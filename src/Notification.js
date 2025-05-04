@@ -18,10 +18,10 @@ function Notification() {
         const userRes = await fetch(`http://localhost:5000/api/users/${email}`);
         const user = await userRes.json();
         const userId = user._id;
-        const role = user.roles.includes("driver") ? "driver" : "rider";
-
+        const role = localStorage.getItem("role");
+        const path = role === "driver" ? "driver" : "user";
         const response = await fetch(
-          `http://localhost:5000/api/notifications/${userId}?role=${role}`
+          `http://localhost:5000/api/notifications/${path}/${userId}`
         );
 
         const data = await response.json();

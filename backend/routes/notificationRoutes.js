@@ -1,6 +1,3 @@
-
-
-
 const express = require("express");
 const router = express.Router();
 const {
@@ -11,11 +8,14 @@ const {
   getUserById,
   deleteNotification,
 } = require("../controllers/notificationController");
-router.get("/:driverId", getDriverNotifications);
 
-router.get("/:userId", getUserNotifications);
+// ⚠️ These must be different paths
+router.get("/driver/:driverId", getDriverNotifications); // For driver
+router.get("/user/:userId", getUserNotifications); // For rider
+
 router.post("/respond", respondToNotification);
 router.post("/", createNotification);
-router.get("/id/:id", getUserById); // return user by ObjectId
+router.get("/id/:id", getUserById);
 router.delete("/:id", deleteNotification);
+
 module.exports = router;

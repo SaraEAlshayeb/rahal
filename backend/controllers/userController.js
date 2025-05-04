@@ -1,123 +1,128 @@
 const { client } = require("../config/db");
 const { ObjectId } = require("mongodb");
 
-
 // GET /api/users
 const getAllUsers = async (req, res) => {
-    try {
-        const db = client.db("RahalDb");
-        const users = await db.collection("user").find({}).toArray();
-        res.status(200).json(users);
-    } catch (error) {
-        console.error("Error fetching users:", error);
-        res.status(500).json({ message: "Server error" });
-    }
+  try {
+    const db = client.db("RahalDb");
+    const users = await db.collection("user").find({}).toArray();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 const suspendUser = async (req, res) => {
-    const { email } = req.body;
+  const { email } = req.body;
 
-    if (!email) {
-        return res.status(400).json({ message: "Email is required" });
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  try {
+    const db = client.db("RahalDb");
+    const result = await db
+      .collection("user")
+      .updateOne({ email: email }, { $set: { status: "suspended" } });
+
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ message: "User suspended" });
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
-
-    try {
-        const db = client.db("RahalDb");
-        const result = await db.collection("user").updateOne(
-            { email: email },
-            { $set: { status: "suspended" } }
-        );
-
-        if (result.modifiedCount === 1) {
-            res.status(200).json({ message: "User suspended" });
-        } else {
-            res.status(404).json({ message: "User not found" });
-        }
-    } catch (error) {
-        console.error("Error suspending user:", error);
-        res.status(500).json({ message: "Server error" });
-    }
+  } catch (error) {
+    console.error("Error suspending user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 const registerUser = async (req, res) => {
-    const { name, email, password, gender, phone } = req.body;
+  const { name, email, password, gender, phone } = req.body;
 
-    if (!name || !email || !password || !gender || !phone) {
-        return res.status(400).json({ message: "All fields are required" });
+  if (!name || !email || !password || !gender || !phone) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const db = client.db("RahalDb");
+    const userCollection = db.collection("user");
+
+    // Check for duplicate email
+    const existingUser = await userCollection.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already registered" });
     }
 
-    try {
-        const db = client.db("RahalDb");
-        const userCollection = db.collection("user");
+    // Insert new user
+    const newUser = {
+      name,
+      email,
+      password, // consider hashing later
+      gender,
+      phone,
+      status: "active",
+      nationalId: {},
+      drivingLicense: {},
+      vehicleRegistration: {},
+      vehicleType: "",
+      community: [],
+      profileImage: "/profile.png",
+      roles: ["rider"],
+      feedback: [],
+      notifications: [],
+      rate: [],
+      totalRides: 0,
+      totalEarnings: 0,
+    };
 
-        // Check for duplicate email
-        const existingUser = await userCollection.findOne({ email });
-        if (existingUser) {
-            return res.status(409).json({ message: "Email already registered" });
-        }
+    await userCollection.insertOne(newUser);
 
-        // Insert new user
-        const newUser = {
-            name,
-            email,
-            password, // consider hashing later
-            gender,
-            phone,
-            status: "active",
-            nationalId: {},
-            drivingLicense: {},
-            vehicleRegistration: {},
-            vehicleType: "",
-            community: [],
-            profileImage: "/profile.png",            
-            roles: ["rider"],
-            feedback: [],
-            notifications: [],
-            rate: [],
-            totalRides: 0,
-            totalEarnings: 0
-        };
-        
-
-        await userCollection.insertOne(newUser);
-
-        res.status(201).json({ message: "User registered successfully", name });
-    } catch (error) {
-        console.error("Registration error:", error);
-        res.status(500).json({ message: "Server error", error });
-    }
+    res.status(201).json({ message: "User registered successfully", name });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
 };
 const getUserByEmail = async (req, res) => {
-    const { email } = req.params;
+  const { email } = req.params;
 
-    try {
-        const db = client.db("RahalDb");
-        const user = await db.collection("user").findOne({ email });
+  try {
+    const db = client.db("RahalDb");
+    const user = await db.collection("user").findOne({ email });
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ message: "Server error" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 const getUserById = async (req, res) => {
-    try {
-      const db = client.db("RahalDb");
-      const userCollection = db.collection("user");
-      const user = await userCollection.findOne({ _id: new ObjectId(req.params.id) });
-  
-      if (!user) return res.status(404).json({ message: "User not found" });
-  
-      res.json(user);
-    } catch (error) {
-      console.error("Error in getUserById:", error);
-      res.status(500).json({ message: "Internal server error" });
+  try {
+    const db = client.db("RahalDb");
+    const userId = req.params.id;
+    const user = await db
+      .collection("users") // use correct name here
+      .findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-  };
-  
 
+    res.json(user);
+  } catch (error) {
+    console.error("Get user by ID error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-module.exports = { getAllUsers, suspendUser ,getUserByEmail,registerUser , getUserById};
+module.exports = {
+  getAllUsers,
+  suspendUser,
+  getUserByEmail,
+  registerUser,
+  getUserById,
+};

@@ -13,6 +13,6 @@ router.put("/suspend", verifyToken, suspendUser);
 router.get("/:email", getUserByEmail);
 router.post("/register", registerUser);
 
-router.get("/id/:id", getUserById);
+router.get("/:id", getUserById);
 
 module.exports = router;

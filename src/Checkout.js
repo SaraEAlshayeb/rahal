@@ -10,13 +10,14 @@ function Checkout() {
 
   const handleConfirm = async () => {
     try {
-      await fetch(`http://localhost:5000/api/rides/${rideId}/status`, {
+      // Only call the confirm endpoint — it handles both status and earnings
+      await fetch(`http://localhost:5000/api/rides/${rideId}/confirm`, {
         method: "PUT",
       });
 
       setShowSuccess(true);
     } catch (error) {
-      console.error("Error updating ride status:", error);
+      console.error("Error confirming booking:", error);
     }
   };
 

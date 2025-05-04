@@ -191,6 +191,42 @@ const getRidesByUser = async (req, res) => {
   }
 };
 
+const confirmRide = async (req, res) => {
+  const rideId = req.params.id;
+
+  try {
+    const db = client.db("RahalDb");
+
+    // Get ride data
+    const ride = await db
+      .collection("ride")
+      .findOne({ _id: new ObjectId(rideId) });
+
+    if (!ride) return res.status(404).json({ message: "Ride not found" });
+
+    // 1. Update ride status
+    await db
+      .collection("ride")
+      .updateOne(
+        { _id: new ObjectId(rideId) },
+        { $set: { status: "InProgress" } }
+      );
+
+    // 2. Push amount to driver's totalEarnings
+    await db
+      .collection("user")
+      .updateOne(
+        { _id: new ObjectId(ride.driver) },
+        { $push: { totalEarnings: ride.price.toString() } }
+      );
+
+    res.status(200).json({ message: "Ride confirmed and earnings updated." });
+  } catch (error) {
+    console.error("Error confirming ride:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+};
+
 module.exports = {
   getNotReservedRides,
   getRideById,
@@ -198,4 +234,5 @@ module.exports = {
   completeRide,
   getUserRides,
   getRidesByUser,
+  confirmRide,
 };

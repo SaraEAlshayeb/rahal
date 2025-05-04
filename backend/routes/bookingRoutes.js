@@ -6,7 +6,7 @@ const {
   updateRideStatus,
   completeRide,
   getUserRides,
-  getRidesByUser,
+  confirmRide,
 } = require("../controllers/bookingController");
 
 // DON'T use the same path twice for different controllers
@@ -19,5 +19,6 @@ router.post("/rides/:rideId/complete", completeRide);
 router.get("/rides", getNotReservedRides); // For public available rides (not reserved)
 router.get("/rides/user", getUserRides); // For rides history by user
 router.get("/rides/:id", getRideById); // For getting one ride by ID
+router.put("/rides/:id/confirm", confirmRide);
 
 module.exports = router;

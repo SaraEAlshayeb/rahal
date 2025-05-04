@@ -46,8 +46,8 @@ const History = () => {
     )
 
     .sort((a, b) => {
-      if (a.status === "In Progress" && b.status !== "In Progress") return -1;
-      if (a.status !== "In Progress" && b.status === "In Progress") return 1;
+      if (a.status === "InProgress" && b.status !== "InProgress") return -1;
+      if (a.status !== "InProgress" && b.status === "InProgress") return 1;
       return 0;
     });
 
@@ -83,12 +83,13 @@ const History = () => {
     const driverId = selectedRide.driver?._id || selectedRide.driver;
     const rideId = selectedRide._id?.toString?.() || selectedRide._id;
 
-    if (!issuedBy || !driverId || !rideId || !comment) {
-      alert("Missing data for complaint");
+    if (!issuedBy || !driverId || !rideId || !comment || !rating) {
+      alert("Missing data for feedback");
       return;
     }
 
     try {
+      // Submit feedback
       const res = await fetch("http://localhost:5000/api/history/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,22 +98,31 @@ const History = () => {
           driverId: driverId.toString(),
           rideId: rideId.toString(),
           description: comment,
+          rating: rating, // ⭐ NEW
         }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert("Complaint submitted successfully!");
+        // Update ride status to completed
+        await fetch(`http://localhost:5000/api/rides/${rideId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "completed" }),
+        });
+
+        alert("Feedback submitted successfully!");
         setComment("");
+        setRating(0);
         setSelectedRide(null);
+        setRideCompleted(false);
       } else {
-        console.error("Backend error:", data);
-        alert("Error submitting complaint: " + data.error);
+        alert("Error submitting feedback: " + data.error);
       }
     } catch (err) {
       console.error("Network error:", err);
-      alert("Network error submitting complaint.");
+      alert("Network error submitting feedback.");
     }
   };
 
@@ -123,21 +133,52 @@ const History = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   const handleViewClick = async (ride) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${ride.driver}`);
-      const data = await res.json();
+      const driverId =
+        typeof ride.driver === "object" && ride.driver.$oid
+          ? ride.driver.$oid
+          : ride.driver;
+
+      const passengerId =
+        Array.isArray(ride.acceptedRiders) &&
+        ride.acceptedRiders.length > 0 &&
+        typeof ride.acceptedRiders[0] === "object" &&
+        ride.acceptedRiders[0].$oid
+          ? ride.acceptedRiders[0].$oid
+          : ride.acceptedRiders?.[0];
+
+      console.log("Driver ID:", driverId);
+      console.log("Passenger ID:", passengerId);
+
+      const driverRes = await fetch(
+        `http://localhost:5000/api/users/${driverId}`
+      );
+      const driverData = await driverRes.json();
+
+      let passengerData = {};
+      if (passengerId) {
+        const passengerRes = await fetch(
+          `http://localhost:5000/api/users/${passengerId}`
+        );
+        passengerData = await passengerRes.json();
+      }
 
       setSelectedRide({
         ...ride,
-        driverName: data.name || "Unknown Driver",
+        driverName: driverData.name || "Unknown Driver",
+        driverRatings: driverData.ratings || [],
+        passengerName: passengerData.name || "Unknown Passenger",
+        passengerRatings: passengerData.ratings || [],
       });
     } catch (error) {
-      console.error("Failed to fetch driver name:", error);
+      console.error("Error fetching user data:", error);
       setSelectedRide({
         ...ride,
         driverName: "Unknown Driver",
+        passengerName: "Unknown Passenger",
+        driverRatings: [],
+        passengerRatings: [],
       });
     }
   };
@@ -427,7 +468,7 @@ const History = () => {
                 <div
                   style={{
                     fontWeight: "bold",
-                    color: ride.status === "In Progress" ? "orange" : "green",
+                    color: ride.status === "InProgress" ? "orange" : "green",
                   }}
                 >
                   {ride.status.toUpperCase()}
@@ -444,10 +485,6 @@ const History = () => {
                   )}
               </div>
 
-              <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-                {mode === "driver" ? ride.passengerName : ride.vehicleType}
-              </p>
-
               <p>
                 <strong>From:</strong> {ride.origin} | <strong>To:</strong>{" "}
                 {ride.destination}
@@ -462,10 +499,12 @@ const History = () => {
                 </p>
               )}
 
-              {mode === "rider" && (
+              {ride.status === "InProgress" && (
                 <div style={{ marginTop: "10px", textAlign: "right" }}>
                   <button
-                    onClick={() => handleViewClick(ride)}
+                    onClick={async () => {
+                      await handleViewClick(ride);
+                    }}
                     style={{
                       backgroundColor: "#27445D",
                       color: "white",
@@ -542,7 +581,7 @@ const History = () => {
                   fontSize: "20px",
                 }}
               >
-                Ã—
+                &times;
               </button>
 
               <div
@@ -552,12 +591,44 @@ const History = () => {
                   marginBottom: "10px",
                 }}
               >
+                <img
+                  src={"/Rahal_Logo.png"}
+                  alt="car"
+                  style={{
+                    width: "100px",
+                    marginRight: "15px",
+                    borderRadius: "8px",
+                  }}
+                />
                 <div>
-                  <h3>
+                  {/* Show name */}
+                  <h3 style={{ marginBottom: "4px", fontSize: "24px" }}>
                     {mode === "rider"
-                      ? selectedRide.vehicle
-                      : selectedRide.passenger}
+                      ? selectedRide.driverName
+                      : selectedRide.passengerName}
                   </h3>
+
+                  {(() => {
+                    const ratingsArray =
+                      mode === "rider"
+                        ? selectedRide.driverRatings || []
+                        : selectedRide.passengerRatings || [];
+
+                    const avg = ratingsArray.length
+                      ? (
+                          ratingsArray.reduce((a, b) => a + b, 0) /
+                          ratingsArray.length
+                        ).toFixed(1)
+                      : "N/A";
+                    const count = ratingsArray.length;
+
+                    return (
+                      <p style={{ color: "gray", margin: 0 }}>
+                        <FaStar color="gold" style={{ marginRight: "6px" }} />
+                        {avg} ({count} reviews)
+                      </p>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -708,7 +779,7 @@ const History = () => {
                   fontSize: "20px",
                 }}
               >
-                Ã—
+                &times;
               </button>
               <div
                 style={{

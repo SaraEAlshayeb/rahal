@@ -44,5 +44,4 @@ app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/history", historyRoutes);
-const bookingRoutes = require("./routes/bookingRoutes");
 app.use("/api", bookingRoutes);
