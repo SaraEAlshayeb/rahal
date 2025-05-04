@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 import './ManageProfiles.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ManageProfiles() {
     const [showModal, setShowModal] = useState(false);
@@ -19,7 +20,7 @@ function ManageProfiles() {
         const fetchUsers = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch("http://localhost:5000/api/users", {
+                const response = await fetch(`${API_URL}/api/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -49,7 +50,7 @@ function ManageProfiles() {
     const handleSuspendClick = async (user) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch("http://localhost:5000/api/users/suspend", {
+            const response = await fetch(`${API_URL}/api/users/suspend`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -158,18 +159,31 @@ function ManageProfiles() {
                     <Modal.Title>User Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {selectedUser && (
-                        <div>
-                            <p><strong>Name:</strong> {selectedUser.name}</p>
-                            <p><strong>Email:</strong> {selectedUser.email}</p>
-                            <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
-                            <p><strong>National ID:</strong> {selectedUser.nationalId || 'N/A'}</p>
-                            <p><strong>Status:</strong> {selectedUser.status || 'active'}</p>
-                            <p><strong>Community:</strong> {selectedUser.community?.join(", ") || 'N/A'}</p>
-                            {/* Add more fields as needed */}
-                        </div>
-                    )}
-                </Modal.Body>
+  {selectedUser && (
+    <div>
+      <p><strong>Name:</strong> {selectedUser.name}</p>
+      <p><strong>Email:</strong> {selectedUser.email}</p>
+      <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
+
+      {selectedUser.nationalId?.filename && (
+        <div>
+          <p><strong>National ID:</strong></p>
+          <img
+            src={`http://localhost:5000/uploads/${selectedUser.nationalId.filename}`}
+            alt="National ID"
+            style={{ width: '100%', maxHeight: '200px', objectFit: 'contain' }}
+          />
+        </div>
+      )}
+
+ 
+
+      <p><strong>Status:</strong> {selectedUser.status || 'active'}</p>
+      <p><strong>Community:</strong> {  selectedUser.community?.filter(c => c.trim() !== '').join(", ") || 'N/A'}</p>
+    </div>
+  )}
+</Modal.Body>
+
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowViewModal(false)}>
                         Close

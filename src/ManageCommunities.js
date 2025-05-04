@@ -121,6 +121,7 @@ function ManageCommunities() {
     const [communityData, setCommunityData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [newCommunityName, setNewCommunityName] = useState("");
+    const API_URL = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchCommunities();
@@ -128,7 +129,7 @@ function ManageCommunities() {
 
     const fetchCommunities = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/community");
+            const response = await fetch(`${API_URL}/api/community`);
             const data = await response.json();
             if (response.ok) {
                 setCommunityData(data);
@@ -143,7 +144,7 @@ function ManageCommunities() {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/community/${name}`, {
+            const response = await fetch(`${API_URL}/api/community/${name}`, {
                 method: "DELETE"
             });
             const data = await response.json();
@@ -163,7 +164,7 @@ function ManageCommunities() {
         if (!newCommunityName) return;
 
         try {
-            const response = await fetch("http://localhost:5000/api/community", {
+            const response = await fetch(`${API_URL}/api/community`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: newCommunityName })
@@ -211,8 +212,12 @@ function ManageCommunities() {
                                         position: "relative",
                                         top: "40px"
                                     }}
-                                    src={community.img || `./${community.name}.png`}
-                                    alt="community"
+                                    src={`./${community.name}.png`}
+  alt={community.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/default.png'; // Fallback image
+  }}
                                 />
                                 <div
                                     style={{

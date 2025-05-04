@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { connectDB } = require("./config/db");
@@ -15,7 +16,7 @@ const historyRoutes = require("./routes/historyRoute");
 const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 connectDB().then(() => {
   app.listen(port, () => {

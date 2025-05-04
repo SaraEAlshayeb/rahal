@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ApproveDrivers() {
     const navigate = useNavigate();
@@ -9,7 +10,9 @@ function ApproveDrivers() {
     const [sortOption, setSortOption] = useState('All');
 
     useEffect(() => {
-        fetch('http://localhost:5000/approve/pending')
+
+
+        fetch(`${API_URL}/approve/pending`)
             .then(res => res.json())
             .then(data => {
                 setRequests(data);
@@ -99,6 +102,7 @@ function ApproveDrivers() {
                             >
                                 Review
                             </button>
+                            
                         </div>
                     </div>
                 ))}

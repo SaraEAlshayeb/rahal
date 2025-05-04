@@ -18,6 +18,7 @@ const History = () => {
     to: "",
   });
   const [rides, setRides] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const [userId] = useState(localStorage.getItem("userId"));
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);

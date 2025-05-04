@@ -1,6 +1,7 @@
 import "./ReviewDriverRequest.css";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ReviewDriverRequest() {
   const [showApproveModal, setShowApproveModal] = useState(false);
@@ -16,7 +17,7 @@ function ReviewDriverRequest() {
 
     if (!userId) return;
 
-    fetch(`http://localhost:5000/approve/user/${userId}`)
+    fetch(`${API_URL}/api/approve/user/${userId}`)
       .then((res) => res.json())
       .then((data) => setUser(data))
       .catch((err) => console.error("Error fetching user:", err));
@@ -24,12 +25,9 @@ function ReviewDriverRequest() {
 
   const handleApprove = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:5000/approve/user/${userId}/approve`,
-        {
-          method: "PUT",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/approve/user/${userId}/approve`, {
+        method: "PUT",
+      });
 
       if (res.ok) {
         setShowApproveModal(true);
@@ -45,12 +43,9 @@ function ReviewDriverRequest() {
 
   const handleReject = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:5000/approve/user/${userId}/reject`,
-        {
-          method: "PUT",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/approve/user/${userId}/reject`, {
+        method: "PUT",
+      });
 
       if (res.ok) {
         setShowRejectModal(true);
@@ -97,11 +92,59 @@ function ReviewDriverRequest() {
 
         <div className="section last">
           <h2 className="section-title">Documentation</h2>
+
+          {/* Driving License */}
           <div className="info-row">
-            <span className="label">Driver Documentations:</span>
-            <a href="#" className="download-link" onClick={(e) => {}}>
-              Download
-            </a>
+            <span className="label">Driving License:</span>
+            {user.drivingLicense?.filename ? (
+              <a
+                href={`http://localhost:5000/uploads/${user.drivingLicense.filename}`}
+                className="download-link"
+                download
+              >
+                Download
+              </a>
+            ) : (
+              <span style={{ color: "gray", marginLeft: "10px" }}>
+                No file uploaded
+              </span>
+            )}
+          </div>
+
+          {/* National ID */}
+          <div className="info-row">
+            <span className="label">National ID:</span>
+            {user.nationalId?.filename ? (
+              <a
+                href={`http://localhost:5000/uploads/${user.nationalId.filename}`}
+                className="download-link"
+                download
+              >
+                Download
+              </a>
+            ) : (
+              <span style={{ color: "gray", marginLeft: "10px" }}>
+                No file uploaded
+              </span>
+            )}
+          </div>
+
+          {/* Vehicle Registration */}
+          <div className="info-row">
+            <span className="label">Vehicle Registration:</span>
+            {user.vehicleRegistration?.filename ? (
+              <a
+                href={`http://localhost:5000/uploads/${user.vehicleRegistration.filename}`}
+                className="download-link"
+                download
+              >
+                Download
+              </a>
+            ) : (
+              <span style={{ color: "gray", marginLeft: "10px" }}>
+                No file uploaded
+              </span>
+            )}
           </div>
         </div>
 

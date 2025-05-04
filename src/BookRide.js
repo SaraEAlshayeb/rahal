@@ -15,6 +15,7 @@ const BookRide = () => {
   const [selectedRide, setSelectedRide] = useState(null);
   const [driverName, setDriverName] = useState("");
   const [bookingInProgress, setBookingInProgress] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,14 +30,14 @@ const BookRide = () => {
         }
 
         // Get the user’s ID from backend using email
-        const userRes = await fetch(`http://localhost:5000/api/users/${email}`);
+        const userRes = await fetch(`${API_URL}/api/users/${email}`);
         const user = await userRes.json();
         const userId = user._id;
 
         // Fetch rides, excluding rides posted by this user
-        const response = await fetch("http://localhost:5000/api/rides", {
+        const response = await fetch(`${API_URL}/api/rides`, {
           headers: {
-            "user-id": userId, // ✅ sent to backend to filter out user's own rides
+            "user-id": userId, //
           },
         });
 
@@ -67,7 +68,7 @@ const BookRide = () => {
 
   const fetchDriverName = async (driverId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${driverId}`);
+      const res = await fetch(`${API_URL}/api/users/${driverId}`);
       if (!res.ok) throw new Error("Failed to fetch driver");
       const data = await res.json();
       return data.name || "Unknown";
@@ -79,7 +80,7 @@ const BookRide = () => {
 
   const fetchUserId = async () => {
     const email = localStorage.getItem("userEmail");
-    const response = await fetch(`http://localhost:5000/api/users/${email}`);
+    const response = await fetch(`${API_URL}/api/users/${email}`);
     const user = await response.json();
     return user._id;
   };
@@ -89,7 +90,7 @@ const BookRide = () => {
     if (!passengerId) return alert("User not logged in.");
 
     try {
-      const response = await fetch("http://localhost:5000/api/notifications", {
+      const response = await fetch(`${API_URL}/api/notifications`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

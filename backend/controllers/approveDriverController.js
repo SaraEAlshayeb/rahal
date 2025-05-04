@@ -62,21 +62,39 @@ const approveUserById = async (req, res) => {
         const db = client.db('RahalDb');
         const users = db.collection('user');
 
+        // Fetch the user to get current roles
+        const user = await users.findOne({ _id: new ObjectId(userId) });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Add 'driver' role without duplication
+        const updatedRoles = Array.isArray(user.roles)
+            ? [...new Set([...user.roles, 'driver'])]
+            : ['driver'];
+
+        // Update status and roles
         const result = await users.updateOne(
             { _id: new ObjectId(userId) },
-            { $set: { status: 'Active' } }
+            {
+                $set: {
+                    status: 'Active',
+                    roles: updatedRoles
+                }
+            }
         );
 
         if (result.modifiedCount === 0) {
-            return res.status(404).json({ message: 'User not found or already active' });
+            return res.status(400).json({ message: 'User not modified' });
         }
 
-        res.status(200).json({ message: 'User approved' });
+        res.status(200).json({ message: 'User approved and role updated' });
     } catch (err) {
         console.error('Error approving user:', err);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 const rejectUserById = async (req, res) => {
     const userId = req.params.id;
 

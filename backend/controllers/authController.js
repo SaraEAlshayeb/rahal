@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { client } = require("../config/db");
-const SECRET_KEY = "Thisisthesecret"; 
+const SECRET_KEY = "Thisisthesecret";
+
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -8,9 +9,7 @@ exports.login = async (req, res) => {
         const userCollection = db.collection("user");
         const adminCollection = db.collection("Admin");
 
-        console.log("User Collection:", userCollection); // Debug log for collections
-        console.log("Admin Collection:", adminCollection);
-
+        // Check for the user first
         let user = await userCollection.findOne({ email, password });
         if (user) {
             const token = jwt.sign(
@@ -26,6 +25,7 @@ exports.login = async (req, res) => {
             });
         }
 
+        // Then check for the admin
         let admin = await adminCollection.findOne({ email, password });
         if (admin) {
             const token = jwt.sign(
@@ -40,9 +40,11 @@ exports.login = async (req, res) => {
             });
         }
 
-        res.status(401).json({ message: "Invalid credentials" });
+        // If neither user nor admin is found, return error
+        return res.status(401).json({ message: "Invalid credentials" });
+
     } catch (err) {
         console.error("Login error:", err);
-        res.status(500).json({ message: "Server error", error: err });
+        return res.status(500).json({ message: "Server error", error: err.message });
     }
 };
