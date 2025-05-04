@@ -552,24 +552,12 @@ const History = () => {
                   marginBottom: "10px",
                 }}
               >
-                <img
-                  src={
-                    mode === "rider" ? selectedRide.image : "/Rahal_Logo.png"
-                  }
-                  alt="car"
-                  style={{
-                    width: "100px",
-                    marginRight: "15px",
-                    borderRadius: "8px",
-                  }}
-                />
                 <div>
                   <h3>
                     {mode === "rider"
                       ? selectedRide.vehicle
                       : selectedRide.passenger}
                   </h3>
-                  <p style={{ color: "gray" }}>â­ 4.9 (531 reviews)</p>
                 </div>
               </div>
 
@@ -589,11 +577,6 @@ const History = () => {
                     {mode === "rider"
                       ? "Contact Your Driver"
                       : "Contact Your Passenger"}
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    {mode === "rider"
-                      ? selectedRide.driverName
-                      : selectedRide.passenger}
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: "10px" }}>

@@ -7,12 +7,12 @@ const {
   getUserByEmail,
   getUserById,
 } = require("../controllers/userController");
-
-// Routes
-router.get("/", getAllUsers);
-router.put("/suspend", suspendUser);
-router.post("/register", registerUser);
-router.get("/id/:id", getUserById);
+const verifyToken = require("../middleware/verifyToken");
+router.get("/", verifyToken, getAllUsers);
+router.put("/suspend", verifyToken, suspendUser);
 router.get("/:email", getUserByEmail);
+router.post("/register", registerUser);
+
+router.get("/id/:id", getUserById);
 
 module.exports = router;
