@@ -14,12 +14,13 @@ const History = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [rideCompleted, setRideCompleted] = useState(false);
   const [activeFilters, setActiveFilters] = useState({ community: '', from: '', to: '' });
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchHistory = async () => {
       const userId = localStorage.getItem("userId");
       try {
-        const res = await fetch(`http://localhost:5000/api/history/${userId}`);
+        const res = await fetch(`${API_URL}/api/history/${userId}`);
         const data = await res.json();
         setRides(data);
       } catch (err) {

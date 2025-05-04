@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import Navbar from './components/Navbar';
 import axios from "axios";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const saudiCities = [
     'Riyadh', 'Jeddah', 'Dammam', 'Makkah', 'Madinah',
@@ -34,7 +35,7 @@ function PostRide() {
                 const email = localStorage.getItem('userEmail');
                 console.log(email)
 
-                const response = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`);
+                const response = await fetch(`${API_URL}/api/rides/checkRole?email=${email}`);
                 const data = await response.json();
                 console.log(data.role);
 
@@ -47,7 +48,7 @@ function PostRide() {
         };
         const fetchCommunities = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/community");
+                const response = await fetch(`${API_URL}/api/community`);
                 const data = await response.json();
 
                 // Assuming the response is an array of community objects,
@@ -81,7 +82,7 @@ function PostRide() {
         e.preventDefault();
 
         const email = localStorage.getItem('userEmail');
-        const response = await axios.get(`http://localhost:5000/api/users/${email}`);
+        const response = await axios.get(`${API_URL}/api/users/${email}`);
         const id= response.data._id
 
         // Include email in the payload
@@ -91,7 +92,7 @@ function PostRide() {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/rides/postRide', {
+            const response = await fetch(`${API_URL}/api/rides/postRide`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -14,6 +14,7 @@ const History = () => {
   const [rideCompleted, setRideCompleted] = useState(false);
   const [activeFilters, setActiveFilters] = useState({ community: '', from: '', to: '' });
   const [rides, setRides] = useState([]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const [userId] = useState(localStorage.getItem("userId"));
 
@@ -22,8 +23,8 @@ const History = () => {
   
     const fetchHistory = async () => {
       const endpoint = mode === 'driver'
-        ? `http://localhost:5000/api/history/driver/${userId}`
-        : `http://localhost:5000/api/history/rider/${userId}`;
+        ? `${API_URL}/api/history/driver/${userId}`
+        : `${API_URL}/api/history/rider/${userId}`;
       const res = await axios.get(endpoint);
       setRides(res.data);
     };

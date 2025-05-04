@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -16,7 +19,8 @@ function Login() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

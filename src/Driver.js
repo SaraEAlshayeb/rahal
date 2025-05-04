@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Driver.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Driver() {
     const [formData, setFormData] = useState({
@@ -28,13 +29,13 @@ function Driver() {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await axios.get(`http://localhost:5000/api/users/${email}`, {
+                const response = await axios.get(`${API_URL}/api/users/${email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
                 });
 
-                const response1 = await fetch(`http://localhost:5000/api/rides/checkRole?email=${email}`, {
+                const response1 = await fetch(`${API_URL}/api/rides/checkRole?email=${email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
@@ -91,7 +92,7 @@ function Driver() {
 
                 const token = localStorage.getItem("token");
                 const response = await axios.put(
-                    `http://localhost:5000/api/drivers/${email}`,
+                    `${API_URL}/api/drivers/${email}`,
                     formDataToSend,
                     {
                         headers: {

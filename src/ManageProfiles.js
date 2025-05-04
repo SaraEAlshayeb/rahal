@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 import './ManageProfiles.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ManageProfiles() {
     const [showModal, setShowModal] = useState(false);
@@ -19,7 +20,7 @@ function ManageProfiles() {
         const fetchUsers = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch("http://localhost:5000/api/users", {
+                const response = await fetch(`${API_URL}/api/users`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -49,7 +50,7 @@ function ManageProfiles() {
     const handleSuspendClick = async (user) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch("http://localhost:5000/api/users/suspend", {
+            const response = await fetch(`${API_URL}/api/users/suspend`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
