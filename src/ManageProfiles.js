@@ -158,18 +158,31 @@ function ManageProfiles() {
                     <Modal.Title>User Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {selectedUser && (
-                        <div>
-                            <p><strong>Name:</strong> {selectedUser.name}</p>
-                            <p><strong>Email:</strong> {selectedUser.email}</p>
-                            <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
-                            <p><strong>National ID:</strong> {selectedUser.nationalId || 'N/A'}</p>
-                            <p><strong>Status:</strong> {selectedUser.status || 'active'}</p>
-                            <p><strong>Community:</strong> {selectedUser.community?.join(", ") || 'N/A'}</p>
-                            {/* Add more fields as needed */}
-                        </div>
-                    )}
-                </Modal.Body>
+  {selectedUser && (
+    <div>
+      <p><strong>Name:</strong> {selectedUser.name}</p>
+      <p><strong>Email:</strong> {selectedUser.email}</p>
+      <p><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</p>
+
+      {selectedUser.nationalId?.filename && (
+        <div>
+          <p><strong>National ID:</strong></p>
+          <img
+            src={`http://localhost:5000/uploads/${selectedUser.nationalId.filename}`}
+            alt="National ID"
+            style={{ width: '100%', maxHeight: '200px', objectFit: 'contain' }}
+          />
+        </div>
+      )}
+
+ 
+
+      <p><strong>Status:</strong> {selectedUser.status || 'active'}</p>
+      <p><strong>Community:</strong> {  selectedUser.community?.filter(c => c.trim() !== '').join(", ") || 'N/A'}</p>
+    </div>
+  )}
+</Modal.Body>
+
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowViewModal(false)}>
                         Close

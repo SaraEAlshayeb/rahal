@@ -211,8 +211,12 @@ function ManageCommunities() {
                                         position: "relative",
                                         top: "40px"
                                     }}
-                                    src={community.img || `./${community.name}.png`}
-                                    alt="community"
+                                    src={`./${community.name}.png`}
+  alt={community.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/default.png'; // Fallback image
+  }}
                                 />
                                 <div
                                     style={{

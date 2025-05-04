@@ -91,20 +91,57 @@ function ReviewDriverRequest() {
                 <hr className="section-divider" />
 
                 <div className="section last">
-                    <h2 className="section-title">Documentation</h2>
-                    <div className="info-row">
-                        <span className="label">Driver Documentations:</span>
-                        <a
-                            href="#"
-                            className="download-link"
-                            onClick={(e) => {
+  <h2 className="section-title">Documentation</h2>
 
-                            }}
-                        >
-                            Download
-                        </a>
-                    </div>
-                </div>
+  {/* Driving License */}
+  <div className="info-row">
+    <span className="label">Driving License:</span>
+    {user.drivingLicense?.filename ? (
+      <a
+        href={`http://localhost:5000/uploads/${user.drivingLicense.filename}`}
+        className="download-link"
+        download
+      >
+        Download
+      </a>
+    ) : (
+      <span style={{ color: 'gray', marginLeft: '10px' }}>No file uploaded</span>
+    )}
+  </div>
+
+  {/* National ID */}
+  <div className="info-row">
+    <span className="label">National ID:</span>
+    {user.nationalId?.filename ? (
+      <a
+        href={`http://localhost:5000/uploads/${user.nationalId.filename}`}
+        className="download-link"
+        download
+      >
+        Download
+      </a>
+    ) : (
+      <span style={{ color: 'gray', marginLeft: '10px' }}>No file uploaded</span>
+    )}
+  </div>
+
+  {/* Vehicle Registration */}
+  <div className="info-row">
+    <span className="label">Vehicle Registration:</span>
+    {user.vehicleRegistration?.filename ? (
+      <a
+        href={`http://localhost:5000/uploads/${user.vehicleRegistration.filename}`}
+        className="download-link"
+        download
+      >
+        Download
+      </a>
+    ) : (
+      <span style={{ color: 'gray', marginLeft: '10px' }}>No file uploaded</span>
+    )}
+  </div>
+</div>
+
 
 
                 <div className="buttons-bottom">
