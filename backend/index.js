@@ -8,7 +8,7 @@ const communityRouter = require('./routes/communityRoutes');  // Import the rout
 const postRideRoutes = require('./routes/postRideRoutes');
 const userRoutes = require("./routes/user");
 const driverRoutes = require("./routes/driverRoutes"); // <-- add this
-const notificationRoutes = require("./routes/notificationRoutes"); 
+const notificationRoutes = require("./routes/notificationRoutes");
 const complaintRoutes = require("./routes/complaintRoutes");
 const approveDriverRoutes = require('./routes/approveDriverRoutes');
 const historyRoutes = require('./routes/historyRoute');
@@ -46,4 +46,3 @@ app.use("/api/complaints", complaintRoutes);
 app.use('/api/history', historyRoutes);
 const bookingRoutes = require("./routes/bookingRoutes");
 app.use("/api", bookingRoutes);
-
