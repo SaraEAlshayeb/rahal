@@ -169,7 +169,7 @@ function ManageProfiles() {
         <div>
           <p><strong>National ID:</strong></p>
           <img
-            src={`http://localhost:5000/uploads/${selectedUser.nationalId.filename}`}
+            src={`${API_URL}/uploads/${selectedUser.nationalId.filename}`}
             alt="National ID"
             style={{ width: '100%', maxHeight: '200px', objectFit: 'contain' }}
           />

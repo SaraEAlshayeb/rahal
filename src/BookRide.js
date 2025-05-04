@@ -23,7 +23,7 @@ const BookRide = () => {
       try {
         const email = localStorage.getItem("userEmail");
         if (!email) {
-          console.error("⚠️ No user email found in localStorage");
+          console.error(" No user email found in localStorage");
           setError("User not logged in.");
           setLoading(false);
           return;
@@ -81,7 +81,7 @@ const BookRide = () => {
   const fetchUserId = async () => {
     const email = localStorage.getItem("userEmail");
     const userRes = await fetch(`${API_URL}/api/users/${email}`);
-    const user = await response.json();
+    const user = await userRes.json(); // ✅ FIXED: use userRes instead of response
     return user._id;
   };
 
@@ -109,7 +109,7 @@ const BookRide = () => {
       }
 
       const data = await response.json();
-      console.log("✅ Notification created:", data);
+      console.log("Notification created:", data);
     } catch (err) {
       console.error(" Notification creation failed:", err);
     }
@@ -262,7 +262,7 @@ const BookRide = () => {
                       return;
                     }
 
-                    // ✅ Get user from DB using email
+                    //  Get user from DB using email
                     const userRes = await fetch(
                       `${API_URL}/api/users/${email}`
                     );

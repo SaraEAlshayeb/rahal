@@ -98,7 +98,7 @@ function ReviewDriverRequest() {
             <span className="label">Driving License:</span>
             {user.drivingLicense?.filename ? (
               <a
-                href={`http://localhost:5000/uploads/${user.drivingLicense.filename}`}
+                href={`${API_URL}/uploads/${user.drivingLicense.filename}`}
                 className="download-link"
                 download
               >
@@ -116,7 +116,7 @@ function ReviewDriverRequest() {
             <span className="label">National ID:</span>
             {user.nationalId?.filename ? (
               <a
-                href={`http://localhost:5000/uploads/${user.nationalId.filename}`}
+                href={`${API_URL}/uploads/${user.nationalId.filename}`}
                 className="download-link"
                 download
               >
@@ -134,7 +134,7 @@ function ReviewDriverRequest() {
             <span className="label">Vehicle Registration:</span>
             {user.vehicleRegistration?.filename ? (
               <a
-                href={`http://localhost:5000/uploads/${user.vehicleRegistration.filename}`}
+                href={`${API_URL}/uploads/${user.vehicleRegistration.filename}`}
                 className="download-link"
                 download
               >
