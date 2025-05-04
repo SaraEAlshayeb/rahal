@@ -79,7 +79,7 @@ const History = () => {
     }
   
     try {
-      const res = await fetch('http://localhost:5000/api/history/submit', {
+      const res = await fetch(`${API_URL}/api/history/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -118,7 +118,7 @@ useEffect(() => {
 
 const handleViewClick = async (ride) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/users/${ride.driver}`);
+    const res = await fetch(`${API_URL}/api/users/${ride.driver}`);
     const data = await res.json();
 
     setSelectedRide({
