@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -11,12 +12,12 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (!email || !password) {
-          alert('All fields are required.');
-          return;
+            alert('All fields are required.');
+            return;
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,9 +25,16 @@ function Login() {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await response.json();
+            // Check if the response is OK and has a valid JSON body
+            if (!response.ok) {
+                const errorData = await response.json();  // Safely attempt to parse the error JSON
+                alert(errorData.message || "Login failed");
+                return;
+            }
 
-            if (response.ok) {
+            const data = await response.json(); // Parse the successful response
+
+            if (data.token) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("userId", data.id);
@@ -37,15 +45,14 @@ function Login() {
                     navigate('/home');
                 }
             } else {
-                alert(data.message || "Login failed");
+                alert("Unexpected response from server");
             }
+
         } catch (error) {
             alert("Error connecting to server");
             console.error("Login error:", error);
         }
-      };
-
-
+    };
 
     return (
         <div className="login-container">

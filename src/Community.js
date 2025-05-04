@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Toast, ToastContainer, Button } from "react-bootstrap";
 import "./Community.css";
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Community() {
     const [expanded, setExpanded] = useState(Array(8).fill(false));
@@ -12,7 +13,7 @@ function Community() {
         // Fetch the community data from the backend
         const fetchCommunityData = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/community");
+                const response = await fetch(`${API_URL}/api/community`);
                 const data = await response.json();
                 setCommunityData(data);  // Set community data with member count
             } catch (error) {
@@ -38,7 +39,7 @@ function Community() {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/api/community/joinCommunity", {
+            const response = await fetch(`${API_URL}/api/community/joinCommunity`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

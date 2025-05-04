@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Complaints.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Complaints() {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ function Complaints() {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/complaints');
+                const response = await fetch(`${API_URL}/api/complaints`);
                 const data = await response.json();
                 setComplaints(data);
             } catch (error) {
@@ -22,7 +23,7 @@ function Complaints() {
 
     const handleInProgress = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/complaints/${id}`, {
+            await fetch(`${API_URL}/api/complaints/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

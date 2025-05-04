@@ -1,5 +1,6 @@
 // export default Profile;
 import React, { useEffect, useState } from 'react';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Profile() {
     const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ function Profile() {
             if (!email || !token) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+                const response = await fetch(`${API_URL}/api/users/${email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

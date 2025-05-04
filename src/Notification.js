@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Notification() {
   const [notifications, setNotifications] = useState([]);
@@ -17,7 +18,7 @@ function Notification() {
       }
   
       try {
-        const response = await fetch(`http://localhost:5000/api/notifications/${driverId}`);
+        const response = await fetch(`${API_URL}/api/notifications/${driverId}`);
         const data = await response.json();
         setNotifications(data);
       } catch (error) {
@@ -29,7 +30,7 @@ function Notification() {
   }, []);
   const handleResponse = async (notificationId, action, passengerId) => {
     try {
-      const response = await fetch("http://localhost:5000/api/notifications/respond", {
+      const response = await fetch(`${API_URL}/api/notifications/respond`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

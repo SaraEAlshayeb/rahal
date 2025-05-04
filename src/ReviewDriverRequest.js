@@ -1,6 +1,7 @@
 import './ReviewDriverRequest.css';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ReviewDriverRequest() {
     const [showApproveModal, setShowApproveModal] = useState(false);
@@ -16,7 +17,7 @@ function ReviewDriverRequest() {
 
         if (!userId) return;
 
-        fetch(`http://localhost:5000/approve/user/${userId}`)
+        fetch(`${API_URL}/api/approve/user/${userId}`)
             .then(res => res.json())
             .then(data => setUser(data))
             .catch(err => console.error('Error fetching user:', err));
@@ -24,7 +25,7 @@ function ReviewDriverRequest() {
 
     const handleApprove = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/approve/user/${userId}/approve`, {
+            const res = await fetch(`${API_URL}/api/approve/user/${userId}/approve`, {
                 method: 'PUT',
             });
 
@@ -42,7 +43,7 @@ function ReviewDriverRequest() {
 
     const handleReject = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/approve/user/${userId}/reject`, {
+            const res = await fetch(`${API_URL}/api/approve/user/${userId}/reject`, {
                 method: 'PUT',
             });
 

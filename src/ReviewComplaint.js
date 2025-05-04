@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ReviewComplaint.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ReviewComplaint() {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ function ReviewComplaint() {
     useEffect(() => {
         const fetchComplaint = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/complaints`);
+                const res = await fetch(`${API_URL}/api/complaints`);
                 const data = await res.json();
                 const selected = data.find(c => c._id === complaintId);
                 setComplaint(selected);
@@ -26,7 +27,7 @@ function ReviewComplaint() {
 
     const handleResolved = async () => {
         try {
-            await fetch(`http://localhost:5000/api/complaints/${complaintId}`, {
+            await fetch(`${API_URL}/api/complaints/${complaintId}`, {
                 method: 'DELETE',
             });
             navigate('/complaints');
