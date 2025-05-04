@@ -80,7 +80,7 @@ const BookRide = () => {
 
   const fetchUserId = async () => {
     const email = localStorage.getItem("userEmail");
-    const response = await fetch(`${API_URL}/api/users/${email}`);
+    const userRes = await fetch(`${API_URL}/api/users/${email}`);
     const user = await response.json();
     return user._id;
   };
@@ -264,14 +264,14 @@ const BookRide = () => {
 
                     // ✅ Get user from DB using email
                     const userRes = await fetch(
-                      `http://localhost:5000/api/users/${email}`
+                      `${API_URL}/api/users/${email}`
                     );
                     const userData = await userRes.json();
                     const passengerId = userData._id;
 
                     // Call backend to create the notification
                     const response = await fetch(
-                      "http://localhost:5000/api/notifications",
+                      `${API_URL}/api/notifications`,
                       {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -322,8 +322,7 @@ const BookRide = () => {
             />
             <h2 style={{ marginBottom: "20px" }}>Booking Request Sent</h2>
             <p style={{ fontSize: "16px" }}>
-              Waiting for Driver to
-              approve your ride request.
+              Waiting for Driver to approve your ride request.
               <br />
               Ride ID: <code>{selectedRide?._id}</code>
             </p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaStar, FaArrowUp, FaFilter } from "react-icons/fa";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const History = () => {
   const [filter, setFilter] = useState("all");
@@ -28,8 +29,8 @@ const History = () => {
     const fetchHistory = async () => {
       const endpoint =
         mode === "driver"
-          ? `http://localhost:5000/api/history/driver/${userId}`
-          : `http://localhost:5000/api/history/rider/${userId}`;
+          ? `${API_URL}/api/history/driver/${userId}`
+          : `${API_URL}/api/history/rider/${userId}`;
       const res = await axios.get(endpoint);
       setRides(res.data);
     };
@@ -91,7 +92,7 @@ const History = () => {
 
     try {
       // Submit feedback
-      const res = await fetch("http://localhost:5000/api/history/submit", {
+      const res = await fetch(`${API_URL}/api/history/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -107,7 +108,7 @@ const History = () => {
 
       if (res.ok) {
         // Update ride status to completed
-        await fetch(`http://localhost:5000/api/rides/${rideId}`, {
+        await fetch(`${API_URL}/api/rides/${rideId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "completed" }),
@@ -152,16 +153,12 @@ const History = () => {
       console.log("Driver ID:", driverId);
       console.log("Passenger ID:", passengerId);
 
-      const driverRes = await fetch(
-        `http://localhost:5000/api/users/${driverId}`
-      );
+      const driverRes = await fetch(`${API_URL}/api/users/${driverId}`);
       const driverData = await driverRes.json();
 
       let passengerData = {};
       if (passengerId) {
-        const passengerRes = await fetch(
-          `http://localhost:5000/api/users/${passengerId}`
-        );
+        const passengerRes = await fetch(`${API_URL}/api/users/${passengerId}`);
         passengerData = await passengerRes.json();
       }
 

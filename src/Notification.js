@@ -16,13 +16,13 @@ function Notification() {
           return;
         }
 
-        const userRes = await fetch(`http://localhost:5000/api/users/${email}`);
+        const userRes = await fetch(`${API_URL}/api/users/${email}`);
         const user = await userRes.json();
         const userId = user._id;
         const role = localStorage.getItem("role");
         const path = role === "driver" ? "driver" : "user";
         const response = await fetch(
-          `http://localhost:5000/api/notifications/${path}/${userId}`
+          `${API_URL}/api/notifications/${path}/${userId}`
         );
 
         const data = await response.json();
@@ -37,17 +37,14 @@ function Notification() {
 
   const handleResponse = async (notificationId, action, passengerId) => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/notifications/respond",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "driver-id": localStorage.getItem("userId"),
-          },
-          body: JSON.stringify({ notificationId, action, passengerId }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/notifications/respond`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "driver-id": localStorage.getItem("userId"),
+        },
+        body: JSON.stringify({ notificationId, action, passengerId }),
+      });
 
       const data = await response.json();
 
@@ -209,7 +206,7 @@ function Notification() {
                         try {
                           // 1. Delete notification from DB
                           await fetch(
-                            `http://localhost:5000/api/notifications/${n.notificationId}`,
+                            `${API_URL}/api/notifications/${n.notificationId}`,
                             {
                               method: "DELETE",
                             }
