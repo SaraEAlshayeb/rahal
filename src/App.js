@@ -32,7 +32,6 @@ import AboutUs from "./AboutUs";
 import AdminNavbar from "./components/AdminNavbar";
 import AboutUsNavbar from "./components/AboutUsNavbar";
 import { useNavigate } from "react-router-dom"; // Required for AboutUsNavbar
-
 function App() {
   return (
     <Router>
@@ -100,8 +99,9 @@ function MainLayout() {
         <Route path="/approve-drivers" element={<ApproveDrivers />} />
         <Route path="/editcommunity" element={<EditCommunity />} />
         <Route path="/manage-profile" element={<ManageProfiles />} />
-        <Route path="/review-driver" element={<ReviewDriverRequest />} />
         <Route path="/verifydriver" element={<VerifyDriver />} />
+        <Route path="/review-driver" element={<ReviewDriverRequest />} />
+
       </Routes>
     </>
   );

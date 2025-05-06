@@ -18,10 +18,17 @@ function ReviewDriverRequest() {
     if (!userId) return;
 
     fetch(`${API_URL}/api/approve/user/${userId}`)
-      .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch((err) => console.error("Error fetching user:", err));
+        .then(async (res) => {
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Fetch failed with status ${res.status}: ${text}`);
+          }
+          return res.json();
+        })
+        .then((data) => setUser(data))
+        .catch((err) => console.error("Error fetching user:", err.message));
   }, [userId]);
+
 
   const handleApprove = async () => {
     try {
