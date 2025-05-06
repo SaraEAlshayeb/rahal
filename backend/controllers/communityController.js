@@ -48,9 +48,7 @@ const joinCommunity = async (req, res) => {
         );
 
 
-        if (userUpdate.modifiedCount === 0) {
-            return res.status(400).json({ message: "Failed to add community to user" });
-        }
+
 
 
         const communityUpdate = await communityCollection.updateOne(
