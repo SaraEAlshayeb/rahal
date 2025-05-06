@@ -75,20 +75,13 @@ function Register() {
   };
  
   return (
-    <div
-      className="login-wrapper"
-      style={{
-        backgroundImage: `url(${regBackground})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+    <div className={"register-wrapper"}
     >
-      <div className="Register-title">
-        <h1>Create Account</h1>
+      <div>
+        <h1 className={"register-title"}>Create Account</h1>
       </div>
  
-      <p className="subtitle">Join the Rahal ride</p>
+      <p className="subtitle">Join Rahal</p>
  
       <form className="register-form" onSubmit={handleSubmit}>
         <label>Name</label>
@@ -151,7 +144,7 @@ function Register() {
  
         {/* ## Submit inside the form */}
         <div className="button-container">
-          <button type="submit">Sign In</button>
+          <button type="submit">Sign Up</button>
           <p className="register-link">
             Already have an account? <Link to="/">Login</Link>
           </p>
