@@ -18,11 +18,10 @@ const checkUserRole = async (req, res) => {
 
         const normalizedEmail = email.trim().toLowerCase();
 
-        const user = await collection.findOne({ email: "rimas@example.com"
-        });
+        const user = await collection.findOne({ email: normalizedEmail });
 
         if (!user) {
-            console.log("User not found for email:", "rimas@example.com");
+            console.log("User not found for email:", normalizedEmail);
             return res.status(404).json({ message: "User not found" });
         }
 
