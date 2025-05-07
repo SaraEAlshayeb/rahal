@@ -39,12 +39,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/community", communityRouter); // Ensure this route is only listed once
 
-app.use("/api/community", communityRouter);
 app.use("/api/profile", profileRoutes);
 app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/history", historyRoutes);
 app.use('/api/approve', approveDriverRoutes);
-app.use("/api", bookingRoutes);
 
