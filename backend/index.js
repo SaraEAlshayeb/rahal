@@ -45,6 +45,6 @@ app.use("/api/rides", postRideRoutes);
 app.use("/api/drivers", driverRoutes); // <-- register route here
 app.use("/api/complaints", complaintRoutes);
 app.use("/api/history", historyRoutes);
-app.use("/api", bookingRoutes);
 app.use('/api/approve', approveDriverRoutes);
+app.use("/api", bookingRoutes);
 
